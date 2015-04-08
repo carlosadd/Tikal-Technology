@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    
+	<bean id = "objectifyInitializer" class="technology.tikal.gae.spring.objectify.ObjectifyFactoryInitializer">
+		<property name="classes">
+    		<list>
+				<value>technology.tikal.customers.model.CustomerOfy</value>
+				<value>technology.tikal.customers.model.contact.ContactOfy</value>
+				<value>technology.tikal.customers.model.contact.AssociateOfy</value>
+				<value>technology.tikal.customers.model.contact.PrimaryContactOfy</value>
+				<value>technology.tikal.customers.model.contact.ContactRelationshipOfy</value>
+				<value>technology.tikal.customers.model.contact.ContactInfoOfy</value>
+				<value>technology.tikal.customers.model.address.MexicoAddressOfy</value>
+				<value>technology.tikal.customers.model.media.EmailOfy</value>
+				<value>technology.tikal.customers.model.media.SocialNetworkOfy</value>
+				<value>technology.tikal.customers.model.name.NombrePersonaMxIndexed</value>
+				<value>technology.tikal.customers.model.name.NombrePersonaMxOfy</value>
+				<value>technology.tikal.customers.model.name.NombrePersonaSimpleMxIndexed</value>
+				<value>technology.tikal.customers.model.name.NombrePersonaSimpleMxOfy</value>
+				<value>technology.tikal.customers.model.name.OrganizationNameOfy</value>
+				<value>technology.tikal.customers.model.name.OrganizationNameIndexed</value>
+				<value>technology.tikal.customers.model.phone.MxPhoneNumberOfy</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="customerDao" class="technology.tikal.customers.dao.objectify.CustomerDaoOfy">
+	    <property name="contactDao" ref="contactDao"/> 
+    </bean>
+	<bean id="contactDao" class="technology.tikal.customers.dao.objectify.ContactDaoOfy"/>
+	<bean id="contactRelationsDao" class="technology.tikal.customers.dao.objectify.ContactRelationsDaoOfy"/>
+</beans>

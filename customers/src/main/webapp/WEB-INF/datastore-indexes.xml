@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<datastore-indexes autoGenerate="false">
+    <datastore-index kind="ContactOfy" ancestor="true" source="auto">
+        <property name="normalizedName" direction="asc"/>
+    </datastore-index>
+	<datastore-index kind="ContactOfy" ancestor="true" source="auto">
+        <property name="name.normalizedPersonName" direction="asc"/>
+    </datastore-index>
+	<datastore-index kind="ContactOfy" ancestor="true" source="auto">
+        <property name="name.normalizedPersonSurname" direction="asc"/>
+    </datastore-index>
+	<datastore-index kind="ContactOfy" ancestor="true" source="auto">
+        <property name="name.normalizedOrganizationName" direction="asc"/>
+    </datastore-index>
+	<datastore-index kind="ContactOfy" ancestor="true" source="auto">
+        <property name="normalizedRole" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="ContactRelationshipOfy" ancestor="true" source="auto">
+        <property name="normalizedRelationship" direction="asc"/>
+    </datastore-index>
+</datastore-indexes>
