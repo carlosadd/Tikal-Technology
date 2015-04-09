@@ -49,7 +49,20 @@
 	<servlet-mapping>  
    		<servlet-name>system</servlet-name>  
    		<url-pattern>/system/*</url-pattern>
-	</servlet-mapping> 
+	</servlet-mapping>
+	
+	<!-- Servlet para el warmup -->
+    <servlet>  
+   		<servlet-name>_ah_warmup</servlet-name>  
+   		<servlet-class>
+   			org.springframework.web.servlet.DispatcherServlet  
+   		</servlet-class>
+	</servlet>  
+    
+	<servlet-mapping>  
+   		<servlet-name>_ah_warmup</servlet-name>  
+   		<url-pattern>/_ah/warmup/*</url-pattern>
+	</servlet-mapping>
 	
 	<!-- Listener para cargar el contexto de Spring -->
 	<listener>
