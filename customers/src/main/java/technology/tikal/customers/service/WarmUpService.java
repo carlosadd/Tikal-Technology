@@ -48,7 +48,7 @@ public class WarmUpService extends ServiceTemplate {
     public void warmup(@Valid @ModelAttribute final CustomerFilterSmall filter, final BindingResult resultFilter,
             @Valid @ModelAttribute final PaginationDataDualLongString pagination, final BindingResult resultPagination,
             final HttpServletRequest request) {
-        logger.warn("Inicio de WarmUp");
+        logger.info("Inicio de WarmUp");
         if (resultFilter.hasErrors()) {
             throw new NotValidException(resultFilter);
         }
@@ -62,7 +62,7 @@ public class WarmUpService extends ServiceTemplate {
             request.getRequestURI(),
             filter,
             pagination);
-        logger.warn("WarmUp completado");
+        logger.info("WarmUp completado");
     }
 
     public void setCustomersController(CustomersController customersController) {

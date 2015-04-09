@@ -9,6 +9,7 @@
 	    <max-idle-instances>1</max-idle-instances>
 	    <min-pending-latency>14.0s</min-pending-latency>
 	    <max-pending-latency>15.0s</max-pending-latency>
+	    <max-concurrent-requests>50</max-concurrent-requests>
   	</automatic-scaling>
     <system-properties>
         <property name="java.util.logging.config.file" value="WEB-INF/logging.properties"/>
