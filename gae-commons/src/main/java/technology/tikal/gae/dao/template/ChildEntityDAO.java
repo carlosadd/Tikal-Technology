@@ -31,7 +31,7 @@ import technology.tikal.gae.pagination.model.PaginationData;
  */
 public interface ChildEntityDAO<T,K,P,F extends FiltroBusqueda, PD extends PaginationData<?>> {
 
-    List<T> consultarTodos(P idParent, F filtro, PD pagination);
+    List<T> consultarTodos(P parent, F filtro, PD pagination);
     
     void guardar(P parent, T objeto);
     

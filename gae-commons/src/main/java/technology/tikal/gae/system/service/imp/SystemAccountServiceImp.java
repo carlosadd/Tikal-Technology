@@ -40,7 +40,7 @@ import technology.tikal.gae.error.exceptions.NotValidException;
 import technology.tikal.gae.pagination.PaginationModelFactory;
 import technology.tikal.gae.pagination.model.Page;
 import technology.tikal.gae.pagination.model.PaginationDataString;
-import technology.tikal.gae.service.template.ServiceTemplate;
+import technology.tikal.gae.service.template.RestControllerTemplate;
 import technology.tikal.gae.system.security.dao.SystemUserDao;
 import technology.tikal.gae.system.security.model.SystemUser;
 import technology.tikal.gae.system.service.SystemAccountService;
@@ -52,7 +52,7 @@ import technology.tikal.gae.system.service.SystemAccountService;
  */
 @RestController
 @RequestMapping("/accounts")
-public class SystemAccountServiceImp extends ServiceTemplate implements SystemAccountService {
+public class SystemAccountServiceImp extends RestControllerTemplate implements SystemAccountService {
 
     private SystemUserDao systemUserDao;
     

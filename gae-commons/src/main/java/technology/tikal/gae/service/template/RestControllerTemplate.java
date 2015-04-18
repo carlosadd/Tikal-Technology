@@ -28,6 +28,7 @@ import org.springframework.context.support.AbstractMessageSource;
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.ObjectError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -44,7 +45,7 @@ import com.googlecode.objectify.NotFoundException;
  * @author Nekorp
  *
  */
-public class ServiceTemplate {
+public class RestControllerTemplate {
     private final Log logger = LogFactory.getLog(getClass());
     private AbstractMessageSource messageSource;
     
@@ -211,6 +212,14 @@ public class ServiceTemplate {
         result.setType(ex.getClass().getSimpleName());
         result.setMessage(msg);
         return result;
+    }
+    
+    @ExceptionHandler(AccessDeniedException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    public void handleAccessDenied(AccessDeniedException ex, HttpServletRequest request, HttpServletResponse response) {
+        if (this.logger.isInfoEnabled()) {
+            ex.printStackTrace();
+        }
     }
 
     public void setMessageSource(AbstractMessageSource messageSource) {

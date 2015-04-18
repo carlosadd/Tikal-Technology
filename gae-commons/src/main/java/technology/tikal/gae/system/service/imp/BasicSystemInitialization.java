@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import technology.tikal.gae.security.model.InternalGrantedAuthority;
-import technology.tikal.gae.service.template.ServiceTemplate;
+import technology.tikal.gae.service.template.RestControllerTemplate;
 import technology.tikal.gae.system.security.dao.SystemUserDao;
 import technology.tikal.gae.system.security.model.SystemUser;
 import technology.tikal.gae.system.service.SystemInitialization;
@@ -37,7 +37,7 @@ import technology.tikal.gae.system.service.SystemInitialization;
  */
 @RestController
 @RequestMapping("/init")
-public class BasicSystemInitialization extends ServiceTemplate implements SystemInitialization, InitializingBean {
+public class BasicSystemInitialization extends RestControllerTemplate implements SystemInitialization, InitializingBean {
     private static final String DEFAULT_USER = "usuario1";
     private static final String DEFAULT_PASS = "usuario1";
     private static final String DEFAULT_ROLE = "ROLE_SYSTEM";

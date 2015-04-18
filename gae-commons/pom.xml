@@ -36,6 +36,11 @@
     </build>
     <dependencies>
     	<dependency>
+            <groupId>technology.tikal</groupId>
+    		<artifactId>tikal-commons-shared</artifactId>
+    		<version>0.1.0</version>
+        </dependency>
+    	<dependency>
             <groupId>com.google.appengine</groupId>
             <artifactId>appengine-api-1.0-sdk</artifactId>
             <version>${appengine.target.version}</version>
@@ -50,6 +55,21 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
             <version>4.1.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aop</artifactId>
+            <version>4.1.6.RELEASE</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjrt</artifactId>
+            <version>1.8.5</version>
+        </dependency>
+        <dependency>
+            <groupId>org.aspectj</groupId>
+            <artifactId>aspectjweaver</artifactId>
+            <version>1.8.5</version>
         </dependency>
         <dependency>
             <groupId>org.springframework</groupId>
