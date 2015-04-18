@@ -17,7 +17,12 @@ package technology.tikal.customers.model;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+
+import com.fasterxml.jackson.annotation.JsonSubTypes;
+import com.fasterxml.jackson.annotation.JsonTypeInfo;
+import com.fasterxml.jackson.annotation.JsonTypeName;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import technology.tikal.customers.model.contact.PrimaryContact;
 import technology.tikal.customers.model.name.Name;
 
@@ -26,7 +31,13 @@ import technology.tikal.customers.model.name.Name;
  * @author Nekorp
  *
  */
+@JsonSubTypes({
+    @JsonSubTypes.Type(value = Customer.class),
+    @JsonSubTypes.Type(value = ClienteMx.class)
+})
+@JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 @JsonDeserialize(as=CustomerPojo.class)
+@JsonTypeName("Customer")
 public interface Customer {
     
     public Long getId();
