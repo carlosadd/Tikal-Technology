@@ -33,8 +33,8 @@ import technology.tikal.customers.dao.filter.CustomerFilter;
 import technology.tikal.customers.dao.filter.CustomerFilterSmall;
 import technology.tikal.customers.model.Customer;
 import technology.tikal.customers.model.CustomerOfy;
+import technology.tikal.customers.model.CustomerOfyFactory;
 import technology.tikal.customers.model.CustomerOfy.CustomerOfyFull;
-import technology.tikal.customers.model.SmallCustomerProxy;
 import technology.tikal.customers.model.contact.Contact;
 import technology.tikal.customers.model.contact.ContactOfy;
 import technology.tikal.customers.model.contact.ContactOfyFactory;
@@ -58,9 +58,24 @@ public class CustomersControllerImp implements CustomersController {
     
     @Override
     public Customer createCustomer(Customer data) {
-        CustomerOfy nuevo = new CustomerOfy(data);
+        CustomerOfy nuevo = CustomerOfyFactory.buildInternal(data);
         this.customerDao.guardar(nuevo);
         return nuevo;
+    }
+    
+    @Override
+    public Customer createCustomerWithForcedId(Long id, Customer data) {
+        try {
+            this.customerDao.consultar(id);
+            throw new MessageSourceResolvableException(new DefaultMessageSourceResolvable(
+                    new String[]{"DuplicatedId.CustomersControllerImp.createCustomerWithForcedId"}, 
+                    new String[]{id.toString()}, 
+                    "Duplicated Id for new customer"));
+        } catch (NotFoundException e) {
+            CustomerOfy nuevo = CustomerOfyFactory.buildInternalWithForcedId(id, data);
+            this.customerDao.guardar(nuevo);
+            return nuevo;
+        }
     }
 
     @Override
@@ -78,11 +93,13 @@ public class CustomersControllerImp implements CustomersController {
     }
 
     @Override
-    public List<Customer> queryCustomers(CustomerFilterSmall filter, PaginationDataDualLongString pagination) {
+    public Customer[] queryCustomers(CustomerFilterSmall filter, PaginationDataDualLongString pagination) {
         List<CustomerOfy> result = this.customerDao.consultarTodos(new CustomerFilter(filter), pagination);
-        List<Customer> response = new LinkedList<>();
+        Customer[] response = new Customer[result.size()];
+        int index = 0;
         for(CustomerOfy x : result) {
-            response.add(new SmallCustomerProxy(x));
+            response[index] = x.buildProxy();
+            index = index + 1;
         }
         return response;
     }

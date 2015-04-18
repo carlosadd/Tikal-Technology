@@ -7,9 +7,13 @@
 	http://www.springframework.org/schema/security/spring-security.xsd">
 	
  	<http pattern="/api/**" create-session="stateless" use-expressions="true">
-		<intercept-url pattern="/api/**" access="hasAnyRole('ROLE_SYSTEM')" />
+		<intercept-url pattern="/api/**" access="hasAnyRole('ROLE_SYSTEM, ROLE_USER')" />
 		<http-basic/>
 	</http>
+	<global-method-security>
+  		<protect-pointcut expression="execution(* technology.tikal.customers.controller.CustomersController.createCustomerWithForcedId(..))"
+       		access="ROLE_SYSTEM"/>
+	</global-method-security>
 	<authentication-manager>
 		<authentication-provider user-service-ref="systemUserDao"/>
 	</authentication-manager>

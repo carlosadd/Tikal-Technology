@@ -36,11 +36,13 @@ public interface CustomersController {
     
     Customer createCustomer(Customer data);
     
+    Customer createCustomerWithForcedId(Long id, Customer data);
+    
     void updateCustomer(Long customerId, Customer data);
     
     void deactivateCustomer(Long customerId);
     
-    List<Customer> queryCustomers(CustomerFilterSmall filter, PaginationDataDualLongString pagination);
+    Customer[] queryCustomers(CustomerFilterSmall filter, PaginationDataDualLongString pagination);
     
     Customer getCustomer(Long customerId);
     

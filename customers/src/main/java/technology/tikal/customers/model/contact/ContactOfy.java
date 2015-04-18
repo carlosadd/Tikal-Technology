@@ -112,6 +112,9 @@ public class ContactOfy implements Contact, OfyEntity<Contact> {
     
     public void setOwner(CustomerOfy owner) {
         if (this.owner != null) {
+            if (this.owner.equivalent(Key.create(owner))) {
+                return; // no hacer nada es el mismo owner
+            }
             throw new IllegalArgumentException("no puede cambiar de owner");
         }
         this.owner = Key.create(owner);
@@ -227,10 +230,6 @@ public class ContactOfy implements Contact, OfyEntity<Contact> {
         } else {
             this.transientInfo = new ContactInfoOfy(this, source);
         }
-    }
-    
-    public boolean hasSameOwner(ContactOfy other) {
-        return this.owner.equivalent(other.owner);
     }
     
     public boolean isActive() {

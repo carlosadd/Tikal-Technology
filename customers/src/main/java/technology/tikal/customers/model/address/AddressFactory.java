@@ -23,6 +23,9 @@ package technology.tikal.customers.model.address;
 public class AddressFactory {
 
     public static Address buildInternal(Address source) {
+        if (source == null) {
+            return null;
+        }
         if (source instanceof MexicoAddress) {
             return new MexicoAddressOfy((MexicoAddress)source);
         }

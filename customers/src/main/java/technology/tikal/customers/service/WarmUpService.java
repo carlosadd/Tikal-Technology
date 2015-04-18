@@ -31,7 +31,7 @@ import technology.tikal.customers.dao.filter.CustomerFilterSmall;
 import technology.tikal.gae.error.exceptions.NotValidException;
 import technology.tikal.gae.pagination.PaginationModelFactory;
 import technology.tikal.gae.pagination.model.PaginationDataDualLongString;
-import technology.tikal.gae.service.template.ServiceTemplate;
+import technology.tikal.gae.service.template.RestControllerTemplate;
 
 /**
  * 
@@ -39,7 +39,7 @@ import technology.tikal.gae.service.template.ServiceTemplate;
  *
  */
 @RestController
-public class WarmUpService extends ServiceTemplate {
+public class WarmUpService extends RestControllerTemplate {
 
     private CustomersController customersController;
     private final Log logger = LogFactory.getLog(getClass());

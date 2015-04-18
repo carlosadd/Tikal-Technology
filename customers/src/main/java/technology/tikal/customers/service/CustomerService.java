@@ -15,8 +15,6 @@
  */
 package technology.tikal.customers.service;
 
-import java.util.List;
-
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.validation.Valid;
@@ -38,7 +36,7 @@ import technology.tikal.gae.error.exceptions.NotValidException;
 import technology.tikal.gae.pagination.PaginationModelFactory;
 import technology.tikal.gae.pagination.model.Page;
 import technology.tikal.gae.pagination.model.PaginationDataDualLongString;
-import technology.tikal.gae.service.template.ServiceTemplate;
+import technology.tikal.gae.service.template.RestControllerTemplate;
 
 /**
  * 
@@ -47,7 +45,7 @@ import technology.tikal.gae.service.template.ServiceTemplate;
  */
 @RestController
 @RequestMapping("/customer")
-public class CustomerService extends ServiceTemplate {
+public class CustomerService extends RestControllerTemplate {
     
     private CustomersController customersController;
     
@@ -57,8 +55,15 @@ public class CustomerService extends ServiceTemplate {
             final HttpServletRequest request, final HttpServletResponse response) {
         if (result.hasErrors()) {
             throw new NotValidException(result);
-        } 
-        Customer created = customersController.createCustomer(data);
+        }
+        Customer created;
+        if (data.getId() != null) {
+            //Si viene un id en los datos se intentara crear el customer con ese id
+            //esto puede fallar por que el id ya exista o por que no se cuente con los permisos para hacerlo
+            created = customersController.createCustomerWithForcedId(data.getId(), data);
+        } else {
+            created = customersController.createCustomer(data);
+        }
         response.setHeader("Location", request.getRequestURI() + "/" + created.getId());
     }
     
@@ -78,7 +83,7 @@ public class CustomerService extends ServiceTemplate {
     }
     
     @RequestMapping(produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
-    public Page<List<Customer>> queryCustomers(
+    public Page<Customer[]> queryCustomers(
             @Valid @ModelAttribute final CustomerFilterSmall filter, final BindingResult resultFilter,
             @Valid @ModelAttribute final PaginationDataDualLongString pagination, final BindingResult resultPagination,
             final HttpServletRequest request) {
@@ -88,7 +93,7 @@ public class CustomerService extends ServiceTemplate {
         if (resultPagination.hasErrors()) {
             throw new NotValidException(resultPagination);
         }
-        Page<List<Customer>> r = PaginationModelFactory.getPage(
+        Page<Customer[]> r = PaginationModelFactory.getPage(
                 customersController.queryCustomers(filter, pagination),
                 "Customer",
                 request.getRequestURI(),

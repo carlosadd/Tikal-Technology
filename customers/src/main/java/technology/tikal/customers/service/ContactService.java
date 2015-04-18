@@ -36,7 +36,7 @@ import technology.tikal.gae.error.exceptions.NotValidException;
 import technology.tikal.gae.pagination.PaginationModelFactory;
 import technology.tikal.gae.pagination.model.Page;
 import technology.tikal.gae.pagination.model.PaginationDataDualLongString;
-import technology.tikal.gae.service.template.ServiceTemplate;
+import technology.tikal.gae.service.template.RestControllerTemplate;
 
 /**
  * 
@@ -45,7 +45,7 @@ import technology.tikal.gae.service.template.ServiceTemplate;
  */
 @RestController
 @RequestMapping("/customer/{customerId}/contact")
-public class ContactService extends ServiceTemplate {
+public class ContactService extends RestControllerTemplate {
     
     private CustomersController customersController;
 

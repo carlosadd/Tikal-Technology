@@ -13,8 +13,9 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License
  */
-package technology.tikal.customers.model;
+package technology.tikal.customers.model.proxy;
 
+import technology.tikal.customers.model.Customer;
 import technology.tikal.customers.model.contact.PrimaryContact;
 import technology.tikal.customers.model.name.Name;
 
@@ -24,7 +25,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  * @author Nekorp
  *
  */
-public class SmallCustomerProxy implements Customer {
+public class SmallCustomerProxy implements CustomerProxy {
 
     @JsonIgnore
     private Customer delegate;

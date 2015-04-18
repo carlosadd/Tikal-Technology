@@ -10,7 +10,7 @@
 
     <properties>
         <appengine.app.version>uno</appengine.app.version>
-        <appengine.target.version>1.9.18</appengine.target.version>
+        <appengine.target.version>1.9.19</appengine.target.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 	
@@ -47,7 +47,7 @@
                 <version>${appengine.target.version}</version>
                 <configuration>
                 	<noCookies>false</noCookies>
-                	<port>8080</port>
+                	<port>8181</port>
              		<address>0.0.0.0</address>
                 </configuration>
             </plugin>

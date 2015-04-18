@@ -11,5 +11,15 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd">
         
+    <!-- Transacciones -->
+	<bean id="aspectTransactionManagerOfy" class="technology.tikal.gae.spring.objectify.AspectTransactionManagerOfy"/>
+
+	<aop:config>
+    	<aop:aspect ref="aspectTransactionManagerOfy">
+        	<aop:pointcut id="createCustomerWithForcedId" 
+        	    expression="execution(* technology.tikal.customers.controller.CustomersController.createCustomerWithForcedId(..))"/>
+        	<aop:around pointcut-ref="createCustomerWithForcedId" method="transact"/>
+    	</aop:aspect>
+	</aop:config>
 
 </beans>

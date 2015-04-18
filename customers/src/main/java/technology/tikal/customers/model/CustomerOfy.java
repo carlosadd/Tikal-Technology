@@ -26,6 +26,8 @@ import technology.tikal.customers.model.contact.PrimaryContactOfy;
 import technology.tikal.customers.model.name.IndexedByString;
 import technology.tikal.customers.model.name.Name;
 import technology.tikal.customers.model.name.NameFactory;
+import technology.tikal.customers.model.proxy.CustomerProxy;
+import technology.tikal.customers.model.proxy.SmallCustomerProxy;
 import technology.tikal.gae.string.util.StringNormalizer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
@@ -79,15 +81,25 @@ public class CustomerOfy implements Customer, OfyEntity<Customer> {
     @Ignore @JsonIgnore
     private boolean dirty;
     
-    private CustomerOfy() {
+    protected CustomerOfy() {
         super();
         dirty = false;
         this.active = true;
         this.creationTime = new Date();
     }
     
+    protected CustomerOfy(Long id) {
+        this();
+        this.id = id;
+    }
+    
     public CustomerOfy(Customer source) {
         this();
+        this.update(source);
+    }
+    
+    public CustomerOfy(Long id, Customer source) {
+        this(id);
         this.update(source);
     }
     
@@ -184,5 +196,9 @@ public class CustomerOfy implements Customer, OfyEntity<Customer> {
 
     public boolean hasLoadedContact() {
         return this.transientInfo != null || (this.primaryContactRef != null && this.primaryContactRef.isLoaded());
+    }
+    
+    public CustomerProxy buildProxy() {
+        return new SmallCustomerProxy(this);
     }
 }
