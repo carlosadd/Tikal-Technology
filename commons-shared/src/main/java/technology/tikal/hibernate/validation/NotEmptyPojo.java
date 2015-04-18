@@ -34,7 +34,7 @@ import java.lang.annotation.Target;
 @Constraint(validatedBy = NotEmptyPojoValidator.class)
 @Documented
 public @interface NotEmptyPojo {
-    String message() default "{technology.tikal.gae.hibernate.validation.NotEmptyPojo.message}";
+    String message() default "{technology.tikal.hibernate.validation.NotEmptyPojo.message}";
 
     Class<?>[] groups() default {};
 
