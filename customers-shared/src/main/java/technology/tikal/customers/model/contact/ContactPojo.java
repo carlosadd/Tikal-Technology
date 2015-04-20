@@ -15,8 +15,6 @@
  */
 package technology.tikal.customers.model.contact;
 
-import java.util.ArrayList;
-import java.util.List;
 import com.fasterxml.jackson.annotation.JsonTypeName;
 import technology.tikal.customers.model.address.Address;
 import technology.tikal.customers.model.media.MediaContact;
@@ -33,15 +31,13 @@ public class ContactPojo implements Contact {
 
     private Long id;
     private Name name;
-    private List<Address> address;
-    private List<PhoneNumber> phoneNumber;
-    private List<MediaContact> mediaContact;
+    private Address[] address;
+    private PhoneNumber[] phoneNumber;
+    private MediaContact[] mediaContact;
     
     public ContactPojo() {
-        this.address = new ArrayList<>();
-        this.phoneNumber = new ArrayList<>();
-        this.mediaContact = new ArrayList<>();
     }
+    
     @Override
     public Long getId() {
         return id;
@@ -60,18 +56,30 @@ public class ContactPojo implements Contact {
     }
     
     @Override
-    public List<Address> getAddress() {
+    public Address[] getAddress() {
         return address;
     }
     
-    @Override
-    public List<PhoneNumber> getPhoneNumber() {
-        return phoneNumber;
+    public void setAddress(Address[] address) {
+        this.address = address;
     }
     
     @Override
-    public List<MediaContact> getMediaContact() {
+    public PhoneNumber[] getPhoneNumber() {
+        return phoneNumber;
+    }
+    
+    public void setPhoneNumber(PhoneNumber[] phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+    
+    @Override
+    public MediaContact[] getMediaContact() {
         return mediaContact;
+    }
+
+    public void setMediaContact(MediaContact[] mediaContact) {
+        this.mediaContact = mediaContact;
     }
     
 }

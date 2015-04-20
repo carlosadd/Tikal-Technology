@@ -32,7 +32,7 @@ public class OrganizationName extends Name {
 
     @NotNull
     @Length(max=83)
-    @Pattern(regexp="^[\\p{IsLatin}\\w]+( [\\p{IsLatin}\\w']+)*")
+    @Pattern(regexp="^[\\w\\p{IsLatin}\\p{Punct}]+( [\\w\\p{IsLatin}\\p{Punct}]+)*")
     private String name;
 
     public String getName() {

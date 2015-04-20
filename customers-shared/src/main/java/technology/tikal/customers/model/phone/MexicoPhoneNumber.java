@@ -36,7 +36,7 @@ public class MexicoPhoneNumber extends PhoneNumber {
     private String etiqueta;
     @NotNull
     @Length(max=40)
-    @Pattern(regexp="^[\\p{Digit}\\(\\)]+([ -][\\p{Digit}\\(\\)]+)*")
+    @Pattern(regexp="^[\\p{IsLatin}\\w\\(\\)\\.]+([ -\\*][\\p{IsLatin}\\w\\(\\)\\.]+)*")
     private String telefono;
     public String getEtiqueta() {
         return etiqueta;

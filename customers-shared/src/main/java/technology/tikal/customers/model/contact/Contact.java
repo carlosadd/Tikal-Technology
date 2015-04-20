@@ -15,8 +15,6 @@
  */
 package technology.tikal.customers.model.contact;
 
-import java.util.List;
-
 import javax.validation.Valid;
 
 import com.fasterxml.jackson.annotation.JsonSubTypes;
@@ -44,20 +42,20 @@ import technology.tikal.customers.model.phone.PhoneNumber;
 @JsonTypeName("Contact")
 public interface Contact {    
 
-    public Long getId();
+    Long getId();
     
     @Valid
-    public Name getName();
+    Name getName();
 
-    public void setName(Name name);    
+    void setName(Name name);    
     
     @Valid
-    public List<Address> getAddress();
+    Address[] getAddress();
     
     @Valid
-    public List<PhoneNumber> getPhoneNumber();
+    PhoneNumber[] getPhoneNumber();
     
     @Valid
-    public List<MediaContact> getMediaContact();
+    MediaContact[] getMediaContact();
     
 }

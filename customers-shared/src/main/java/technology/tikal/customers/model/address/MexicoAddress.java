@@ -31,26 +31,26 @@ import technology.tikal.hibernate.validation.NotEmptyPojo;
 @NotEmptyPojo
 public class MexicoAddress extends Address {
 
-    @Length(max=40)
-    @Pattern(regexp="^[\\p{IsLatin}\\w'\\-#_\\.]+( [\\p{IsLatin}\\w'\\-#_\\.]+)*")
+    @Length(max=100)
+    @Pattern(regexp="^[\\w\\p{IsLatin}\\p{Punct}]+( [\\w\\p{IsLatin}\\p{Punct}]+)*")
     private String calle;
-    @Length(max=40)
-    @Pattern(regexp="^[\\p{IsLatin}\\w'\\-#_\\.]+( [\\p{IsLatin}\\w'\\-#_\\.]+)*")
+    @Length(max=50)
+    @Pattern(regexp="^[\\w\\p{IsLatin}\\p{Punct}]+( [\\w\\p{IsLatin}\\p{Punct}]+)*")
     private String numeroExterior;
-    @Length(max=40)
-    @Pattern(regexp="^[\\p{IsLatin}\\w'\\-#_\\.]+( [\\p{IsLatin}\\w'\\-#_\\.]+)*")
+    @Length(max=50)
+    @Pattern(regexp="^[\\w\\p{IsLatin}\\p{Punct}]+( [\\w\\p{IsLatin}\\p{Punct}]+)*")
     private String numeroInterior;
-    @Length(max=40)
-    @Pattern(regexp="^[\\p{IsLatin}\\w'\\-#_\\.]+( [\\p{IsLatin}\\w'\\-#_\\.]+)*")
+    @Length(max=50)
+    @Pattern(regexp="^[\\w\\p{IsLatin}\\p{Punct}]+( [\\w\\p{IsLatin}\\p{Punct}]+)*")
     private String colonia;
-    @Length(max=40)
-    @Pattern(regexp="^[\\p{IsLatin}\\w'\\-#_\\.]+( [\\p{IsLatin}\\w'\\-#_\\.]+)*")
+    @Length(max=50)
+    @Pattern(regexp="^[\\w\\p{IsLatin}\\p{Punct}]+( [\\w\\p{IsLatin}\\p{Punct}]+)*")
     private String codigoPostal;
-    @Length(max=40)
-    @Pattern(regexp="^[\\p{IsLatin}\\w'\\-#_\\.]+( [\\p{IsLatin}\\w'\\-#_\\.]+)*")
+    @Length(max=50)
+    @Pattern(regexp="^[\\w\\p{IsLatin}\\p{Punct}]+( [\\w\\p{IsLatin}\\p{Punct}]+)*")
     private String ciudad;
-    @Length(max=40)
-    @Pattern(regexp="^[\\p{IsLatin}\\w'\\-#_\\.]+( [\\p{IsLatin}\\w'\\-#_\\.]+)*")
+    @Length(max=50)
+    @Pattern(regexp="^[\\w\\p{IsLatin}\\p{Punct}]+( [\\w\\p{IsLatin}\\p{Punct}]+)*")
     private String estado;
     
     public String getCalle() {
