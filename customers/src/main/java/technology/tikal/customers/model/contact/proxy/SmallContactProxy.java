@@ -15,8 +15,6 @@
  */
 package technology.tikal.customers.model.contact.proxy;
 
-import java.util.List;
-
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import technology.tikal.customers.model.address.Address;
@@ -55,17 +53,17 @@ public class SmallContactProxy implements ContactProxy {
     }
 
     @Override
-    public List<Address> getAddress() {
+    public Address[] getAddress() {
         return null;
     }
 
     @Override
-    public List<PhoneNumber> getPhoneNumber() {
+    public PhoneNumber[] getPhoneNumber() {
         return null;
     }
 
     @Override
-    public List<MediaContact> getMediaContact() {
+    public MediaContact[] getMediaContact() {
         return null;
     }
 

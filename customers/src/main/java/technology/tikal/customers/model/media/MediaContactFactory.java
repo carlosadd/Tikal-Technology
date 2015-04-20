@@ -23,6 +23,9 @@ package technology.tikal.customers.model.media;
 public class MediaContactFactory {
 
     public static MediaContact buildInternal(MediaContact source) {
+        if (source == null) {
+            return null;
+        }
         if (source instanceof Email) {
             return new EmailOfy((Email)source);
         }

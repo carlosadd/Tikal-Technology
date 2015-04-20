@@ -23,6 +23,9 @@ package technology.tikal.customers.model.phone;
 public class PhoneNumberFactory {
 
     public static PhoneNumber buildInternal(PhoneNumber source) {
+        if (source == null) {
+            return null;
+        }
         if (source instanceof MexicoPhoneNumber) {
             return new MxPhoneNumberOfy((MexicoPhoneNumber)source);
         }

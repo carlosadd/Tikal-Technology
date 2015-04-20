@@ -15,8 +15,6 @@
  */
 package technology.tikal.customers.model.contact.proxy;
 
-import java.util.List;
-
 import technology.tikal.customers.model.address.Address;
 import technology.tikal.customers.model.contact.Associate;
 import technology.tikal.customers.model.media.MediaContact;
@@ -65,17 +63,17 @@ public class SmallAssociateProxy implements Associate, ContactProxy {
     }
 
     @Override
-    public List<Address> getAddress() {
+    public Address[] getAddress() {
         return null;
     }
 
     @Override
-    public List<PhoneNumber> getPhoneNumber() {
+    public PhoneNumber[] getPhoneNumber() {
         return null;
     }
 
     @Override
-    public List<MediaContact> getMediaContact() {
+    public MediaContact[] getMediaContact() {
         return null;
     }    
     

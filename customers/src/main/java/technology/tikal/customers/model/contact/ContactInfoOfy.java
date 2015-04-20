@@ -85,36 +85,45 @@ public class ContactInfoOfy implements OfyEntity<Contact>{
         return id;
     }
     
-    public List<Address> getAddress() {
-        ArrayList<Address> r = new ArrayList<>();
-        r.addAll(address);
+    public Address[] getAddress() {
+        Address[] r = address.toArray(new Address[address.size()]);
         return r;
     }
 
-    public List<PhoneNumber> getPhoneNumber() {
-        ArrayList<PhoneNumber> r = new ArrayList<>();
-        r.addAll(phoneNumber);
+    public PhoneNumber[] getPhoneNumber() {
+        PhoneNumber[] r = phoneNumber.toArray(new PhoneNumber[phoneNumber.size()]);
         return r;
     }
 
-    public List<MediaContact> getMediaContact() {
-        ArrayList<MediaContact> r = new ArrayList<>();
-        r.addAll(mediaContact);
+    public MediaContact[] getMediaContact() {
+        MediaContact[] r = mediaContact.toArray(new MediaContact[mediaContact.size()]);
         return r;
     }
     
     public void update(Contact source) {
         address.clear();
-        for(Address x: source.getAddress()) {
-            address.add(AddressFactory.buildInternal(x));
+        if (source.getAddress() != null) {
+            for(Address x: source.getAddress()) {
+                if (x != null) {
+                    address.add(AddressFactory.buildInternal(x));
+                }
+            }
         }
         phoneNumber.clear();
-        for(PhoneNumber x: source.getPhoneNumber()) {
-            phoneNumber.add(PhoneNumberFactory.buildInternal(x));
+        if (source.getPhoneNumber() != null) {
+            for(PhoneNumber x: source.getPhoneNumber()) {
+                if (x != null) {
+                    phoneNumber.add(PhoneNumberFactory.buildInternal(x));
+                }
+            }
         }
         mediaContact.clear();
-        for(MediaContact x: source.getMediaContact()) {
-            mediaContact.add(MediaContactFactory.buildInternal(x));
+        if (source.getMediaContact() != null) {
+            for(MediaContact x: source.getMediaContact()) {
+                if (x != null) {
+                    mediaContact.add(MediaContactFactory.buildInternal(x));
+                }
+            }
         }
         this.dirty = true;
     }

@@ -28,6 +28,9 @@ import technology.tikal.gae.error.exceptions.MessageSourceResolvableException;
 public class ContactOfyFactory {
 
     public static ContactOfy build(CustomerOfy parent, Contact source) {
+        if (source == null) {
+            return null;
+        }
         ContactOfy nuevo;
         if (source instanceof PrimaryContact) {
             throw new MessageSourceResolvableException(new DefaultMessageSourceResolvable(

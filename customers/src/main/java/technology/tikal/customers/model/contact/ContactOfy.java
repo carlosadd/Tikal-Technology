@@ -16,7 +16,6 @@
 package technology.tikal.customers.model.contact;
 
 import java.util.Date;
-import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 
@@ -193,7 +192,7 @@ public class ContactOfy implements Contact, OfyEntity<Contact> {
     }
     
     @Override
-    public List<Address> getAddress() {
+    public Address[] getAddress() {
         ContactInfoOfy info = getInfoContact();
         if (info == null) {
             return null;
@@ -202,7 +201,7 @@ public class ContactOfy implements Contact, OfyEntity<Contact> {
     }
 
     @Override
-    public List<PhoneNumber> getPhoneNumber() {
+    public PhoneNumber[] getPhoneNumber() {
         ContactInfoOfy info = getInfoContact();
         if (info == null) {
             return null;
@@ -211,7 +210,7 @@ public class ContactOfy implements Contact, OfyEntity<Contact> {
     }
 
     @Override
-    public List<MediaContact> getMediaContact() {
+    public MediaContact[] getMediaContact() {
         ContactInfoOfy info = getInfoContact();
         if (info == null) {
             return null;
