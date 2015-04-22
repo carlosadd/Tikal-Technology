@@ -22,7 +22,7 @@ import technology.tikal.customers.model.CustomerOfy;
 import technology.tikal.customers.model.contact.proxy.ContactProxy;
 import technology.tikal.customers.model.contact.proxy.SmallAssociateProxy;
 import technology.tikal.gae.error.exceptions.MessageSourceResolvableException;
-import technology.tikal.gae.string.util.StringNormalizer;
+import technology.tikal.string.util.StringNormalizer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.annotation.Index;

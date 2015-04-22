@@ -20,7 +20,7 @@ import java.util.List;
 
 import org.apache.commons.lang.StringUtils;
 
-import technology.tikal.gae.string.util.StringNormalizer;
+import technology.tikal.string.util.StringNormalizer;
 
 import com.googlecode.objectify.cmd.Query;
 

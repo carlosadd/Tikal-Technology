@@ -28,7 +28,7 @@ import technology.tikal.customers.model.name.Name;
 import technology.tikal.customers.model.name.NameFactory;
 import technology.tikal.customers.model.proxy.CustomerProxy;
 import technology.tikal.customers.model.proxy.SmallCustomerProxy;
-import technology.tikal.gae.string.util.StringNormalizer;
+import technology.tikal.string.util.StringNormalizer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Ref;

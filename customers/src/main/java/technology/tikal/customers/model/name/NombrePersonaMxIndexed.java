@@ -17,9 +17,11 @@ package technology.tikal.customers.model.name;
 
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.BeanUtils;
+
 import technology.tikal.customers.dao.filter.NamePriorityFilterValues;
 import technology.tikal.customers.model.OfyEntity;
-import technology.tikal.gae.string.util.StringNormalizer;
+import technology.tikal.string.util.StringNormalizer;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.annotation.Index;
 import com.googlecode.objectify.annotation.Subclass;

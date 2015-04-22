@@ -17,7 +17,7 @@ package technology.tikal.customers.model.contact;
 
 import org.apache.commons.lang.StringUtils;
 
-import technology.tikal.gae.string.util.StringNormalizer;
+import technology.tikal.string.util.StringNormalizer;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.googlecode.objectify.Key;

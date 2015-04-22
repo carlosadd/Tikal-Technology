@@ -57,7 +57,7 @@ public class SmallClienteMxProxy implements ClienteMx, CustomerProxy {
 
     @Override
     public String getRfc() {
-        return null;
+        return this.delegate.getRfc();
     }
 
     @Override
