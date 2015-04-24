@@ -26,6 +26,11 @@ public class ServicioMetadata {
     private Date fechaInicio;
     private String status;
     private Moneda costoTotal;
+    public ServicioMetadata() {
+        fechaInicio = new Date();
+        status = ServicioStatusConstants.activo;
+        costoTotal = new Moneda();
+    }
     public Date getFechaInicio() {
         return fechaInicio;
     }
