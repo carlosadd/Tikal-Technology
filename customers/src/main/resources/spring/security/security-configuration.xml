@@ -7,7 +7,8 @@
 	http://www.springframework.org/schema/security/spring-security.xsd">
 	
  	<http pattern="/api/**" create-session="stateless" use-expressions="true">
-		<intercept-url pattern="/api/**" access="hasAnyRole('ROLE_SYSTEM, ROLE_USER')" />
+ 	    <intercept-url pattern="/api/**" access="permitAll" method="OPTIONS"/>
+		<intercept-url pattern="/api/**" access="hasAnyRole('ROLE_SYSTEM, ROLE_USER')"/>
 		<http-basic/>
 	</http>
 	<global-method-security>

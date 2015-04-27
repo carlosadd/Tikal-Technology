@@ -7,12 +7,9 @@
 	http://www.springframework.org/schema/security/spring-security.xsd">
  
     <http pattern="/system/**" create-session="stateless" use-expressions="true">
-		<intercept-url pattern="/system/accounts" access="hasAnyRole('ROLE_SYSTEM')" />
+        <intercept-url pattern="/system/init" access="permitAll" method="GET"/>
+        <intercept-url pattern="/system/**" access="permitAll" method="OPTIONS"/>
+		<intercept-url pattern="/system/**" access="hasAnyRole('ROLE_SYSTEM')" />
 		<http-basic/>
 	</http>
-	
-	<!--<authentication-manager>
-	    <authentication-provider user-service-ref="systemUserDao"/>
-	</authentication-manager>
-	 -->
 </beans:beans>
