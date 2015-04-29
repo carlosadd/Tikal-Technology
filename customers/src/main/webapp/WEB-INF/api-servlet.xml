@@ -18,6 +18,9 @@
 			</bean>
     	</mvc:message-converters>
 	</mvc:annotation-driven>
+	<mvc:interceptors>
+	    <ref bean="customerCacheController"/>
+	</mvc:interceptors>
 	<!-- customizacion de jackson -->
 	<bean id="jacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
 	<bean id="JacksonConfiguration" class="technology.tikal.gae.jackson.JacksonBasicConfiguration" init-method="init">
@@ -27,6 +30,7 @@
 	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
     	<property name="basename" value="/WEB-INF/resources/i18n/ValidationMessages" />
   	</bean>
+  	<!-- Interfaz con el cliente -->
 	<bean id="CustomerService" class="technology.tikal.customers.service.CustomerService">
 	    <property name="customersController" ref="customersController"/>
 	    <property name="messageSource" ref="messageSource"/>

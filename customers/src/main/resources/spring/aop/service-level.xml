@@ -10,10 +10,28 @@
         http://www.springframework.org/schema/context/spring-context.xsd
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd">
-        
+     
+    <!-- HTTP cache -->
+    <bean id="customerCacheController" class="technology.tikal.customers.cache.http.CustomerCacheController">
+    	<property name="httpCacheQueryService" ref="httpCacheQueryService"/>
+    	<property name="cacheControl" value="private, stale-if-error=259200"/>
+    	<property name="resourceUri" value="/api/customer"/>
+	</bean>
+	<aop:config>
+		<aop:aspect ref="customerCacheController">
+		    <aop:pointcut id="createCustomer" 
+        	    expression="execution(* technology.tikal.customers.controller.CustomersController.createCustomer*(..))"/>
+		    <aop:pointcut id="consultarCustomer" 
+        	    expression="execution(* technology.tikal.customers.dao.CustomerDao.consultar(..))"/>
+		    <aop:pointcut id="guardarCustomer" 
+        	    expression="execution(* technology.tikal.customers.dao.CustomerDao.guardar(..))"/>
+		    <aop:after-returning pointcut-ref="createCustomer" method="manageCreate"/>
+		    <aop:after-returning pointcut-ref="consultarCustomer" method="listenToBusqueda" returning="retVal"/>
+		    <aop:after-returning pointcut-ref="guardarCustomer" method="manageUpdate"/>
+		</aop:aspect>    
+	</aop:config>
     <!-- Transacciones -->
 	<bean id="aspectTransactionManagerOfy" class="technology.tikal.gae.spring.objectify.AspectTransactionManagerOfy"/>
-
 	<aop:config>
     	<aop:aspect ref="aspectTransactionManagerOfy">
         	<aop:pointcut id="createCustomerWithForcedId" 

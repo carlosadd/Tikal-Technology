@@ -7,8 +7,10 @@
         http://www.springframework.org/schema/beans/spring-beans.xsd
         http://www.springframework.org/schema/context 
         http://www.springframework.org/schema/context/spring-context.xsd">
-        
-	<import resource="classpath*:system/spring/security/security-configuration.xml"/>
-	<import resource="classpath*:system/spring/dao/data-access.xml"/>
-	<import resource="classpath*:/system/spring/service/http-cache.xml"/>
+    <!-- Este XML se debe importar en los modulos si se desea usar la configuracion por default -->
+    <bean id="uriEtagEntryFactory" class="technology.tikal.gae.http.cache.model.UriEtagEntryFactory"/>
+	<bean id="httpCacheQueryService" class="technology.tikal.gae.http.cache.imp.PreconditionalQueryService">
+	    <property name="uriEtagEntryFactory" ref="uriEtagEntryFactory"/>
+	    <property name="uriEtagEntryDao" ref="uriEtagEntryDao"/>
+	</bean>
 </beans>

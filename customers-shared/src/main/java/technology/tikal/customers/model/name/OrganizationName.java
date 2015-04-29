@@ -15,6 +15,8 @@
  */
 package technology.tikal.customers.model.name;
 
+import java.util.Objects;
+
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
@@ -41,5 +43,23 @@ public class OrganizationName extends Name {
 
     public void setName(String name) {
         this.name = name;
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj instanceof OrganizationName) {
+            OrganizationName other = (OrganizationName) obj;
+            return Objects.equals(name, other.name)
+                    && Objects.equals(name, other.name);
+        } 
+        return false;
     }
 }

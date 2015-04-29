@@ -12,8 +12,10 @@
 		<property name="classes">
     		<list>
 				<value>technology.tikal.gae.system.security.model.SystemUser</value>
+				<value>technology.tikal.gae.http.cache.model.UriEtagEntry</value>
 			</list>
 		</property>
 	</bean>
 	<bean id="systemUserDao" class="technology.tikal.gae.system.security.dao.objectify.SystemUserDaoOfy"/>
+	<bean id="uriEtagEntryDao" class="technology.tikal.gae.http.cache.dao.objectify.UriEtagEntryDaoOfy"/>
 </beans>

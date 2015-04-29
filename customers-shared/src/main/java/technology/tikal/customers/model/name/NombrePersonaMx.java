@@ -16,6 +16,8 @@
 package technology.tikal.customers.model.name;
 
 
+import java.util.Objects;
+
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
@@ -67,5 +69,25 @@ public class NombrePersonaMx extends Name {
     }
     public void setApellidoMaterno(String apellidoMaterno) {
         this.apellidoMaterno = apellidoMaterno;
-    }   
+    }
+    
+    @Override
+    public int hashCode() {
+        return Objects.hash(primerNombre, segundoNombre, apellidoPaterno, apellidoMaterno);
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == this) {
+            return true;
+        }
+        if (obj instanceof NombrePersonaMx) {
+            NombrePersonaMx other = (NombrePersonaMx) obj;
+            return Objects.equals(primerNombre, other.primerNombre)
+                    && Objects.equals(segundoNombre, other.segundoNombre)
+                    && Objects.equals(apellidoPaterno, other.apellidoPaterno)
+                    && Objects.equals(apellidoMaterno, other.apellidoMaterno);
+        } 
+        return false;
+    }
 }

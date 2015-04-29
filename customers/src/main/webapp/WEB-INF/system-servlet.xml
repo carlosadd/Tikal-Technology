@@ -31,6 +31,9 @@
 	    <property name="systemUserDao" ref="systemUserDao"/> 
 	    <property name="messageSource" ref="messageSource"/>
     </bean>
+    <bean id="systemHttpCacheService" class="technology.tikal.gae.system.service.imp.SystemHttpCacheServiceImp">
+	    <property name="httpCacheQueryService" ref="httpCacheQueryService"/>
+    </bean>
     <!-- Este bean solo debe estar cargado cuando se inicia por primera vez la aplicacion -->
     <!-- Quitar Este bean despues de inicializar la aplicacion --> 
     <bean id="systemInitialization" class="technology.tikal.gae.system.service.imp.BasicSystemInitialization">
