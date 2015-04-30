@@ -29,14 +29,11 @@ public class ServicioIndex {
     private String status;
     private String descripcion;
     private Date fechaInicio;
-    private ServicioIndexClienteData clienteData;
-    private ServicioIndexAutoData autoData;
+    private Long idCliente;
+    private String idAuto;
     private DatosCobranza cobranza;
     private Moneda costoTotal;
-    public ServicioIndex() {
-        clienteData = new ServicioIndexClienteData();
-        autoData = new ServicioIndexAutoData();
-    }
+    
     public Long getId() {
         return id;
     }
@@ -61,17 +58,17 @@ public class ServicioIndex {
     public void setFechaInicio(Date fechaInicio) {
         this.fechaInicio = fechaInicio;
     }
-    public ServicioIndexClienteData getClienteData() {
-        return clienteData;
+    public Long getIdCliente() {
+        return idCliente;
     }
-    public void setClienteData(ServicioIndexClienteData clienteData) {
-        this.clienteData = clienteData;
+    public void setIdCliente(Long idCliente) {
+        this.idCliente = idCliente;
     }
-    public ServicioIndexAutoData getAutoData() {
-        return autoData;
+    public String getIdAuto() {
+        return idAuto;
     }
-    public void setAutoData(ServicioIndexAutoData autoData) {
-        this.autoData = autoData;
+    public void setIdAuto(String idAuto) {
+        this.idAuto = idAuto;
     }
     public DatosCobranza getCobranza() {
         return cobranza;
