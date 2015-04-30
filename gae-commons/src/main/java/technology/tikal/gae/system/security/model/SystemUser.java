@@ -19,7 +19,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
@@ -46,20 +45,20 @@ public class SystemUser implements UserDetails {
      */
     private static final long serialVersionUID = 1L;
     @Id
-    @NotNull
     @Length(min=8, max=26)
     @Pattern(regexp="\\w*")
     private String username;
     
-    @NotNull
     @Length(min=8, max=26)
     @Pattern(regexp="\\w*")
     private String password;
     
     private List<InternalGrantedAuthority> authorities;
     
+    private Boolean activo;
+    
     private SystemUser() {
-        authorities = new ArrayList<>(); 
+        authorities = new ArrayList<>();
     }
     
     public SystemUser(String username) {
@@ -81,6 +80,14 @@ public class SystemUser implements UserDetails {
         this.password = password;
     }
     
+    public Boolean getActivo() {
+        return activo;
+    }
+
+    public void setActivo(Boolean activo) {
+        this.activo = activo;
+    }
+
     @Override
     public Collection<InternalGrantedAuthority> getAuthorities() {
         return authorities;
@@ -102,17 +109,28 @@ public class SystemUser implements UserDetails {
     @Override
     public boolean isCredentialsNonExpired() {
         return true;
-    }
+    }    
 
     @JsonIgnore
     @Override
     public boolean isEnabled() {
-        return true;
+        if (this.activo != null) {
+            return this.activo;
+        } else {
+            return false;
+        }
     }
 
     public void update(SystemUser origin) {
-        this.setPassword(origin.getPassword());
-        this.authorities.clear();
-        this.authorities.addAll(origin.getAuthorities());
+        if (origin.getPassword() != null) {
+            this.setPassword(origin.getPassword());
+        }
+        if (origin.getActivo() != null) {
+            this.setActivo(origin.getActivo());
+        }
+        if (origin.getAuthorities() != null) {
+            this.authorities.clear();
+            this.authorities.addAll(origin.getAuthorities());
+        }
     }
 }

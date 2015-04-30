@@ -64,6 +64,18 @@ public class SystemAccountServiceImp extends RestControllerTemplate implements S
         if (result.hasErrors()) {
             throw new NotValidException(result);
         }
+        if (account.getUsername() == null) {
+            throw new MessageSourceResolvableException(new DefaultMessageSourceResolvable(
+                    new String[]{"NotNull.systemUser.username"}, 
+                    new String[]{}, 
+                    "Null username"));
+        }
+        if (account.getPassword() == null) {
+            throw new MessageSourceResolvableException(new DefaultMessageSourceResolvable(
+                    new String[]{"NotNull.systemUser.password"}, 
+                    new String[]{}, 
+                    "Null password User"));
+        }
         try {
             this.systemUserDao.consultar(account.getUsername());
             throw new MessageSourceResolvableException(new DefaultMessageSourceResolvable(
@@ -81,7 +93,7 @@ public class SystemAccountServiceImp extends RestControllerTemplate implements S
         if (result.hasErrors()) {
             throw new NotValidException(result);
         }
-        if (user.compareTo(systemUser.getUsername()) != 0) {
+        if (systemUser.getUsername() != null && user.compareTo(systemUser.getUsername()) != 0) {
             throw new MessageSourceResolvableException(new DefaultMessageSourceResolvable(
                     new String[]{"NotSame.SystemAccountServiceImp.updateSystemAccount"}, 
                     new String[]{systemUser.getUsername(), user},

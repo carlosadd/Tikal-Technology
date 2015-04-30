@@ -51,6 +51,7 @@ public class BasicSystemInitialization extends RestControllerTemplate implements
         SystemUser user = new SystemUser(DEFAULT_USER);
         user.setPassword(DEFAULT_PASS);
         user.getAuthorities().add(new InternalGrantedAuthority(DEFAULT_ROLE));
+        user.setActivo(true);
         systemUserDao.guardar(user);
     }
 
