@@ -22,7 +22,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang.StringUtils;
-
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import technology.tikal.customers.model.ClienteMxOfy;
@@ -37,7 +38,7 @@ import technology.tikal.gae.http.cache.HttpCacheQueryService;
  */
 public class CustomerCacheController extends HandlerInterceptorAdapter  {
 
-    //private static final Log LOGGER = LogFactory.getLog(CustomerCacheController.class);
+    private static final Log LOGGER = LogFactory.getLog(CustomerCacheController.class);
     
     private HttpCacheQueryService httpCacheQueryService;
     private String cacheControl;
@@ -45,7 +46,6 @@ public class CustomerCacheController extends HandlerInterceptorAdapter  {
     private Map<Long, UpdatePair<CustomerOfy>> originalData;
     
     public CustomerCacheController() {
-        resourceUri = "/api/customer";
         originalData = new HashMap<>();
     }
     
@@ -60,7 +60,9 @@ public class CustomerCacheController extends HandlerInterceptorAdapter  {
             //CustomerCacheController.LOGGER.debug("se detecta GET de interes:" + request.getRequestURI());
             String requestETag = request.getHeader("If-None-Match");
             if (httpCacheQueryService.validateEtag(request.getRequestURI(), requestETag)) {
-                //CustomerCacheController.LOGGER.debug("se pide al cliente que use el cache");
+                if (CustomerCacheController.LOGGER.isInfoEnabled()) {
+                    CustomerCacheController.LOGGER.info("se pide al cliente que use el cache");
+                }
                 response.setStatus(304);
                 next = false;
             } else {
