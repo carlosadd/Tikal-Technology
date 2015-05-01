@@ -17,6 +17,7 @@ package technology.tikal.taller.automotriz.model.auto;
 
 import javax.validation.Valid;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
 /**
  * Se usara para identificar como unico a aun auto, para el historia.
@@ -27,6 +28,7 @@ public class Auto {
     
     @Size(min=1, max=17)
     @NotNull
+    @Pattern(regexp="[\\p{Alnum}\\-]*")
     private String numeroSerie;
     @Size(min=1)
     @NotNull
