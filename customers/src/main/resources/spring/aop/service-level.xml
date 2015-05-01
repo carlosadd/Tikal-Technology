@@ -16,6 +16,11 @@
     	<property name="httpCacheQueryService" ref="httpCacheQueryService"/>
     	<property name="cacheControl" value="private, stale-if-error=259200"/>
     	<property name="resourceUri" value="/api/customer"/>
+    	<property name="updateUriPattern">
+    	    <list>
+    	        <value>/api/customer/\p{Alnum}*</value>
+    	    </list>
+    	</property>
 	</bean>
 	<aop:config>
 		<aop:aspect ref="customerCacheController">
