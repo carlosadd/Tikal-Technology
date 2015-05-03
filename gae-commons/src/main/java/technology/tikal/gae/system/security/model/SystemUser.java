@@ -50,7 +50,7 @@ public class SystemUser implements UserDetails {
     private String username;
     
     @Length(min=8, max=26)
-    @Pattern(regexp="\\w*")
+    @Pattern(regexp="[\\w\\!\\#$\\%\\&\\(\\)\\*\\+\\-\\.\\:\\;\\<\\=\\>\\?\\[\\]\\_\\{\\|\\}]*")
     private String password;
     
     private List<InternalGrantedAuthority> authorities;
