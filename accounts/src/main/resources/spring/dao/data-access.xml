@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    
+	<bean id = "objectifyInitializer" class="technology.tikal.gae.spring.objectify.ObjectifyFactoryInitializer">
+		<property name="classes">
+    		<list>
+				<value>technology.tikal.accounts.model.InternalAccount</value>
+				<value>technology.tikal.accounts.dao.rest.SessionDaoRestConfig</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="accountDao" class="technology.tikal.accounts.dao.objectify.AccountDaoOfy"/>
+	<bean id="sessionRestConfigDao" class="technology.tikal.accounts.dao.objectify.SessionRestConfigDaoOfy"/>
+</beans>

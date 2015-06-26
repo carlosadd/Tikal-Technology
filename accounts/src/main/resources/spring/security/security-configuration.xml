@@ -5,18 +5,14 @@
 	http://www.springframework.org/schema/beans/spring-beans.xsd
 	http://www.springframework.org/schema/security
 	http://www.springframework.org/schema/security/spring-security.xsd">
-	
- 	<http pattern="/api/**" create-session="stateless" use-expressions="true">
+ 
+	<http pattern="/api/**" create-session="stateless" use-expressions="true">
  	    <intercept-url pattern="/api/**" access="permitAll" method="OPTIONS"/>
-		<intercept-url pattern="/api/**" access="hasAnyRole('ROLE_SYSTEM, ROLE_USER')"/>
+ 	    <intercept-url pattern="/api/login" access="permitAll" method="POST"/>
+		<intercept-url pattern="/api/**" access="hasAnyRole('ROLE_SYSTEM')"/>
 		<http-basic/>
 	</http>
-	<global-method-security>
-  		<protect-pointcut expression="execution(* technology.tikal.customers.controller.CustomersController.createCustomerWithForcedId(..))"
-       		access="ROLE_SYSTEM"/>
-	</global-method-security>
 	<authentication-manager>
 		<authentication-provider user-service-ref="systemUserDao"/>
-		<authentication-provider user-service-ref="userSessionDao"/>
 	</authentication-manager>
 </beans:beans>
