@@ -13,7 +13,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <skipTests>false</skipTests>
-        <appengine.target.version>1.9.18</appengine.target.version>
+        <appengine.target.version>1.9.25</appengine.target.version>
     </properties>
     
     <build>
