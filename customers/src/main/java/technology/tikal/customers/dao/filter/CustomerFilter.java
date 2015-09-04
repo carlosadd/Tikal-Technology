@@ -56,4 +56,12 @@ public class CustomerFilter implements FiltroBusqueda {
     public void setIndex(String index) {
         delegate.setIndex(index);
     }
+    
+    public String getGroup() {
+        return delegate.getGroup();
+    }
+
+    public void setGroup(String group) {
+        delegate.setGroup(group);
+    }
 }

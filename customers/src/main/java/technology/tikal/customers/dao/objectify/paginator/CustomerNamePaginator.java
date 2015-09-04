@@ -17,11 +17,14 @@ package technology.tikal.customers.dao.objectify.paginator;
 
 import static com.googlecode.objectify.ObjectifyService.ofy;
 
+import org.apache.commons.lang.StringUtils;
+
 import com.googlecode.objectify.cmd.Query;
 
 import technology.tikal.customers.dao.filter.CustomerFilter;
 import technology.tikal.customers.model.CustomerOfy;
 import technology.tikal.customers.model.name.IndexedByString;
+import technology.tikal.string.util.StringNormalizer;
 
 /**
  * 
@@ -33,6 +36,12 @@ public class CustomerNamePaginator extends StringPaginator<CustomerOfy, Object> 
     @Override
     public Query<CustomerOfy> buildQuery(PaginationContext<Object> context) {
         Query<CustomerOfy> query = ofy().load().type(CustomerOfy.class);
+        if(context.getFilter() instanceof CustomerFilter) {
+            CustomerFilter filtro = (CustomerFilter) context.getFilter();
+            if (StringUtils.isNotEmpty(filtro.getGroup())) {
+                query = query.filter("group.standarizedName", StringNormalizer.normalize(filtro.getGroup()));
+            }
+        }
         query = query.order(context.getIndexOfy());
         return query;
     }

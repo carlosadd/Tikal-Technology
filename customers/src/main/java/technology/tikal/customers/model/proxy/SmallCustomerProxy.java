@@ -16,6 +16,7 @@
 package technology.tikal.customers.model.proxy;
 
 import technology.tikal.customers.model.Customer;
+import technology.tikal.customers.model.Group;
 import technology.tikal.customers.model.contact.PrimaryContact;
 import technology.tikal.customers.model.name.Name;
 
@@ -45,6 +46,16 @@ public class SmallCustomerProxy implements CustomerProxy {
     }
 
     @Override
+    public Group getGroup() {
+        return delegate.getGroup();
+    }
+
+    @Override
+    public void setGroup(Group group) {
+        delegate.setGroup(group);
+    }
+    
+    @Override
     public Long getId() {
         return delegate.getId();
     }
@@ -52,6 +63,6 @@ public class SmallCustomerProxy implements CustomerProxy {
     @Override
     public PrimaryContact getPrimaryContact() {
         return null;
-    }
+    }    
     
 }

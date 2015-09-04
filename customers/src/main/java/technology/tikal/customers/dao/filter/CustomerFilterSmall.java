@@ -35,6 +35,10 @@ public class CustomerFilterSmall implements FiltroBusqueda {
     @Pattern(regexp="\\w*")
     private String index;
     
+    @Length(min=3, max=26)
+    @Pattern(regexp="\\w*")
+    private String group;
+    
     public CustomerFilterSmall() {
         this.index = NamePriorityFilterValues.Name.toString();
     }
@@ -53,5 +57,13 @@ public class CustomerFilterSmall implements FiltroBusqueda {
 
     public void setIndex(String index) {
         this.index = index;
+    }
+
+    public String getGroup() {
+        return group;
+    }
+
+    public void setGroup(String group) {
+        this.group = group;
     }
 }

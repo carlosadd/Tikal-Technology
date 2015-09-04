@@ -61,6 +61,8 @@ public class CustomerOfy implements Customer, OfyEntity<Customer> {
     
     private Name name;
     
+    private Group group;
+    
     @Index(ActiveCustomerCheck.class) 
     @JsonIgnore
     private String normalizedName;
@@ -126,6 +128,17 @@ public class CustomerOfy implements Customer, OfyEntity<Customer> {
         return name;
     }
     
+    @Override
+    public Group getGroup() {
+        return group;
+    }
+
+    @Override
+    public void setGroup(Group source) {
+        this.group = GroupFactory.buildInternal(source);
+        dirty = true;
+    }
+
     @Override
     public PrimaryContact getPrimaryContact() {
         if (this.transientInfo != null) {

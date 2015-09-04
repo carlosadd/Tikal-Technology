@@ -18,6 +18,7 @@ package technology.tikal.customers.model.proxy;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import technology.tikal.customers.model.ClienteMx;
+import technology.tikal.customers.model.Group;
 import technology.tikal.customers.model.address.Address;
 import technology.tikal.customers.model.contact.PrimaryContact;
 import technology.tikal.customers.model.name.Name;
@@ -50,6 +51,16 @@ public class SmallClienteMxProxy implements ClienteMx, CustomerProxy {
         delegate.setName(name);
     }
 
+    @Override
+    public Group getGroup() {
+        return delegate.getGroup();
+    }
+    @Override
+    public void setGroup(Group group) {
+        delegate.setGroup(group);
+        
+    }
+    
     @Override
     public PrimaryContact getPrimaryContact() {
         return null;

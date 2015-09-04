@@ -12,6 +12,7 @@
 		<property name="classes">
     		<list>
 				<value>technology.tikal.customers.model.CustomerOfy</value>
+				<value>technology.tikal.customers.model.GroupOfy</value>
 				<value>technology.tikal.customers.model.ClienteMxOfy</value>
 				<value>technology.tikal.customers.model.contact.ContactOfy</value>
 				<value>technology.tikal.customers.model.contact.AssociateOfy</value>

@@ -1,5 +1,23 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <datastore-indexes autoGenerate="false">
+    <!-- indices para buscar por grupo -->
+    <datastore-index kind="CustomerOfy" ancestor="false" source="auto">
+        <property name="group.standarizedName" direction="asc"/>
+        <property name="normalizedName" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="CustomerOfy" ancestor="false" source="auto">
+        <property name="group.standarizedName" direction="asc"/>
+        <property name="name.normalizedPersonName" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="CustomerOfy" ancestor="false" source="auto">
+        <property name="group.standarizedName" direction="asc"/>
+        <property name="name.normalizedPersonSurname" direction="asc"/>
+    </datastore-index>
+    <datastore-index kind="CustomerOfy" ancestor="false" source="auto">
+        <property name="group.standarizedName" direction="asc"/>
+        <property name="name.normalizedOrganizationName" direction="asc"/>
+    </datastore-index>
+    <!-- indices para buscar contactos -->
     <datastore-index kind="ContactOfy" ancestor="true" source="auto">
         <property name="normalizedName" direction="asc"/>
     </datastore-index>
@@ -12,9 +30,11 @@
 	<datastore-index kind="ContactOfy" ancestor="true" source="auto">
         <property name="name.normalizedOrganizationName" direction="asc"/>
     </datastore-index>
+    <!-- indices para buscar contactos por role (segundo nivel) -->
 	<datastore-index kind="ContactOfy" ancestor="true" source="auto">
         <property name="normalizedRole" direction="asc"/>
     </datastore-index>
+    <!-- indices para buscar contactos relacionados (tercer nivel)-->
     <datastore-index kind="ContactRelationshipOfy" ancestor="true" source="auto">
         <property name="normalizedRelationship" direction="asc"/>
     </datastore-index>
