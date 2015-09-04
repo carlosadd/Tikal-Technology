@@ -13,22 +13,22 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License
  */
-package technology.tikal.accounts.otp.model;
+package technology.tikal.accounts.model;
 
 /**
  * 
  * @author Nekorp
  *
  */
-public class OtpConfig {
+public class Role {
 
-    private boolean enabled;
+    private String value;
 
-    public boolean isEnabled() {
-        return enabled;
+    public String getValue() {
+        return value;
     }
 
-    public void setEnabled(boolean enabled) {
-        this.enabled = enabled;
+    public void setValue(String value) {
+        this.value = value;
     }
 }

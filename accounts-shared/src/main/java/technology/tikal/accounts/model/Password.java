@@ -15,7 +15,7 @@
  */
 package technology.tikal.accounts.model;
 
-import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 
 import org.hibernate.validator.constraints.Length;
@@ -25,27 +25,18 @@ import org.hibernate.validator.constraints.Length;
  * @author Nekorp
  *
  */
-public class AccountUpdateData {
+public class Password {
 
+    @NotNull
     @Length(min=8, max=26)
     @Pattern(regexp="[\\w\\!\\#$\\%\\&\\(\\)\\*\\+\\-\\.\\:\\;\\<\\=\\>\\?\\[\\]\\_\\{\\|\\}]*")
-    private String password;
-    @Valid
-    private PersonalInfo personalInfo;
-    
-    public AccountUpdateData() {
-        this.personalInfo = new PersonalInfo();
+    private String value;
+
+    public String getValue() {
+        return value;
     }
-    public String getPassword() {
-        return password;
-    }
-    public void setPassword(final String password) {
-        this.password = password;
-    }
-    public PersonalInfo getPersonalInfo() {
-        return personalInfo;
-    }
-    public void setPersonalInfo(final PersonalInfo personalInfo) {
-        this.personalInfo = personalInfo;
+
+    public void setValue(String value) {
+        this.value = value;
     }
 }

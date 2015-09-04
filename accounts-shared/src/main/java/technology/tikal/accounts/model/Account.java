@@ -33,14 +33,20 @@ public class Account {
     private String user;
     
     @NotNull
-    @Length(min=8, max=26)
-    @Pattern(regexp="[\\w\\!\\#$\\%\\&\\(\\)\\*\\+\\-\\.\\:\\;\\<\\=\\>\\?\\[\\]\\_\\{\\|\\}]*")
-    private String password;
+    @Valid
+    private Password password;
     @Valid
     private PersonalInfo personalInfo;
+    @Valid
+    private Role role;
+    @Valid
+    private Status status;
     
     public Account() {
         this.personalInfo = new PersonalInfo();
+        this.password = new Password();
+        this.role = new Role();
+        this.status = new Status();
     }
     public String getUser() {
         return user;
@@ -48,10 +54,10 @@ public class Account {
     public void setUser(String user) {
         this.user = user;
     }
-    public String getPassword() {
+    public Password getPassword() {
         return password;
     }
-    public void setPassword(final String password) {
+    public void setPassword(final Password password) {
         this.password = password;
     }
     public PersonalInfo getPersonalInfo() {
@@ -59,5 +65,17 @@ public class Account {
     }
     public void setPersonalInfo(final PersonalInfo personalInfo) {
         this.personalInfo = personalInfo;
+    }
+    public Role getRole() {
+        return role;
+    }
+    public void setRole(Role role) {
+        this.role = role;
+    }
+    public Status getStatus() {
+        return status;
+    }
+    public void setStatus(Status status) {
+        this.status = status;
     }
 }

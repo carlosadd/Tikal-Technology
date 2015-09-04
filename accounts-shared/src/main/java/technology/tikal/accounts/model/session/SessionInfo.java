@@ -24,6 +24,8 @@ public class SessionInfo {
 
     private String user;
     private String token;
+    private String name;
+    private String role;
 
     public String getUser() {
         return user;
@@ -39,5 +41,21 @@ public class SessionInfo {
 
     public void setToken(String token) {
         this.token = token;
-    }    
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
 }
