@@ -56,6 +56,8 @@ public class InternalAccount extends Account {
         this.setUser(source.getUser());
         this.setPassword(source.getPassword());
         this.setPersonalInfo(source.getPersonalInfo());
+        this.setStatus(source.getStatus());
+        this.setRole(source.getRole());
         otpInfo = new OtpInfo();
     }
     @Override
@@ -88,11 +90,5 @@ public class InternalAccount extends Account {
         if(this.usedOtpTokens.size() > InternalAccount.NUMBER_OF_USED_TOKENS){
             this.usedOtpTokens.remove(this.usedOtpTokens.first());
         }
-    }
-    public void updateAccount(AccountUpdateData source) {
-        if (StringUtils.isNotEmpty(source.getPassword())) {
-            this.setPassword(source.getPassword());
-        }
-        this.setPersonalInfo(source.getPersonalInfo());
     }
 }

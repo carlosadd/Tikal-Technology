@@ -19,11 +19,15 @@ import java.util.List;
 
 import technology.tikal.accounts.dao.filter.AccountFilter;
 import technology.tikal.accounts.model.Account;
-import technology.tikal.accounts.model.AccountUpdateData;
+import technology.tikal.accounts.model.Password;
+import technology.tikal.accounts.model.PersonalInfo;
+import technology.tikal.accounts.model.Role;
+import technology.tikal.accounts.model.Status;
 import technology.tikal.accounts.model.authentication.AuthenticationRequest;
 import technology.tikal.accounts.model.authentication.AuthenticationResponse;
 import technology.tikal.accounts.model.session.SessionInfo;
-import technology.tikal.accounts.otp.model.OtpConfig;
+import technology.tikal.accounts.otp.model.OtpStatus;
+import technology.tikal.accounts.otp.model.OtpStatusInfo;
 import technology.tikal.accounts.otp.model.OtpSyncData;
 import technology.tikal.gae.pagination.model.PaginationDataString;
 
@@ -35,13 +39,17 @@ import technology.tikal.gae.pagination.model.PaginationDataString;
 public interface AccountsController {
 
     void createAccount(Account account);
-    void updateAccount(String user, AccountUpdateData request);
+    void updateAccount(String user, PersonalInfo request);
+    void updateAccount(String user, Password request);
+    void updateAccount(String user, Role request);
+    void updateAccount(String user, Status request);
     void deleteAccount(String user);
     List<Account> queryAccounts(AccountFilter filter, PaginationDataString pagination);
     Account getAccount(String user);
     OtpSyncData registerOTP(String user);
     void deleteOTP(String user);
-    void updateOTPConfig(String user, OtpConfig config);
+    void updateOTPStatus(String user, OtpStatus status);
     AuthenticationResponse authenticateUser(AuthenticationRequest request);
     SessionInfo createSession(AuthenticationRequest request);
+    OtpStatusInfo getOtpStatusInfo(String user);
 }

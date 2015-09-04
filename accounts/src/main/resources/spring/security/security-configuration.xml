@@ -9,10 +9,13 @@
 	<http pattern="/api/**" create-session="stateless" use-expressions="true">
  	    <intercept-url pattern="/api/**" access="permitAll" method="OPTIONS"/>
  	    <intercept-url pattern="/api/login" access="permitAll" method="POST"/>
-		<intercept-url pattern="/api/**" access="hasAnyRole('ROLE_SYSTEM')"/>
+ 	    <intercept-url pattern="/api/my/**" access="hasAnyRole('ROLE_USER')"/>
+ 	    <intercept-url pattern="/api/config" access="hasAnyRole('ROLE_SYSTEM')" method="POST"/>
+		<intercept-url pattern="/api/admin/**" access="hasAnyRole('ROLE_SYSTEM, ROLE_ADMIN')"/>
 		<http-basic/>
 	</http>
 	<authentication-manager>
-		<authentication-provider user-service-ref="systemUserDao"/>
+	    <authentication-provider user-service-ref="systemUserDao"/>
+	    <authentication-provider user-service-ref="userSessionDao"/>
 	</authentication-manager>
 </beans:beans>

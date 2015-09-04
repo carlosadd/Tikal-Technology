@@ -15,17 +15,22 @@
  */
 package technology.tikal.accounts.service;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
+
 import org.springframework.validation.BindingResult;
 
-import technology.tikal.accounts.model.config.RoleAuthorityMapEntry;
-import technology.tikal.accounts.model.config.SessionDaoRestConfig;
+import technology.tikal.accounts.model.Role;
+import technology.tikal.gae.pagination.model.Page;
+import technology.tikal.gae.pagination.model.PaginationDataString;
+
 /**
  * 
  * @author Nekorp
  *
  */
-public interface AccountsConfig {
+public interface Roles {
 
-    void setSessionRestConfig(SessionDaoRestConfig config, BindingResult result);
-    void setSessionAuthorityConfig(RoleAuthorityMapEntry config, BindingResult result);
+    Page<List<Role>> queryRoles(PaginationDataString pagination, BindingResult paginationResult, HttpServletRequest request);
 }

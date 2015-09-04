@@ -25,7 +25,7 @@ import com.googlecode.objectify.Key;
 import com.googlecode.objectify.cmd.Query;
 
 import technology.tikal.accounts.dao.ConfigDao;
-import technology.tikal.accounts.model.config.SessionDaoRestConfig;
+import technology.tikal.accounts.model.config.RoleAuthorityMapEntry;
 import technology.tikal.gae.dao.template.FiltroBusqueda;
 import technology.tikal.gae.pagination.model.PaginationData;
 /**
@@ -33,15 +33,15 @@ import technology.tikal.gae.pagination.model.PaginationData;
  * @author Nekorp
  *
  */
-public class SessionRestConfigDaoOfy implements ConfigDao<SessionDaoRestConfig> {
+public class AuthorityConfigDaoOfy implements ConfigDao<RoleAuthorityMapEntry> {
 
     @Override
-    public List<SessionDaoRestConfig> consultarTodos(FiltroBusqueda filtro,
+    public List<RoleAuthorityMapEntry> consultarTodos(FiltroBusqueda filtro,
             PaginationData<String> pagination) {
-        List<SessionDaoRestConfig> result;
-        Query<SessionDaoRestConfig> query = ofy().load().type(SessionDaoRestConfig.class);
+        List<RoleAuthorityMapEntry> result;
+        Query<RoleAuthorityMapEntry> query = ofy().load().type(RoleAuthorityMapEntry.class);
         if (StringUtils.isNotEmpty(pagination.getSinceId())) {
-            query = query.filterKey(">=", Key.create(SessionDaoRestConfig.class, pagination.getSinceId()));
+            query = query.filterKey(">=", Key.create(RoleAuthorityMapEntry.class, pagination.getSinceId()));
         }
         
         if (pagination.getMaxResults() > 0) {
@@ -49,25 +49,25 @@ public class SessionRestConfigDaoOfy implements ConfigDao<SessionDaoRestConfig> 
         }
         result = query.list();
         if (pagination.getMaxResults() != 0 && result.size() > pagination.getMaxResults()) {
-            SessionDaoRestConfig ultimo = result.get(pagination.getMaxResults());
-            pagination.setNextId(ultimo.getId());
+            RoleAuthorityMapEntry ultimo = result.get(pagination.getMaxResults());
+            pagination.setNextId(ultimo.getRole());
             result.remove(pagination.getMaxResults());
         }
         return result;
     }
 
     @Override
-    public void guardar(SessionDaoRestConfig objeto) {
+    public void guardar(RoleAuthorityMapEntry objeto) {
         ofy().save().entity(objeto).now();
     }
 
     @Override
-    public SessionDaoRestConfig consultar(String id, Class<?>... group) {
-        return ofy().load().key(Key.create(SessionDaoRestConfig.class, id)).safe();
+    public RoleAuthorityMapEntry consultar(String id, Class<?>... group) {
+        return ofy().load().key(Key.create(RoleAuthorityMapEntry.class, id)).safe();
     }
 
     @Override
-    public void borrar(SessionDaoRestConfig objeto) {
+    public void borrar(RoleAuthorityMapEntry objeto) {
         ofy().delete().entities(objeto).now();
     }
 

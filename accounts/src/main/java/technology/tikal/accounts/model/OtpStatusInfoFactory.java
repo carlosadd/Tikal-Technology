@@ -13,19 +13,23 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License
  */
-package technology.tikal.accounts.service;
+package technology.tikal.accounts.model;
 
-import org.springframework.validation.BindingResult;
+import technology.tikal.accounts.otp.model.OtpStatusInfo;
 
-import technology.tikal.accounts.model.config.RoleAuthorityMapEntry;
-import technology.tikal.accounts.model.config.SessionDaoRestConfig;
 /**
  * 
  * @author Nekorp
  *
  */
-public interface AccountsConfig {
+public class OtpStatusInfoFactory {
 
-    void setSessionRestConfig(SessionDaoRestConfig config, BindingResult result);
-    void setSessionAuthorityConfig(RoleAuthorityMapEntry config, BindingResult result);
+    public static OtpStatusInfo getOtpStatusInfo(InternalAccount account) {
+        OtpStatusInfo response = new OtpStatusInfo();
+        response.setRegistered(account.getOtpInfo().hasOtp());
+        if (response.isRegistered()) {
+            response.setEnabled(account.getOtpInfo().isEnabled());
+        }
+        return response;
+    }
 }

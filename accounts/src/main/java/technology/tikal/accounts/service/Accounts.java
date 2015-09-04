@@ -24,9 +24,11 @@ import org.springframework.validation.BindingResult;
 
 import technology.tikal.accounts.dao.filter.AccountFilter;
 import technology.tikal.accounts.model.Account;
-import technology.tikal.accounts.model.AccountUpdateData;
-import technology.tikal.accounts.otp.model.OtpConfig;
-import technology.tikal.accounts.otp.model.OtpSyncData;
+import technology.tikal.accounts.model.PersonalInfo;
+import technology.tikal.accounts.model.Role;
+import technology.tikal.accounts.model.Status;
+import technology.tikal.accounts.otp.model.OtpStatus;
+import technology.tikal.accounts.otp.model.OtpStatusInfo;
 import technology.tikal.gae.pagination.model.Page;
 import technology.tikal.gae.pagination.model.PaginationDataString;
 /**
@@ -37,12 +39,18 @@ import technology.tikal.gae.pagination.model.PaginationDataString;
 public interface Accounts {
 
     void createAccount(Account account, BindingResult result, HttpServletRequest request, HttpServletResponse response);
-    void updateAccount(String user, AccountUpdateData request, BindingResult result, HttpServletResponse response);
+    //actualiza la info personal y el rol
+    void updateAccountPersonalInfo(String user, PersonalInfo personalInfo, BindingResult result);
+    //void updateAccountPassword(String user, Password request, BindingResult result);
+    void updateAccountRole(String user, Role request, BindingResult result);
+    void updateAccountStatus(String user, Status request, BindingResult result);
+    //hay que tomarse con calma eso de borrar
     void deleteAccount(String user, HttpServletResponse response);
     Page<List<Account>> queryAccounts(AccountFilter filter, BindingResult filterResult, 
             PaginationDataString pagination, BindingResult paginationResult, 
             HttpServletRequest request);
     Account getAccount(String user);
-    OtpSyncData registerOTP(String user, HttpServletResponse response);
-    void updateOTPConfig(String user, OtpConfig config, HttpServletResponse response);
+    //OtpSyncData registerOTP(String user, HttpServletResponse response);
+    void updateOTPStatus(String user, OtpStatus status);
+    OtpStatusInfo getOtpStatusInfo(String user);
 }

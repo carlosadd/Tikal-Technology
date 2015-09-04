@@ -31,11 +31,19 @@
 	    <property name="accountsController" ref="accountsController"/> 
 	    <property name="messageSource" ref="messageSource"/>
     </bean>
+    <bean id="MyAccount" class="technology.tikal.accounts.service.imp.MyAccountImp">
+	    <property name="accountsController" ref="accountsController"/> 
+	    <property name="messageSource" ref="messageSource"/>
+    </bean>
     <bean id="AccountsConfig" class="technology.tikal.accounts.service.imp.AccountsConfigImp">
         <property name="sessionController" ref="sessionController"/>
     </bean>
     <bean id="Login" class="technology.tikal.accounts.service.imp.LoginServiceImp">
 	    <property name="accountsController" ref="accountsController"/> 
+	    <property name="messageSource" ref="messageSource"/> 
+    </bean>
+    <bean id="Roles" class="technology.tikal.accounts.service.imp.RolesImp">
+	    <property name="sessionController" ref="sessionController"/> 
 	    <property name="messageSource" ref="messageSource"/> 
     </bean>
 </beans>

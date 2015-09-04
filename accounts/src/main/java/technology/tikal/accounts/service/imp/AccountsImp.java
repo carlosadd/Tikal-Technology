@@ -34,9 +34,11 @@ import org.springframework.web.bind.annotation.RestController;
 import technology.tikal.accounts.controller.AccountsController;
 import technology.tikal.accounts.dao.filter.AccountFilter;
 import technology.tikal.accounts.model.Account;
-import technology.tikal.accounts.model.AccountUpdateData;
-import technology.tikal.accounts.otp.model.OtpConfig;
-import technology.tikal.accounts.otp.model.OtpSyncData;
+import technology.tikal.accounts.model.PersonalInfo;
+import technology.tikal.accounts.model.Role;
+import technology.tikal.accounts.model.Status;
+import technology.tikal.accounts.otp.model.OtpStatus;
+import technology.tikal.accounts.otp.model.OtpStatusInfo;
 import technology.tikal.accounts.service.Accounts;
 import technology.tikal.gae.error.exceptions.NotValidException;
 import technology.tikal.gae.pagination.PaginationModelFactory;
@@ -50,7 +52,7 @@ import technology.tikal.gae.service.template.RestControllerTemplate;
  *
  */
 @RestController
-@RequestMapping("/accounts")
+@RequestMapping("/admin/accounts")
 public class AccountsImp extends RestControllerTemplate implements Accounts {
 
     private AccountsController accountsController;
@@ -65,17 +67,38 @@ public class AccountsImp extends RestControllerTemplate implements Accounts {
         accountsController.createAccount(account);
         response.setHeader("Location", request.getRequestURI() + "/" + account.getUser());
     }
-
+    
     @Override
-    @RequestMapping(value="/{user}", method = RequestMethod.POST)
-    public void updateAccount(@PathVariable final String user, @Valid @RequestBody final AccountUpdateData request, final BindingResult result,
-        final HttpServletResponse response) {
+    @RequestMapping(value="/{user}/personalInfo", method = RequestMethod.POST)
+    public void updateAccountPersonalInfo(@PathVariable final String user, @Valid @RequestBody final PersonalInfo request,
+            final BindingResult result) {
+        if (result.hasErrors()) {
+            throw new NotValidException(result);
+        }
+        accountsController.updateAccount(user, request);
+    }
+    
+    @Override
+    @RequestMapping(value="/{user}/role", method = RequestMethod.POST)
+    public void updateAccountRole(@PathVariable final String user, @Valid @RequestBody final Role request,
+            final BindingResult result) {
         if (result.hasErrors()) {
             throw new NotValidException(result);
         }
         accountsController.updateAccount(user, request);
     }
 
+    @Override
+    @RequestMapping(value="/{user}/status", method = RequestMethod.POST)
+    public void updateAccountStatus(@PathVariable final String user, @Valid @RequestBody final Status request,
+            final BindingResult result) {
+        if (result.hasErrors()) {
+            throw new NotValidException(result);
+        }
+        accountsController.updateAccount(user, request);
+    }    
+
+    
     @Override
     @RequestMapping(value="/{user}", method = RequestMethod.DELETE)
     @ResponseStatus(HttpStatus.ACCEPTED)
@@ -110,6 +133,18 @@ public class AccountsImp extends RestControllerTemplate implements Accounts {
     }
     
     @Override
+    @RequestMapping(value="/{user}/otp/status", method = RequestMethod.POST)
+    public void updateOTPStatus(@PathVariable final String user, @RequestBody OtpStatus status) {
+        accountsController.updateOTPStatus(user, status);
+    }
+
+    @Override
+    @RequestMapping(value="/{user}/otp/status", method = RequestMethod.GET)
+    public OtpStatusInfo getOtpStatusInfo(String user) {
+        return accountsController.getOtpStatusInfo(user);
+    }
+    
+    /*@Override
     @RequestMapping(value="/{user}/otp", method = RequestMethod.POST)
     public void updateOTPConfig(@PathVariable final String user, @RequestBody final OtpConfig config,
             final HttpServletResponse response) {
@@ -121,10 +156,9 @@ public class AccountsImp extends RestControllerTemplate implements Accounts {
     public OtpSyncData registerOTP(@PathVariable String user, HttpServletResponse response) {
         OtpSyncData otpSyncData = accountsController.registerOTP(user); 
         return otpSyncData;
-    }
+    }*/
     
     public void setAccountsController(final AccountsController accountsController) {
         this.accountsController = accountsController;
     }
-        
 }

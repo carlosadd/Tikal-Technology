@@ -15,10 +15,16 @@
  */
 package technology.tikal.accounts.controller;
 
-import technology.tikal.accounts.dao.rest.SessionDaoRestConfig;
+import java.util.List;
+
+import technology.tikal.accounts.model.InternalAccount;
+import technology.tikal.accounts.model.Role;
 import technology.tikal.accounts.model.authentication.AuthenticationRequest;
 import technology.tikal.accounts.model.authentication.AuthenticationResponse;
+import technology.tikal.accounts.model.config.RoleAuthorityMapEntry;
+import technology.tikal.accounts.model.config.SessionDaoRestConfig;
 import technology.tikal.accounts.model.session.SessionInfo;
+import technology.tikal.gae.pagination.model.PaginationDataString;
 
 /**
  * 
@@ -27,6 +33,8 @@ import technology.tikal.accounts.model.session.SessionInfo;
  */
 public interface SessionController {
 
-    SessionInfo createSession(AuthenticationRequest request, AuthenticationResponse auth);
+    SessionInfo createSession(InternalAccount account, AuthenticationRequest request, AuthenticationResponse auth);
     void setRemoteSessionConfig(SessionDaoRestConfig config);
+    void setAuthorityConfig(RoleAuthorityMapEntry config);
+    List<Role> queryRoles(PaginationDataString pagination);
 }

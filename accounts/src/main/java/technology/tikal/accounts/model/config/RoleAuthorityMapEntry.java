@@ -13,7 +13,7 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License
  */
-package technology.tikal.accounts.dao.rest;
+package technology.tikal.accounts.model.config;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -29,34 +29,25 @@ import com.googlecode.objectify.annotation.Id;
  */
 @Entity
 @Cache
-public class SessionDaoRestConfig {
+public class RoleAuthorityMapEntry {
 
     @Id
-    private String id;
-    private List<SessionDaoRestConfigEntry> configInfo;
-    
-    private SessionDaoRestConfig() {
-        configInfo = new ArrayList<>();
+    private String role;
+    private List<String> authority;
+    public RoleAuthorityMapEntry() {
+        this.authority = new ArrayList<String>();
+    }
+    public String getRole() {
+        return role;
+    }
+    public void setRole(String role) {
+        this.role = role;
+    }
+    public List<String> getAuthority() {
+        return authority;
+    }
+    public void setAuthority(List<String> authority) {
+        this.authority = authority;
     }
     
-    public SessionDaoRestConfig(String id) {
-        this();
-        this.id = id;
-    }
-
-    public List<SessionDaoRestConfigEntry> getConfigInfo() {
-        return configInfo;
-    }
-
-    public void setConfigInfo(List<SessionDaoRestConfigEntry> configInfo) {
-        this.configInfo = configInfo;
-    }
-
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
 }

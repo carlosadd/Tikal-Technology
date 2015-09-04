@@ -11,5 +11,14 @@
         http://www.springframework.org/schema/aop
         http://www.springframework.org/schema/aop/spring-aop.xsd">
         
+    <!-- Transacciones -->
+	<bean id="aspectTransactionManagerOfy" class="technology.tikal.gae.spring.objectify.AspectTransactionManagerOfy"/>
+	<aop:config>
+    	<aop:aspect ref="aspectTransactionManagerOfy">
+        	<aop:pointcut id="updateAccount" 
+        	    expression="execution(* technology.tikal.accounts.controller.AccountsController.updateAccount(..))"/>
+        	<aop:around pointcut-ref="updateAccount" method="transact"/>
+    	</aop:aspect>
+	</aop:config>
 
 </beans>

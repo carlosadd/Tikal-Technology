@@ -27,6 +27,7 @@ import org.apache.commons.codec.binary.Base64;
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import technology.tikal.accounts.dao.SessionDao;
+import technology.tikal.accounts.model.config.SessionDaoRestConfigEntry;
 import technology.tikal.gae.dao.template.FiltroBusqueda;
 import technology.tikal.gae.pagination.model.PaginationData;
 import technology.tikal.gae.system.security.model.UserSession;

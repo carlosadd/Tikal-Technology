@@ -24,10 +24,12 @@ import technology.tikal.gae.system.security.model.UserSession;
  */
 public class SessionInfoFactory {
 
-    public static SessionInfo build(UserSession session) {
+    public static SessionInfo build(InternalAccount account, UserSession session) {
         SessionInfo result = new SessionInfo();
         result.setUser(session.getUsername());
         result.setToken(session.getToken());
+        result.setName(account.getPersonalInfo().getName());
+        result.setRole(account.getRole().getValue());
         return result;
     }
 }

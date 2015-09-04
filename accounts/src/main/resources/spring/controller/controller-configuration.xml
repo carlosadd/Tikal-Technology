@@ -16,6 +16,8 @@
     <bean id="otpController" class="technology.tikal.accounts.controller.imp.OtpControllerImp"/>
     <bean id="sessionController" class="technology.tikal.accounts.controller.imp.SessionControllerImp">
         <property name="configDao" ref="sessionRestConfigDao"/>
+        <property name="authorityConfigDao" ref="authorityConfigDao"/>
         <property name="configId" value="sessionRestConfigDao"/>
+        <property name="userSessionDao" ref="userSessionDao"/>
     </bean>
 </beans>

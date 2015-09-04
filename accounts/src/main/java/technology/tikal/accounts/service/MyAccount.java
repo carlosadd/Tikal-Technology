@@ -15,10 +15,13 @@
  */
 package technology.tikal.accounts.service;
 
-import javax.servlet.http.HttpServletResponse;
+import org.springframework.validation.BindingResult;
 
-import technology.tikal.accounts.model.AccountUpdateData;
-import technology.tikal.accounts.otp.model.OtpConfig;
+import technology.tikal.accounts.model.Account;
+import technology.tikal.accounts.model.Password;
+import technology.tikal.accounts.model.PersonalInfo;
+import technology.tikal.accounts.otp.model.OtpStatus;
+import technology.tikal.accounts.otp.model.OtpStatusInfo;
 import technology.tikal.accounts.otp.model.OtpSyncData;
 
 /**
@@ -28,8 +31,11 @@ import technology.tikal.accounts.otp.model.OtpSyncData;
  */
 public interface MyAccount {
 
-    void updateAccount(AccountUpdateData request, HttpServletResponse response);
-    OtpSyncData registerOTP(HttpServletResponse response);
-    void deleteOTP(HttpServletResponse response);
-    void updateOTPConfig(OtpConfig config, HttpServletResponse response);
+    Account getAccount();
+    void updateAccountPassword(Password request, BindingResult result);
+    void updateAccountPersonalInfo(PersonalInfo request, BindingResult result);
+    OtpSyncData registerOTP();
+    void deleteOTP();
+    void updateOTPStatus(OtpStatus status);
+    OtpStatusInfo getOtpStatusInfo();
 }

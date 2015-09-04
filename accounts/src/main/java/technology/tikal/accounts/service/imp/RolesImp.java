@@ -15,19 +15,24 @@
  */
 package technology.tikal.accounts.service.imp;
 
+import java.util.List;
+
+import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import technology.tikal.accounts.controller.SessionController;
-import technology.tikal.accounts.model.config.RoleAuthorityMapEntry;
-import technology.tikal.accounts.model.config.SessionDaoRestConfig;
-import technology.tikal.accounts.service.AccountsConfig;
+import technology.tikal.accounts.model.Role;
+import technology.tikal.accounts.service.Roles;
 import technology.tikal.gae.error.exceptions.NotValidException;
+import technology.tikal.gae.pagination.PaginationModelFactory;
+import technology.tikal.gae.pagination.model.Page;
+import technology.tikal.gae.pagination.model.PaginationDataString;
 import technology.tikal.gae.service.template.RestControllerTemplate;
 
 /**
@@ -36,29 +41,27 @@ import technology.tikal.gae.service.template.RestControllerTemplate;
  *
  */
 @RestController
-@RequestMapping("/config/accounts")
-public class AccountsConfigImp extends RestControllerTemplate implements AccountsConfig {
+@RequestMapping("/admin/roles")
+public class RolesImp extends RestControllerTemplate implements Roles {
 
     private SessionController sessionController;
+    
     @Override
-    @RequestMapping(value="/session/rest", method = RequestMethod.POST)
-    public void setSessionRestConfig(@Valid @RequestBody SessionDaoRestConfig config, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new NotValidException(result);
+    @RequestMapping(produces = "application/json;charset=UTF-8", method = RequestMethod.GET)
+    public Page<List<Role>> queryRoles(@Valid @ModelAttribute PaginationDataString pagination, BindingResult paginationResult, HttpServletRequest request) {
+        if (paginationResult.hasErrors()) {
+            throw new NotValidException(paginationResult);
         }
-        sessionController.setRemoteSessionConfig(config);
+        Page<List<Role>> r = PaginationModelFactory.getPage(
+                sessionController.queryRoles(pagination),
+                "role",
+                request.getRequestURI(),
+                null,
+                pagination);
+        return r;
     }
 
-    @Override
-    @RequestMapping(value="/session/authority", method = RequestMethod.POST)
-    public void setSessionAuthorityConfig(@Valid @RequestBody RoleAuthorityMapEntry config, BindingResult result) {
-        if (result.hasErrors()) {
-            throw new NotValidException(result);
-        }
-        sessionController.setAuthorityConfig(config);
-    }
     public void setSessionController(SessionController sessionController) {
         this.sessionController = sessionController;
     }
-    
 }

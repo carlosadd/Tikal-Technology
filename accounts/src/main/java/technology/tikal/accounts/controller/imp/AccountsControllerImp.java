@@ -28,12 +28,17 @@ import technology.tikal.accounts.controller.SessionController;
 import technology.tikal.accounts.dao.AccountDao;
 import technology.tikal.accounts.dao.filter.AccountFilter;
 import technology.tikal.accounts.model.Account;
-import technology.tikal.accounts.model.AccountUpdateData;
+import technology.tikal.accounts.model.Password;
 import technology.tikal.accounts.model.InternalAccount;
+import technology.tikal.accounts.model.OtpStatusInfoFactory;
+import technology.tikal.accounts.model.PersonalInfo;
+import technology.tikal.accounts.model.Role;
+import technology.tikal.accounts.model.Status;
 import technology.tikal.accounts.model.authentication.AuthenticationRequest;
 import technology.tikal.accounts.model.authentication.AuthenticationResponse;
 import technology.tikal.accounts.model.session.SessionInfo;
-import technology.tikal.accounts.otp.model.OtpConfig;
+import technology.tikal.accounts.otp.model.OtpStatus;
+import technology.tikal.accounts.otp.model.OtpStatusInfo;
 import technology.tikal.accounts.otp.model.OtpSyncData;
 import technology.tikal.gae.error.exceptions.MessageSourceResolvableException;
 import technology.tikal.gae.pagination.model.PaginationDataString;
@@ -62,13 +67,34 @@ public class AccountsControllerImp implements AccountsController {
             this.accountDao.guardar(cuenta);
         }
     }
-
+    
     @Override
-    public void updateAccount(final String user, final AccountUpdateData request) {
+    public void updateAccount(String user, PersonalInfo request) {
         InternalAccount account = accountDao.consultar(user);
-        account.updateAccount(request);
+        account.setPersonalInfo(request);
         accountDao.guardar(account);
     }
+
+    @Override
+    public void updateAccount(final String user, final Password request) {
+        InternalAccount account = accountDao.consultar(user);
+        account.setPassword(request);
+        accountDao.guardar(account);
+    }
+    
+    @Override
+    public void updateAccount(String user, Role request) {
+        InternalAccount account = accountDao.consultar(user);
+        account.setRole(request);
+        accountDao.guardar(account);
+    }
+
+    @Override
+    public void updateAccount(String user, Status request) {
+        InternalAccount account = accountDao.consultar(user);
+        account.setStatus(request);
+        accountDao.guardar(account);
+    }    
 
     @Override
     public void deleteAccount(final String user) {
@@ -110,6 +136,12 @@ public class AccountsControllerImp implements AccountsController {
     }
     
     @Override
+    public OtpStatusInfo getOtpStatusInfo(String user) {
+        InternalAccount account = accountDao.consultar(user);
+        return OtpStatusInfoFactory.getOtpStatusInfo(account);
+    }
+    
+    @Override
     public void deleteOTP(final String user) {
         InternalAccount account = accountDao.consultar(user);
         account.getOtpInfo().clear();
@@ -117,10 +149,10 @@ public class AccountsControllerImp implements AccountsController {
     }
 
     @Override
-    public void updateOTPConfig(final String user, final OtpConfig config) {
+    public void updateOTPStatus(final String user, final OtpStatus status) {
         InternalAccount account = accountDao.consultar(user);
         if (account.getOtpInfo().hasOtp()) {
-            account.getOtpInfo().setEnabled(config.isEnabled());
+            account.getOtpInfo().setEnabled(status.isEnabled());
             accountDao.guardar(account);
         } else {
             throw new MessageSourceResolvableException(new DefaultMessageSourceResolvable(
@@ -132,38 +164,60 @@ public class AccountsControllerImp implements AccountsController {
     
     @Override
     public AuthenticationResponse authenticateUser(final AuthenticationRequest request) {
+        try {
+            InternalAccount account = accountDao.consultar(request.getUser());
+            return this.authenticateUser(request, account);
+        } catch (NotFoundException e) {
+            AuthenticationResponse response = new AuthenticationResponse();
+            response.setAuthenticated(false);
+            response.setAuthenticationMethod(null);
+            return response;
+        }
+    }
+    
+    private AuthenticationResponse authenticateUser(final AuthenticationRequest request,  InternalAccount account) {
         AuthenticationResponse response = new AuthenticationResponse();
         response.setAuthenticated(false);
         response.setAuthenticationMethod(null);
-        try {
-            InternalAccount account = accountDao.consultar(request.getUser());
-            if (account.getPassword().compareTo(request.getPassword()) == 0) {
-                if (account.getOtpInfo().hasOtp() && account.getOtpInfo().isEnabled()) {
-                    if (this.otpController.isOtpValid(account, request.getOtp())) {
-                        accountDao.guardar(account);//se guarda el token usado
-                        response.setAuthenticated(true);//es valido con otp y password
-                        response.setAuthenticationMethod(AuthenticationResponse.OTP_AUTHENTICATION_METHOD);
-                    }
-                } else {
-                    response.setAuthenticated(true);//es valido sin otp, solo password
-                    response.setAuthenticationMethod(AuthenticationResponse.PASS_AUTHENTICATION_METHOD);
+        if (account.getPassword().getValue().compareTo(request.getPassword()) == 0) {
+            if (account.getOtpInfo().hasOtp() && account.getOtpInfo().isEnabled()) {
+                if (this.otpController.isOtpValid(account, request.getOtp())) {
+                    accountDao.guardar(account);//se guarda el token usado
+                    response.setAuthenticated(true);//es valido con otp y password
+                    response.setAuthenticationMethod(AuthenticationResponse.OTP_AUTHENTICATION_METHOD);
                 }
+            } else {
+                response.setAuthenticated(true);//es valido sin otp, solo password
+                response.setAuthenticationMethod(AuthenticationResponse.PASS_AUTHENTICATION_METHOD);
             }
-        } catch (NotFoundException e) {
         }
         return response;
     }
     
     @Override
     public SessionInfo createSession(AuthenticationRequest request) {
-        AuthenticationResponse auth = authenticateUser(request);
-        if (auth.isAuthenticated()) {
-            return sessionController.createSession(request, auth);
-        } else {
+        try {
+            InternalAccount account = accountDao.consultar(request.getUser());
+            if (account.getStatus().isBlocked()) {
+                throw new MessageSourceResolvableException(new DefaultMessageSourceResolvable(
+                    new String[]{"BlockedAccount.AccountsControllerImp.createSession"}, 
+                    new String[]{},
+                    "Account Blocked"));
+            }
+            AuthenticationResponse auth = authenticateUser(request, account);
+            if (auth.isAuthenticated()) {
+                return sessionController.createSession(account, request, auth);
+            } else {
+                throw new MessageSourceResolvableException(new DefaultMessageSourceResolvable(
+                    new String[]{"BadCredentials.AccountsControllerImp.createSession"}, 
+                    new String[]{},
+                    "Not valid credentials"));
+            }
+        } catch (NotFoundException e) {
             throw new MessageSourceResolvableException(new DefaultMessageSourceResolvable(
-                new String[]{"BadCredentials.AccountsControllerImp.createSession"}, 
-                new String[]{},
-                "Not valod credentials"));
+                    new String[]{"BadCredentials.AccountsControllerImp.createSession"}, 
+                    new String[]{},
+                    "Not valid credentials"));
         }
     }
 
