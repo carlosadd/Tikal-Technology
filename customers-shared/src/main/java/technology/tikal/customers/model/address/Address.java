@@ -15,6 +15,10 @@
  */
 package technology.tikal.customers.model.address;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+
 import com.fasterxml.jackson.annotation.JsonSubTypes;
 import com.fasterxml.jackson.annotation.JsonTypeInfo;
 
@@ -27,5 +31,14 @@ import com.fasterxml.jackson.annotation.JsonTypeInfo;
     @JsonSubTypes.Type(value = MexicoAddress.class)
 })
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
-public class Address {    
+public class Address {
+    @Length(max=40)
+    @Pattern(regexp="^[\\p{IsLatin}\\w]+( [\\p{IsLatin}\\w]+)*")
+    private String tag;
+    public String getTag() {
+        return tag;
+    }
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 }

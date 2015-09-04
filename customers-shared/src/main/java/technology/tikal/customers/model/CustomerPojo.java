@@ -28,6 +28,7 @@ public class CustomerPojo implements Customer {
     private Long id;
     private Name name;
     private PrimaryContact primaryContact;
+    private Group group;
 
     public CustomerPojo() {
         this.primaryContact = new PrimaryContactPojo();
@@ -59,5 +60,15 @@ public class CustomerPojo implements Customer {
 
     public void setPrimaryContact(PrimaryContact primaryContact) {
         this.primaryContact = primaryContact;
+    }
+
+    @Override
+    public Group getGroup() {
+        return this.group;
+    }
+
+    @Override
+    public void setGroup(Group group) {
+        this.group = group;
     }
 }

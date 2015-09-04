@@ -44,8 +44,12 @@ public interface Customer {
     
     @NotNull @Valid
     public Name getName();
-
-    public void setName(Name name);    
+    
+    public void setName(Name name);
+    
+    public Group getGroup();
+    
+    public void setGroup(Group group);
 
     @Valid
     public PrimaryContact getPrimaryContact();
