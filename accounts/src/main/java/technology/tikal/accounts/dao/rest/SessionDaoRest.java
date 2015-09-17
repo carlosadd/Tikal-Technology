@@ -23,12 +23,14 @@ import java.net.URL;
 import java.util.List;
 
 import org.apache.commons.codec.binary.Base64;
+import org.springframework.context.support.DefaultMessageSourceResolvable;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
 import technology.tikal.accounts.dao.SessionDao;
 import technology.tikal.accounts.model.config.SessionDaoRestConfigEntry;
 import technology.tikal.gae.dao.template.FiltroBusqueda;
+import technology.tikal.gae.error.exceptions.MessageSourceResolvableException;
 import technology.tikal.gae.pagination.model.PaginationData;
 import technology.tikal.gae.system.security.model.UserSession;
 
@@ -41,6 +43,7 @@ public class SessionDaoRest implements SessionDao {
     
     private SessionDaoRestConfigEntry config;
     private ObjectMapper mapper;
+    private int maxRetry = 3;
 
     public SessionDaoRest() {
         mapper = new ObjectMapper();
@@ -54,6 +57,10 @@ public class SessionDaoRest implements SessionDao {
 
     @Override
     public void guardar(UserSession objeto) {
+        this.guardar(objeto, 1);
+    }
+    
+    private void guardar(UserSession objeto, int intento) {
         //basic auth string
         String basicAuthString = config.getUser() + ":" + config.getPassword(); 
         basicAuthString = new String(Base64.encodeBase64(basicAuthString.getBytes()));
@@ -77,14 +84,22 @@ public class SessionDaoRest implements SessionDao {
             if (connection.getResponseCode() == HttpURLConnection.HTTP_CREATED) {
                 return;
             } else {
-                throw new RuntimeException(connection.getResponseCode() + "");
+                throw new MessageSourceResolvableException(new DefaultMessageSourceResolvable(
+                    new String[]{"SessionCreationRefused.SessionDaoRest.guardar"}, 
+                    new String[]{connection.getResponseCode() + ""}, 
+                    ""));
             }
         } catch (MalformedURLException e) {
-            //TODO definir una excepcion
             throw new RuntimeException(e);
         } catch (IOException e) {
-            //TODO definir una excepcion
-            throw new RuntimeException(e);
+            if (intento <= maxRetry) {
+                this.guardar(objeto, intento + 1);
+            } else {
+                throw new MessageSourceResolvableException(new DefaultMessageSourceResolvable(
+                    new String[]{"SessionCreationError.SessionDaoRest.guardar"}, 
+                    new String[]{e.getMessage()}, 
+                    ""));
+            }
         }
     }
 
