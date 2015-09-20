@@ -26,11 +26,19 @@ import technology.tikal.taller.automotriz.model.servicio.moneda.Moneda;
 public class PagoCobranza {
     private Date fecha;
     private String responsable;
+    private boolean facturado;
+    private String numeroFactura;
+    private String tipo;
+    private String otroTipo;
     private String detalle;
     private Moneda monto;
     public PagoCobranza() {
         fecha = new Date();
         responsable = "";
+        facturado = false;
+        numeroFactura = "";
+        tipo = "Efectivo";
+        otroTipo = "";
         detalle = "";
         monto = new Moneda();
     }
@@ -64,5 +72,29 @@ public class PagoCobranza {
 
     public void setMonto(Moneda monto) {
         this.monto = monto;
+    }
+    public boolean isFacturado() {
+        return facturado;
+    }
+    public void setFacturado(boolean facturado) {
+        this.facturado = facturado;
+    }
+    public String getNumeroFactura() {
+        return numeroFactura;
+    }
+    public void setNumeroFactura(String numeroFactura) {
+        this.numeroFactura = numeroFactura;
+    }
+    public String getTipo() {
+        return tipo;
+    }
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
+    }
+    public String getOtroTipo() {
+        return otroTipo;
+    }
+    public void setOtroTipo(String otroTipo) {
+        this.otroTipo = otroTipo;
     }
 }
