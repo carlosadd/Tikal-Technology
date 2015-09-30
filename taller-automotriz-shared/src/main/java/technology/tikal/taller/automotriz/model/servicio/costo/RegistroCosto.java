@@ -35,6 +35,10 @@ public class RegistroCosto {
     private Moneda precioCliente;
     private boolean subtotalConIVA;
     private Date fechaCreacion;
+    private String grupo;
+    private boolean cotizado;
+    private boolean autorizado;
+    private Moneda precioCotizado;
     
     public RegistroCosto() {
         tipo = "";
@@ -44,6 +48,10 @@ public class RegistroCosto {
         precioUnitario = new Moneda();
         precioCliente = new Moneda();
         fechaCreacion = new Date();
+        grupo = "";
+        cotizado = false;
+        autorizado = false;
+        precioCotizado = new Moneda();
     }
     
     public Long getId() {
@@ -124,6 +132,38 @@ public class RegistroCosto {
 
     public void setFechaCreacion(Date fechaCreacion) {
         this.fechaCreacion = fechaCreacion;
+    }
+
+    public String getGrupo() {
+        return grupo;
+    }
+
+    public void setGrupo(String grupo) {
+        this.grupo = grupo;
+    }
+
+    public boolean isCotizado() {
+        return cotizado;
+    }
+
+    public void setCotizado(boolean cotizado) {
+        this.cotizado = cotizado;
+    }    
+
+    public boolean isAutorizado() {
+        return autorizado;
+    }
+
+    public void setAutorizado(boolean autorizado) {
+        this.autorizado = autorizado;
+    }
+
+    public Moneda getPrecioCotizado() {
+        return precioCotizado;
+    }
+
+    public void setPrecioCotizado(Moneda precioCotizado) {
+        this.precioCotizado = precioCotizado;
     }
 
     @Override

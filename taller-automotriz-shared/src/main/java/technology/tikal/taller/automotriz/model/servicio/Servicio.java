@@ -15,6 +15,9 @@
  */
 package technology.tikal.taller.automotriz.model.servicio;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import technology.tikal.taller.automotriz.model.cobranza.DatosCobranza;
 import technology.tikal.taller.automotriz.model.servicio.auto.DatosAuto;
 import technology.tikal.taller.automotriz.model.servicio.metadata.ServicioMetadata;
@@ -34,12 +37,14 @@ public class Servicio {
     private DatosAuto datosAuto;
     private ServicioMetadata metadata;
     private DatosCobranza cobranza;
+    private List<String> gruposCosto;
     
     public Servicio() {
         descripcion = "";
         metadata = new ServicioMetadata();
         datosAuto = new DatosAuto();
         this.cobranza = new DatosCobranza();
+        this.gruposCosto = new ArrayList<>();
     }
     
     public Long getId() {
@@ -94,5 +99,20 @@ public class Servicio {
     }
     public void setCobranza(DatosCobranza cobranza) {
         this.cobranza = cobranza;
+    }
+
+    public List<String> getGruposCosto() {
+        ArrayList<String> r = new ArrayList<>();
+        for (String x: this.gruposCosto) {
+            r.add(x);
+        }
+        return r;
+    }
+
+    public void setGruposCosto(List<String> gruposCosto) {
+        this.gruposCosto = new ArrayList<>();
+        for (String x: gruposCosto) {
+            this.gruposCosto.add(x);
+        }
     }
 }
