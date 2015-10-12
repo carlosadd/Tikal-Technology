@@ -15,6 +15,7 @@
  */
 package technology.tikal.gae.http.cache;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -43,25 +44,30 @@ public abstract class AbstractCacheController<T> extends HandlerInterceptorAdapt
     
     private HttpCacheQueryService httpCacheQueryService;
     private String cacheControl;
-    private String resourceUri;
+    private String resourceUriPattern;
     private List<String> updateUriPattern;
+    private List<String> createUriPattern;
     private Map<Long, UpdatePair<T>> originalData;
+    private Map<Long, String> currentRequestUri;
     
     public AbstractCacheController() {
         originalData = new HashMap<>();
+        this.currentRequestUri = new HashMap<>();
+        this.updateUriPattern = new ArrayList<>();
+        this.createUriPattern = new ArrayList<>();
     }
     
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         boolean next = true;
         if (request.getMethod().equals("POST") || request.getMethod().equals("DELETE")) {
-            startUpdate(request, response);
+            startCreateOrUpdate(request, response);
         }
         if (request.getMethod().equals("GET") && isQueryRelated(request, response)) {
             String requestETag = request.getHeader("If-None-Match");
             if (httpCacheQueryService.validateEtag(request.getRequestURI(), requestETag)) {
                 if (AbstractCacheController.LOGGER.isInfoEnabled()) {
-                    AbstractCacheController.LOGGER.info("se pide al cliente que use el cache para el recurso:" + resourceUri);
+                    AbstractCacheController.LOGGER.info("se pide al cliente que use el cache para el recurso:" + request.getRequestURI());
                 }
                 response.setStatus(304);
                 next = false;
@@ -77,42 +83,56 @@ public abstract class AbstractCacheController<T> extends HandlerInterceptorAdapt
     public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
         long id = Thread.currentThread().getId();
         this.originalData.remove(id);
+        this.currentRequestUri.remove(id);
     }
 
     public boolean isQueryRelated(HttpServletRequest request, HttpServletResponse response) {
-        if (StringUtils.equals(resourceUri, request.getRequestURI())) {
+        String requestUri = request.getRequestURI();
+        if (requestUri != null && requestUri.matches(resourceUriPattern)) {
             return true;
         }
         return false;
     }
     
-    public void startUpdate(HttpServletRequest request, HttpServletResponse response) {
+    public void startCreateOrUpdate(HttpServletRequest request, HttpServletResponse response) {
         String requestUri = request.getRequestURI();
         for (String x: this.updateUriPattern) {
             if (requestUri.matches(x)) {
-                originalData.put(Thread.currentThread().getId(), null);
+                long id = Thread.currentThread().getId();
+                this.originalData.put(id, null);
+                this.currentRequestUri.put(id, requestUri);
+                return;
+            }
+        }
+        for (String x: this.createUriPattern) {
+            if (requestUri.matches(x)) {
+                long id = Thread.currentThread().getId();
+                this.currentRequestUri.put(id, requestUri);
                 return;
             }
         }
     }
     
     public void manageCreate() {
+        long id = Thread.currentThread().getId();
+        String uri = getResourseUri(this.currentRequestUri.get(id), CacheAction.CREATE);
         if (AbstractCacheController.LOGGER.isInfoEnabled()) {
-            AbstractCacheController.LOGGER.info("actualizando el etag:" + resourceUri);
+            AbstractCacheController.LOGGER.info("actualizando el etag:" + uri);
         }
-        httpCacheQueryService.updateUriEtagEntry(resourceUri);
+        httpCacheQueryService.updateUriEtagEntry(uri);
     }
-    
+
     public void manageUpdate() {
         long id = Thread.currentThread().getId();
         if (this.originalData.containsKey(id)) {
             try {
                 UpdatePair<T> pair = this.originalData.get(id);
                 if (haveChanges(pair)) {
+                    String uri = getResourseUri(this.currentRequestUri.get(id), CacheAction.UPDATE);
                     if (AbstractCacheController.LOGGER.isInfoEnabled()) {
-                        AbstractCacheController.LOGGER.info("actualizando el etag:" + resourceUri);
+                        AbstractCacheController.LOGGER.info("actualizando el etag:" + uri);
                     }
-                    httpCacheQueryService.updateUriEtagEntry(resourceUri);
+                    httpCacheQueryService.updateUriEtagEntry(uri);
                 }
             } catch (IllegalArgumentException e) {
                 AbstractCacheController.LOGGER.warn("cambio el id de la entidad:" + e.getMessage());
@@ -120,6 +140,15 @@ public abstract class AbstractCacheController<T> extends HandlerInterceptorAdapt
         }
     }
     
+    public void manageDelete() {
+        long id = Thread.currentThread().getId();
+        String uri = getResourseUri(this.currentRequestUri.get(id), CacheAction.DELETE);
+        if (AbstractCacheController.LOGGER.isInfoEnabled()) {
+            AbstractCacheController.LOGGER.info("actualizando el etag:" + uri);
+        }
+        httpCacheQueryService.updateUriEtagEntry(uri);
+    }
+
     /**
      * Busca si hay cambios en el objeto que indiquen que se tiene que refrescar el etag
      * @param pair el par del objeto original y el actualizado
@@ -156,6 +185,12 @@ public abstract class AbstractCacheController<T> extends HandlerInterceptorAdapt
         }
     }
     
+    public String getResourseUri(String currentUri, CacheAction action) {
+        if (action == CacheAction.UPDATE || action == CacheAction.DELETE) {
+            return currentUri.substring(0, StringUtils.lastIndexOf(currentUri, '/'));
+        }
+        return currentUri;
+    }
     /**
      * Indica si el objeto es del tipo donde se buscan cambios
      * @param retVal
@@ -177,12 +212,16 @@ public abstract class AbstractCacheController<T> extends HandlerInterceptorAdapt
     public void setHttpCacheQueryService(HttpCacheQueryService httpCacheQueryService) {
         this.httpCacheQueryService = httpCacheQueryService;
     }
-
-    public void setResourceUri(String resourceUri) {
-        this.resourceUri = resourceUri;
+    
+    public void setResourceUriPattern(String resourceUriPattern) {
+        this.resourceUriPattern = resourceUriPattern;
     }
 
     public void setUpdateUriPattern(List<String> updateUriPattern) {
         this.updateUriPattern = updateUriPattern;
     }
+
+    public void setCreateUriPattern(List<String> createUriPattern) {
+        this.createUriPattern = createUriPattern;
+    }    
 }
