@@ -15,10 +15,15 @@
     <bean id="customerCacheController" class="technology.tikal.customers.cache.http.CustomerCacheController">
     	<property name="httpCacheQueryService" ref="httpCacheQueryService"/>
     	<property name="cacheControl" value="private, stale-if-error=259200"/>
-    	<property name="resourceUri" value="/api/customer"/>
+    	<property name="resourceUriPattern" value="/api/customer"/>
     	<property name="updateUriPattern">
     	    <list>
     	        <value>/api/customer/\p{Alnum}*</value>
+    	    </list>
+    	</property>
+    	<property name="createUriPattern">
+    	    <list>
+    	        <value>/api/customer</value>
     	    </list>
     	</property>
 	</bean>
