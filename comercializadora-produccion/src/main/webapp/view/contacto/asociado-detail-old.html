@@ -1,0 +1,136 @@
+<!--<h3><a href="#/contacto/cliente">Clientes</a>- Cliente Uno</h3>-->
+<ol class="breadcrumb">
+  <li><a href="#{{navegacion.group.link}}">{{navegacion.group.display}}</a></li>
+  <li><a href="#{{navegacion.customer.link}}">{{navegacion.customer.diplay}}</a></li>
+  <li class="active">{{modelo.name.name}}</li>
+</ol>
+<!--<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-primary" ng-click="verPuntosEntrega()"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar</button>
+</div>-->
+<div class="panel panel-primary">
+  <div class="panel-heading">
+    <h3 class="panel-title">Datos de contacto</h3>
+  </div>
+  <div class="panel-body">
+    <div class="link-edicion">
+		<a href ng-click="editarHeader()"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span> Editar</a>
+	</div>
+	<form class="form-horizontal">
+	  <div class="form-group">
+		<label for="nombre" class="col-sm-2 control-label">Nombre:</label>
+		<div class="col-sm-5">
+			<p class="form-control-static">{{modelo.name.name}}</p>
+		</div>
+	  </div>
+	</form>
+  </div>
+</div>
+<accordion>
+	<accordion-group is-open="status.direccionOpen">
+		<accordion-heading>
+			Direcci&oacute;n<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.direccionOpen, 'glyphicon-chevron-right': !status.direccionOpen}"></i>
+		</accordion-heading>
+		<div class="btn-group" role="group" aria-label="...">
+		  <button type="button" class="btn btn-success" ng-click="nuevoDetalle('MexicoAddress')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Direcci&oacute;n</button>
+		</div>
+		<table class="table table-striped">
+		<thead>
+		  <tr>
+			<th style="width:20px;">&nbsp;</th>
+			<th style="min-width: 20px;">&nbsp;</th>
+			<th style="min-width: 80px;">&nbsp;</th>
+			<th style="width:20px;">&nbsp;</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr ng-repeat="(key, address) in modelo.primaryContact.address">
+			<td>
+				<a href ng-click="editarDetalle('MexicoAddress', key)" aria-label="Left Align">
+					<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+				</a>
+			</td>
+			<td>{{address.tag}}</td>
+			<td><a href="https://maps.google.com/?q={{getFullAddress(address)}}" target="_blank">
+				<span class="glyphicon glyphicon-map-marker" aria-hidden="true"></span> {{getFullAddress(address)}}
+			</a></td>
+			<td>
+				<a href ng-click="borrarDetalle('MexicoAddress', key)" aria-label="Left Align">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+				</a>
+			</td>
+		  </tr>
+		</tbody>
+		</table>
+	</accordion-group>
+	<accordion-group is-open="status.telefonoOpen">
+		<accordion-heading>
+			Telefono<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': telefonoOpen.open, 'glyphicon-chevron-right': !telefonoOpen.open}"></i>
+		</accordion-heading>
+		<div class="btn-group" role="group" aria-label="...">
+		  <button type="button" class="btn btn-success" ng-click="nuevoDetalle('MexicoPhoneNumber')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Telefono</button>
+		</div>
+		<table class="table table-striped">
+		<thead>
+		  <tr>
+			<th style="width:20px;">&nbsp;</th>
+			<th style="min-width: 20px;">&nbsp;</th>
+			<th style="min-width: 20px;">&nbsp;</th>
+			<th style="width:20px;">&nbsp;</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr ng-repeat="(key, telefono) in modelo.primaryContact.phoneNumber">
+			<td>
+				<a href ng-click="editarDetalle('MexicoPhoneNumber', key)" aria-label="Left Align">
+					<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+				</a>
+			</td>
+			<td>{{ telefono.etiqueta }}</td>
+			<td><a href="tel:{{telefono.telefono}}">{{telefono.telefono}}</a></td>
+			<td>
+				<a href ng-click="borrarDetalle('MexicoPhoneNumber', key)" aria-label="Left Align">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+				</a>
+			</td>
+		  </tr>
+		</tbody>
+		</table>
+	</accordion-group>
+	<accordion-group is-open="status.emailOpen">
+		<accordion-heading>
+			Direcci&oacute;n Electronica<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': emailOpen.open, 'glyphicon-chevron-right': !emailOpen.open}"></i>
+		</accordion-heading>
+		<div class="btn-group" role="group" aria-label="...">
+		  <button type="button" class="btn btn-success" ng-click="nuevoDetalle('Email')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Email</button>
+		  <button type="button" class="btn btn-success" ng-click="nuevoDetalle('SocialNetwork')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Pagina</button>
+		</div>
+		<table class="table table-striped">
+		<thead>
+		  <tr>
+			<th style="width:20px;">&nbsp;</th>
+			<th style="min-width: 20px;">&nbsp;</th>
+			<th style="min-width: 80px;">&nbsp;</th>
+			<th style="width:20px;">&nbsp;</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr ng-repeat="(key, mediaContact) in modelo.primaryContact.mediaContact">
+			<td>
+				<a href ng-click="editarDetalle(mediaContact.type, key)" aria-label="Left Align">
+					<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+				</a>
+			</td>
+			<td ng-if="mediaContact.type =='Email'">{{mediaContact.etiqueta}}</td>
+			<td ng-if="mediaContact.type =='Email'"><a href="mailto:{{mediaContact.rawEmail}}">{{mediaContact.rawEmail}}</a></td>
+			<td ng-if="mediaContact.type =='SocialNetwork'">{{mediaContact.network}}</td>
+			<td ng-if="mediaContact.type =='SocialNetwork'"><a href="{{mediaContact.networkUrl}}">{{mediaContact.networkUrl}}</a></td>
+			<td>
+				<a href ng-click="borrarDetalle(mediaContact.type, key)" aria-label="Left Align">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+				</a>
+			</td>
+		  </tr>
+		</tbody>
+		</table>
+	</accordion-group>
+</accordion>

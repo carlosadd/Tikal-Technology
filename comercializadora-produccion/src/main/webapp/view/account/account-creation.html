@@ -1,0 +1,50 @@
+<br>
+<div class="container">
+    <form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
+		<div class="form-group">
+            <label class="col-sm-2 control-label" for="user">Usuario:</label>
+            <div class="col-sm-4" ng-class="{'has-error': form.user.$invalid}">
+                <input class="form-control" type="text" name="user" required minlength="8" pattern="[a-zA-Z0-9]*" ng-model="model.user" placeholder="El nombre de la cuenta"/>
+            </div>
+			<div style="color:red" ng-show="form.$submitted || form.user.$touched">
+				<div ng-show="form.user.$error.required">Campo Obligatorio</div>
+				<div ng-show="form.user.$error.pattern">Solo caracteres sin espacios</div>
+				<div ng-show="!form.user.$error.pattern && form.user.$error.minlength">8 caracteres minimo</div>
+			</div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-2 control-label" for="password">Contrase&ntilde;a:</label>
+            <div class="col-sm-4" ng-class="{'has-error': form.password.$invalid}">
+                <input class="form-control" type="password" name="password" required minlength="8" ng-model="model.password.value" placeholder="Contrase&ntilde;a"/>
+            </div>
+			<div style="color:red" ng-show="form.$submitted || form.password.$touched">
+				<div ng-show="form.password.$error.required">Campo Obligatorio</div>
+				<div ng-show="form.password.$error.minlength">8 caracteres minimo</div>
+			</div>
+        </div>
+		<div class="form-group">
+            <label class="col-sm-2 control-label" for="confirmPassword">Confirma Contrase&ntilde;a:</label>
+            <div class="col-sm-4" ng-class="{'has-error': form.confirmPassword.$invalid}">
+                <input class="form-control" type="password" name="confirmPassword" iguales="model.password.value" ng-model="validacion.confirmPassword" placeholder="Confirma Contrase&ntilde;a"/>
+            </div>
+			<div style="color:red" ng-show="true">
+				<div ng-show="form.confirmPassword.$error.iguales">La contrase&ntilde;a no coincide</div>
+			</div>
+        </div>
+		<div class="form-group">
+            <label class="col-sm-2 control-label" for="role">Tipo de usuario:</label>
+			<div class="col-sm-4">
+				<select class="form-control" name="tipo" ng-model="model.role.value" placeholder="Tipo de usuario">
+					<option></option>
+					<option ng-repeat="role in roles.items">{{ role.value }}</option>
+				</select>
+			</div>
+		</div>
+        <div class="form-group">
+			<div class="col-md-6 text-right">
+				<button class="btn btn-default" type="button" ng-click="cancel()">Cancelar</button>
+				<button type="submit" class="btn btn-primary" type="button" ng-disabled="form.$invalid" ladda="actionLoading" data-style="expand-left">Guardar</button>
+			</div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,27 @@
+<contacto-navegacion></contacto-navegacion>
+<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-success" ng-click="nuevoCatalogo()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Nuevo Catalogo</button>
+</div>
+<table class="table table-striped">
+<thead>
+  <tr>
+	<th style="min-width: 20px;">Nombre Catalogo</th>
+	<th style="width:20px;">&nbsp;</th>
+  </tr>
+</thead>
+<tbody>
+  <tr ng-repeat="catalogo in catalogos.items">
+	<td>
+		<a href ng-click="verCatalogo(catalogo.id)" aria-label="Left Align">
+			<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+			<span class="espacio-tab">{{ catalogo.nombre }}</span>
+		</a>
+	</td>
+	<td>
+		<a href ng-click="borrarCatalogo(catalogo.id)" aria-label="Left Align">
+			<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+		</a>
+	</td>
+  </tr>
+</tbody>
+</table>

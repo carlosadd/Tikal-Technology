@@ -1,0 +1,29 @@
+<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-success" ng-click="nuevaCuenta()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Cuenta</button>
+</div>
+<table class="table table-striped">
+<thead>
+  <tr>
+	<th style="width:20px;">&nbsp;</th>
+	<th style="min-width: 40px;">Usuario</th>
+	<th class="hidden-xs hidden-sm" style="min-width: 40px;">Nombre</th>
+	<th class="hidden-xs hidden-sm" style="min-width: 40px;">Email</th>
+	<th style="min-width: 40px;">Tipo</th>
+	<th style="min-width: 40px;">Status</th>
+  </tr>
+</thead>
+<tbody>
+  <tr ng-repeat="account in accounts.items">
+	<td>
+		<a href ng-click="verDetalle(account.user)" aria-label="Left Align">
+			<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+		</a>
+	</td>
+	<td>{{ account.user }}</td>
+	<td class="hidden-xs hidden-sm">{{ account.personalInfo.name }}</td>
+	<td class="hidden-xs hidden-sm">{{ account.personalInfo.email }}</td>
+	<td>{{ account.role.value }}</td>
+	<td>{{ account.status.blocked | AccountStatusFilter }}</td>
+  </tr>
+</tbody>
+</table>

@@ -1,0 +1,23 @@
+<div class="modal-header">
+	<h3 class="modal-title">Nuevo Contacto</h3>
+</div>
+<div class="modal-body">
+	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+	<form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
+		<div class="form-group">
+			<label for="name" class="col-sm-3 control-label">Nombre:</label>
+			<div class="col-sm-9" ng-class="{'has-error': form.name.$invalid}">
+				<input class="form-control" type="text" name="name" ng-model="modelo.name.name" placeholder="El nombre del nuevo contacto"
+					pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="83" required
+					popover-placement="top" popover="{{form.name.$invalid ? 'Campo obligatorio. Use solo caracteres, números y signos de puntuación' : ''}}" 
+					popover-toggle="form.name.$invalid && focus " ng-focus="focus=true" ng-blur="focus=false"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12 text-right">
+				<button class="btn btn-default" type="button" ng-click="close()">Cancelar</button>
+				<button type="submit" class="btn btn-primary" type="button" ng-disabled="form.$invalid || form.$pristine" ladda="actionLoading" data-style="expand-left">Guardar</button>
+			</div>
+		</div>
+	</form>
+</div>

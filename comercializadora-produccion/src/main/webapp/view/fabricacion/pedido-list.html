@@ -1,0 +1,18 @@
+<contacto-navegacion></contacto-navegacion>
+<table class="table table-striped">
+<thead>
+  <tr>
+	<th style="min-width: 20px;">&nbsp;</th>
+  </tr>
+</thead>
+<tbody>
+  <tr ng-repeat="pedido in pedidos.items">
+	<td>
+		<a href ng-click="verPedido(pedido.id)" aria-label="Left Align">
+			<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+			<span class="espacio-tab">{{ pedido.nombre }}</span>
+		</a>
+	</td>
+  </tr>
+</tbody>
+</table>

@@ -1,0 +1,36 @@
+<tabset>
+	<tab heading="Puntos Entrega">
+		</br>
+		<div class="btn-group" role="group" aria-label="...">
+		  <button type="button" class="btn btn-success" ng-click="nuevoSubPedido('SubPedidoIntermediario')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Punto Entrega</button>
+		</div>
+		<table class="table table-striped">
+		<thead>
+		  <tr>
+			<th style="min-width: 20px;">&nbsp;</th>
+			<th style="min-width: 20px;">&nbsp;</th>
+			<th style="width:20px;">&nbsp;</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr ng-repeat="subPedido in subPedidos.items">
+			<td>
+				<a href ng-click="verSubPedido(subPedido.id)" aria-label="Left Align">
+					<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					<span class="espacio-tab">{{subPedido.puntoEntrega.nombreCorto}}</span>
+				</a>
+			</td>
+			<td>{{subPedido.puntoEntrega.nombre}}</td>
+			<td>
+				<a href ng-click="borrarSubPedido(subPedido.id)" aria-label="Left Align">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+				</a>
+			</td>
+		  </tr>
+		</tbody>
+		</table>
+	</tab>
+	<tab heading="Productos">
+		<pedido-producto-list></pedido-producto-list>
+	</tab>
+</tabset>

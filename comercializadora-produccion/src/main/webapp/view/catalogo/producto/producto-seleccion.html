@@ -1,0 +1,30 @@
+<form name="form" class="form-horizontal" ng-submit="seleccionarProducto()" novalidate>
+	<div class="row">
+		<div class="col-sm-10">
+			<input class="form-control" type="text" autocomplete="off"  ng-model="catalogoSeleccionado" placeholder="Catalogo"  
+				typeahead="catalogo as catalogo.nombre for catalogo in catalogos | filter:{nombre:$viewValue}" />
+		</div>
+	</div>
+	<div class="row top-buffer">
+		<div class="col-sm-10">
+			<input class="form-control" type="text" autocomplete="off"  ng-model="productoSeleccionado" placeholder="Producto"  
+				typeahead="producto as producto.display for producto in productos | filter:{display:$viewValue} | limitTo:10"
+				ng-disabled="!catalogoSeleccionado.id"/>
+		</div>
+	</div>
+	<div class="row top-buffer">
+		<div class="col-sm-10">
+			<input id="tallaSelector" class="form-control" type="text" autocomplete="off"  ng-model="subProductoSeleccionado" placeholder="Talla"  
+				typeahead="subProducto as subProducto.talla for subProducto in subProductos | filter:{talla:$viewValue} | limitTo:10"
+				ng-disabled="productoSeleccionado.type != 'LineaProductosPorTalla'"/>
+		<div>
+	</div>
+	<div class="row top-buffer">
+		<div class="col-sm-10">
+			<button type="submit" class="btn btn-success"
+				ng-disabled="!catalogoSeleccionado.id || !productoSeleccionado.id || (productoSeleccionado.type == 'LineaProductosPorTalla' && !subProductoSeleccionado.id)")>
+				<span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{seleccionProductoActionName}}
+			</button>
+		</div>
+	</div>
+</form>

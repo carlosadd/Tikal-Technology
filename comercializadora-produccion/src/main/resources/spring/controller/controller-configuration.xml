@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd">
+    
+    <bean id="pedidoController" class="technology.tikal.ventas.controller.pedido.impl.PedidoControllerImp">
+        <property name="pedidoDao" ref="pedidoDao"/>
+    </bean>
+    <bean id="pedidoRaizController" class="technology.tikal.ventas.controller.pedido.impl.PedidoRaizControllerImp">
+        <property name="pedidoDao" ref="pedidoDao"/>
+        <property name="subPedidoController" ref="subPedidoController"/>
+        <property name="partidaController" ref="partidaController"/>
+    </bean>
+    <bean id="subPedidoController" class="technology.tikal.ventas.controller.pedido.impl.SubPedidoControllerImp">
+        <property name="pedidoRaizController" ref="pedidoRaizController"/>
+        <property name="partidaController" ref="partidaController"/>
+        <property name="pedidoDao" ref="pedidoDao"/>
+    </bean>
+    <bean id="partidaController" class="technology.tikal.ventas.controller.pedido.impl.PartidaControllerImp">
+        <property name="pedidoController" ref="pedidoController"/>
+        <property name="productoController" ref="productoController"/>
+        <property name="pedimentoController" ref="pedimentoController"/>
+        <property name="partidaDao" ref="partidaDao"/>
+    </bean>
+    <bean id="pedimentoController" class="technology.tikal.ventas.controller.pedimento.imp.PedimentoControllerImp">
+        <property name="pedidoController" ref="pedidoController"/>
+        <property name="productoController" ref="productoController"/>
+        <property name="pedimentoDao" ref="pedimentoDao"/>
+    </bean>
+    <bean id="catalogoController" class="technology.tikal.ventas.controller.producto.imp.CatalogoControllerImp">
+        <property name="dao" ref="catalogoProductoDao"/>
+        <property name="lineaProductoController" ref="lineaProductoController"/>
+        <property name="productoController" ref="productoController"/>
+    </bean>
+    <bean id="lineaProductoController" class="technology.tikal.ventas.controller.producto.imp.LineaProductoControllerImp">
+        <property name="dao" ref="lineaDeProductoDao"/>
+        <property name="catalogoController" ref="catalogoController"/>
+        <property name="productoDeLineaController" ref="productoDeLineaController"/>
+    </bean>
+    <bean id="productoController" class="technology.tikal.ventas.controller.producto.imp.ProductoControllerImp">
+        <property name="dao" ref="productoDao"/>
+        <property name="catalogoController" ref="catalogoController"/>
+    </bean>
+    <bean id="productoDeLineaController" class="technology.tikal.ventas.controller.producto.imp.ProductoDeLineaControllerImp">
+        <property name="dao" ref="productoDeLineaDao"/>
+        <property name="catalogoController" ref="catalogoController"/>
+        <property name="lineaProductoController" ref="lineaProductoController"/>
+    </bean>
+</beans>

@@ -1,0 +1,29 @@
+<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-success" ng-click="nuevoProducto()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Producto</button>
+  <button type="button" class="btn btn-success" ng-click="nuevaLineaDeProducto()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Producto con tallas</button>
+</div>
+<table class="table table-striped">
+<thead>
+  <tr>
+	<th style="min-width: 20px;">&nbsp;</th>
+	<th style="min-width: 20px;">&nbsp;</th>
+	<th style="width:20px;">&nbsp;</th>
+  </tr>
+</thead>
+<tbody>
+  <tr ng-repeat="(key, producto) in productos">
+	<td>
+		<a href ng-click="verProducto(producto.id, producto.type)" aria-label="Left Align">
+			<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+			<span class="espacio-tab">{{ producto.datosGenerales.nombre }} - {{ producto.datosGenerales.descripcion }}</span>
+		</a>
+	</td>
+	<td>{{ producto.datosGenerales.unidadMedida }}</td>
+	<td>
+		<a href ng-click="borrarProducto(producto.id, producto.type, key)" aria-label="Left Align">
+			<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+		</a>
+	</td>
+  </tr>
+</tbody>
+</table>

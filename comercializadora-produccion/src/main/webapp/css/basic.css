@@ -1,0 +1,42 @@
+body {
+  padding-top: 60px;
+  overflow-y: scroll;
+}
+.starter-template {
+  padding: 40px 15px;
+  text-align:center;
+}
+textarea {
+    resize: none;
+}
+.celdaNumerica {
+	text-align:right;
+}
+.link-edicion {
+	text-align:right;
+}
+.headerCeldaNumerica {
+	text-align:center;
+	width:90px;
+}
+.modal-backdrop {
+	bottom:0;
+}
+.accordion-body.in.collapse{
+    width:90%;
+}
+.accordion-body.in.collapse{
+    width:90%;
+}
+.top-buffer { 
+	margin-top:10px; 
+}
+.espacio-tab{
+	padding-left: 15px !important;
+}
+.sub-renglon{
+	padding-left: 30px !important;
+}
+.icono-herramienta{
+	text-align:center;
+}

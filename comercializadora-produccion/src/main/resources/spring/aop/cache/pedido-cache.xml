@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+     
+    <!-- HTTP cache -->
+    <!-- pedido -->
+    <bean id="PedidoRaizCacheController" class="technology.tikal.ventas.controller.pedido.cache.http.PedidoRaizCacheController">
+    	<property name="httpCacheQueryService" ref="httpCacheQueryService"/>
+    	<property name="cacheControl" value="private, stale-if-error=259200"/>
+    	<property name="resourceUriPattern" value="/api/pedido/raiz"/>
+    	<property name="updateUriPattern">
+    	    <list>
+    	        <value>/api/pedido/raiz/\p{Alnum}*</value>
+    	    </list>
+    	</property>
+    	<property name="createUriPattern">
+    	    <list>
+    	        <value>/api/pedido/raiz</value>
+    	    </list>
+    	</property>
+	</bean>
+	<aop:config>
+		<aop:aspect ref="PedidoRaizCacheController">
+		    <aop:pointcut id="createPedidoRaiz" 
+        	    expression="execution(* technology.tikal.ventas.controller.pedido.PedidoRaizController.crear(..))"/>
+		    <aop:pointcut id="deletePedidoRaiz" 
+        	    expression="execution(* technology.tikal.ventas.controller.pedido.PedidoRaizController.borrar(..))"/>
+		    <aop:pointcut id="consultarPedidoRaiz" 
+        	    expression="execution(* technology.tikal.ventas.dao.pedido.PedidoDao.consultar(..))"/>
+		    <aop:pointcut id="guardarPedidoRaiz" 
+        	    expression="execution(* technology.tikal.ventas.dao.pedido.PedidoDao.guardar(..))"/>
+		    <aop:after-returning pointcut-ref="createPedidoRaiz" method="manageCreate"/>
+		    <aop:after-returning pointcut-ref="deletePedidoRaiz" method="manageDelete"/>
+		    <aop:after-returning pointcut-ref="consultarPedidoRaiz" method="listenToBusqueda" returning="retVal"/>
+		    <aop:after-returning pointcut-ref="guardarPedidoRaiz" method="manageUpdate"/>
+		</aop:aspect>    
+	</aop:config>
+	
+	<!-- subPedido -->
+    <bean id="SubPedidoCacheController" class="technology.tikal.ventas.controller.pedido.cache.http.SubPedidoCacheController">
+    	<property name="httpCacheQueryService" ref="httpCacheQueryService"/>
+    	<property name="cacheControl" value="private, stale-if-error=259200"/>
+    	<property name="resourceUriPattern" value="/api/pedido/raiz/\p{Alnum}*/subPedido"/>
+    	<property name="updateUriPattern">
+    	    <list>
+    	        <value>/api/pedido/raiz/\p{Alnum}*/subPedido/\p{Alnum}*</value>
+    	    </list>
+    	</property>
+    	<property name="createUriPattern">
+    	    <list>
+    	        <value>/api/pedido/raiz/\p{Alnum}*/subPedido</value>
+    	    </list>
+    	</property>
+	</bean>
+	<aop:config>
+		<aop:aspect ref="SubPedidoCacheController">
+		    <aop:pointcut id="createSubPedido" 
+        	    expression="execution(* technology.tikal.ventas.controller.pedido.SubPedidoController.crear(..))"/>
+		    <aop:pointcut id="deleteSubPedido" 
+        	    expression="execution(* technology.tikal.ventas.controller.pedido.SubPedidoController.borrar(..))"/>
+		    <aop:pointcut id="consultarSubPedido" 
+        	    expression="execution(* technology.tikal.ventas.dao.pedido.PedidoDao.consultar(..))"/>
+		    <aop:pointcut id="guardarSubPedido" 
+        	    expression="execution(* technology.tikal.ventas.dao.pedido.PedidoDao.guardar(..))"/>
+		    <aop:after-returning pointcut-ref="createSubPedido" method="manageCreate"/>
+		    <aop:after-returning pointcut-ref="deleteSubPedido" method="manageDelete"/>
+		    <aop:after-returning pointcut-ref="consultarSubPedido" method="listenToBusqueda" returning="retVal"/>
+		    <aop:after-returning pointcut-ref="guardarSubPedido" method="manageUpdate"/>
+		</aop:aspect>    
+	</aop:config>
+	
+	<!-- partida -->
+    <bean id="PartidaCacheController" class="technology.tikal.ventas.controller.pedido.cache.http.PartidaCacheController">
+    	<property name="httpCacheQueryService" ref="httpCacheQueryService"/>
+    	<property name="cacheControl" value="private, stale-if-error=259200"/>
+    	<property name="resourceUriPattern" value="/api/pedido/\p{Alnum}*/partida"/>
+    	<property name="updateUriPattern">
+    	    <list>
+    	        <value>/api/pedido/\p{Alnum}*/partida/\p{Alnum}*</value>
+    	    </list>
+    	</property>
+    	<property name="createUriPattern">
+    	    <list>
+    	        <value>/api/pedido/\p{Alnum}*/partida</value>
+    	    </list>
+    	</property>
+	</bean>
+	<aop:config>
+		<aop:aspect ref="PartidaCacheController">
+		    <aop:pointcut id="createPartida" 
+        	    expression="execution(* technology.tikal.ventas.controller.pedido.PartidaController.crear(..))"/>
+		    <aop:pointcut id="deletePartida" 
+        	    expression="execution(* technology.tikal.ventas.controller.pedido.PartidaController.borrar(..))"/>
+		    <aop:pointcut id="consultarPartida" 
+        	    expression="execution(* technology.tikal.ventas.dao.pedido.PartidaDao.consultar(..))"/>
+		    <aop:pointcut id="guardarPartida" 
+        	    expression="execution(* technology.tikal.ventas.dao.pedido.PartidaDao.guardar(..))"/>
+		    <aop:after-returning pointcut-ref="createPartida" method="manageCreate"/>
+		    <aop:after-returning pointcut-ref="deletePartida" method="manageDelete"/>
+		    <aop:after-returning pointcut-ref="consultarPartida" method="listenToBusqueda" returning="retVal"/>
+		    <aop:after-returning pointcut-ref="guardarPartida" method="manageUpdate"/>
+		</aop:aspect>    
+	</aop:config>
+</beans>

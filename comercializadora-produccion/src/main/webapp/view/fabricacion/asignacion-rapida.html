@@ -1,0 +1,42 @@
+<div class="modal-header">
+	<h3 class="modal-title">Asignación de Fabricación</h3>
+</div>
+<div class="modal-body">
+	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+	<form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
+		<div class="form-group" ng-if="dynamic != null">
+			<label for="contacto" class="col-sm-2 control-label">Asignando:</label>
+			<div class="col-sm-10">
+				<progressbar value="dynamic"><b>{{dynamic}}%</b></progressbar>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="contacto" class="col-sm-2 control-label">Proveedor:</label>
+			<div class="col-sm-10" ng-class="{'has-error': (form.contacto.$invalid || !modelo.proveedor.id)}">
+				<input ng-controller="tikal.modules.Contacto.select.proveedor" 
+					class="form-control" type="text" name="contacto" autocomplete="off" ng-model="modelo.proveedor" placeholder="Proveedor" 
+					required
+					popover-placement="top" popover="{{(form.cantidad.$invalid || !modelo.proveedor.id) ? 'Seleccione un proveedor' : ''}}" 
+					popover-toggle="(form.contacto.$invalid || !modelo.proveedor.id) && focusContacto" ng-focus="focusContacto=true" ng-blur="focusContacto=false"
+					typeahead="contacto as contacto.name.name for contacto in contactos | filter:{name:{name:$viewValue}} | limitTo:10"
+					ng-disabled="actionLoading"/>
+			</div>
+		</div>
+		<div class="form-group" ng-if="modelo.partidaType == 'PartidaIntermediario'">
+			<label for="cantidad" class="col-sm-2 control-label">Cantidad:</label>
+			<div class="col-sm-10" ng-class="{'has-error': form.cantidad.$invalid}">
+				<input class="form-control" type="number" name="cantidad" ng-model="modelo.cantidad" placeholder="La cantidad asignada"
+					required min="0" max="{{modelo.max}}"
+					popover-placement="top" popover="{{form.cantidad.$invalid ? 'Campo obligatorio. No exceda la cantidad pedida' : ''}}" 
+					popover-toggle="form.cantidad.$invalid && focusCantidad" ng-focus="focusCantidad=true" ng-blur="focusCantidad=false"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12 text-right">
+				<button class="btn btn-default" type="button" ng-click="close()">Cancelar</button>
+				<button type="submit" class="btn btn-primary" type="button" ng-disabled="form.$invalid || form.$pristine || !modelo.proveedor.id" 
+					ladda="actionLoading" data-style="expand-left">Guardar</button>
+			</div>
+		</div>
+	</form>
+</div>

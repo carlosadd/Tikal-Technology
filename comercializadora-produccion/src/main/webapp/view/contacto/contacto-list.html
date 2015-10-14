@@ -1,0 +1,21 @@
+<contacto-navegacion></contacto-navegacion>
+<div class="btn-group" role="group" aria-label="...">
+  <button type="button" class="btn btn-success" ng-click="nuevoContacto()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{nuevoActionName}}</button>
+</div>
+<table class="table table-striped">
+<thead>
+  <tr>
+	<th style="min-width: 20px;">&nbsp;</th>
+  </tr>
+</thead>
+<tbody>
+  <tr ng-repeat="contacto in contactos.items">
+	<td>
+		<a href ng-click="verContacto(contacto.id)" aria-label="Left Align">
+			<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+			<span class="espacio-tab">{{ contacto.name.name }}</span>
+		</a>
+	</td>
+  </tr>
+</tbody>
+</table>

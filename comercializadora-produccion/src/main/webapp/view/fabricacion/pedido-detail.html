@@ -1,0 +1,18 @@
+<contacto-navegacion></contacto-navegacion>
+<ul class="nav nav-pills">
+	<li ng-if="pedido.type=='PedidoIntermediario' || pedido.type=='PedidoCompuestoIntermediario'" role="navigation">
+		<a href="#/pedido/{{currentPedidoId}}">
+			<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+			<span class="espacio-tab">Ver Pedido</span>
+		</a>
+	</li>
+	<li ng-if="pedido.type=='SubPedidoIntermediario'" role="navigation">
+		<a href="#/pedido/{{pedidoRaizId}}/subPedido/{{currentPedidoId}}">
+			<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+			<span class="espacio-tab">Ver Pedido</span>
+		</a>
+	</li>
+</ul>
+<fabricante-list ng-if="pedido.type=='PedidoIntermediario' || pedido.type=='SubPedidoIntermediario'"
+	ng-controller="tikal.modules.Fabricacion.Pedimento.consultaCtrl"></fabricante-list>
+<sub-pedido-fabricacion-list ng-if="pedido.type=='PedidoCompuestoIntermediario'" ng-controller="tikal.modules.Pedido.subpedido.PedidoListCtrl"></sub-pedido-fabricacion-list>

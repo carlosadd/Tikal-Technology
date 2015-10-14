@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="es_mx">
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9">
+    <!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
+    <title>Tolumex</title>
+
+    <!-- Bootstrap -->
+    <!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">-->
+	<link rel="stylesheet" href="css/bootstrap.min.css">
+	<link rel="stylesheet" href="css/ladda/ladda-themeless.min.css">
+	<!--<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">-->
+	<link rel="stylesheet" href="css/dialog/ngDialog.min.css">
+	<link rel="stylesheet" href="css/dialog/ngDialog-theme-default.min.css">
+	<link rel="stylesheet" href="css/font-awesome.min.css">
+	<link rel='stylesheet' href="lib/textAngular/textAngular.css">
+	<link href="css/basic.css" rel="stylesheet">
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+	
+  </head>
+  <body ng-app="tikal.modules.tolumex.Navigation" ng-controller="tikal.modules.Message.ReportCtrl">
+	<div ng-controller="tikal.modules.Account.LoginCtrl">
+		<application-menu ng-controller="MenuCtrl" ng-if="miSesion.logged"></application-menu>
+		<div class="container">
+			<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+		</div>
+		<account-login ng-if="!miSesion.logged"></account-login>
+		<div class="container" ng-view="" ng-if="miSesion.logged">
+		</div>
+		<div class="container">
+			<footer>
+				<p>&copy; Tolumex 2015</p>
+			</footer>
+		</div>
+		<!-- jQuery (necessary for Bootstrap's JavaScript plugins) 
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.3/jquery.min.js"></script>-->
+		<!-- Include all compiled plugins (below), or include individual files as needed 
+		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.js"></script>-->
+		<script src="lib/angular.js"></script>
+		<script src="lib/ui-bootstrap-tpls-0.13.3.min.js"></script>
+		<script src="lib/ladda/spin.min.js"></script>
+		<script src="lib/ladda/ladda.min.js"></script>
+		<script src="lib/angular-ladda/angular-ladda.min.js"></script>
+		<script src="lib/dialog/ngDialog.min.js"></script>
+		<script src="lib/angular-locale_es-mx.js"></script>
+		<script src="lib/angular-resource.js"></script>
+		<script src="lib/angular-route.js"></script>
+		<script src="lib/xregexp/xregexp-all.js"></script>
+		<script src="lib/popover-toggle.js"></script>
+		<script src="lib/textAngular/textAngular-rangy.min.js"></script>
+		<script src="lib/textAngular/textAngular-sanitize.min.js"></script>
+		<script src="lib/textAngular/textAngular.min.js"></script>
+		<script src="app/message-module.js"></script>
+		<script src="app/navigation-module.js"></script>
+		<script src="app/account-module.js"></script>
+		<script src="app/menu-controller.js"></script>
+		<script src="app/pedido-module.js"></script>
+		<script src="app/fabricacion-module.js"></script>
+		<script src="app/contacto-module.js"></script>
+		<script src="app/catalogo-module.js"></script>
+	</div>
+  </body>
+</html>

@@ -1,0 +1,146 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+     
+    <!-- HTTP cache -->
+    <!-- catalogos -->
+    <bean id="CatalogoCacheController" class="technology.tikal.ventas.controller.producto.cache.http.CatalogoCacheController">
+    	<property name="httpCacheQueryService" ref="httpCacheQueryService"/>
+    	<property name="cacheControl" value="private, stale-if-error=259200"/>
+    	<property name="resourceUriPattern" value="/api/catalogo/producto"/>
+    	<property name="updateUriPattern">
+    	    <list>
+    	        <value>/api/catalogo/producto/\p{Alnum}*</value>
+    	    </list>
+    	</property>
+    	<property name="createUriPattern">
+    	    <list>
+    	        <value>/api/catalogo/producto</value>
+    	    </list>
+    	</property>
+	</bean>
+	<aop:config>
+		<aop:aspect ref="CatalogoCacheController">
+		    <aop:pointcut id="createCatalogo" 
+        	    expression="execution(* technology.tikal.ventas.controller.producto.CatalogoController.crear(..))"/>
+		    <aop:pointcut id="deleteCatalogo" 
+        	    expression="execution(* technology.tikal.ventas.controller.producto.CatalogoController.borrar(..))"/>
+		    <aop:pointcut id="consultarCatalogo" 
+        	    expression="execution(* technology.tikal.ventas.dao.producto.CatalogoProductoDao.consultar(..))"/>
+		    <aop:pointcut id="guardarCatalogo" 
+        	    expression="execution(* technology.tikal.ventas.dao.producto.CatalogoProductoDao.guardar(..))"/>
+		    <aop:after-returning pointcut-ref="createCatalogo" method="manageCreate"/>
+		    <aop:after-returning pointcut-ref="deleteCatalogo" method="manageDelete"/>
+		    <aop:after-returning pointcut-ref="consultarCatalogo" method="listenToBusqueda" returning="retVal"/>
+		    <aop:after-returning pointcut-ref="guardarCatalogo" method="manageUpdate"/>
+		</aop:aspect>    
+	</aop:config>
+	
+	<!-- productos -->
+    <bean id="ProductoIntermediarioCacheController" class="technology.tikal.ventas.controller.producto.cache.http.ProductoIntermediarioCacheController">
+    	<property name="httpCacheQueryService" ref="httpCacheQueryService"/>
+    	<property name="cacheControl" value="private, stale-if-error=259200"/>
+    	<property name="resourceUriPattern" value="/api/catalogo/producto/\p{Alnum}*/productos"/>
+    	<property name="updateUriPattern">
+    	    <list>
+    	        <value>/api/catalogo/producto/\p{Alnum}*/productos/\p{Alnum}*</value>
+    	    </list>
+    	</property>
+    	<property name="createUriPattern">
+    	    <list>
+    	        <value>/api/catalogo/producto/\p{Alnum}*/productos</value>
+    	    </list>
+    	</property>
+	</bean>
+	<aop:config>
+		<aop:aspect ref="ProductoIntermediarioCacheController">
+		    <aop:pointcut id="createProductoIntermediario" 
+        	    expression="execution(* technology.tikal.ventas.controller.producto.ProductoController.crear(..))"/>
+		    <aop:pointcut id="deleteProductoIntermediario" 
+        	    expression="execution(* technology.tikal.ventas.controller.producto.ProductoController.borrar(..))"/>
+		    <aop:pointcut id="consultarProductoIntermediario" 
+        	    expression="execution(* technology.tikal.ventas.dao.producto.ProductoDao.consultar(..))"/>
+		    <aop:pointcut id="guardarProductoIntermediario" 
+        	    expression="execution(* technology.tikal.ventas.dao.producto.ProductoDao.guardar(..))"/>
+		    <aop:after-returning pointcut-ref="createProductoIntermediario" method="manageCreate"/>
+		    <aop:after-returning pointcut-ref="deleteProductoIntermediario" method="manageDelete"/>
+		    <aop:after-returning pointcut-ref="consultarProductoIntermediario" method="listenToBusqueda" returning="retVal"/>
+		    <aop:after-returning pointcut-ref="guardarProductoIntermediario" method="manageUpdate"/>
+		</aop:aspect>    
+	</aop:config>
+	
+    <!-- linea de productos -->
+    <bean id="LineaProductosPorTallaCacheController" class="technology.tikal.ventas.controller.producto.cache.http.LineaProductosPorTallaCacheController">
+    	<property name="httpCacheQueryService" ref="httpCacheQueryService"/>
+    	<property name="cacheControl" value="private, stale-if-error=259200"/>
+    	<property name="resourceUriPattern" value="/api/catalogo/producto/\p{Alnum}*/lineaProducto"/>
+    	<property name="updateUriPattern">
+    	    <list>
+    	        <value>/api/catalogo/producto/\p{Alnum}*/lineaProducto/\p{Alnum}*</value>
+    	    </list>
+    	</property>
+    	<property name="createUriPattern">
+    	    <list>
+    	        <value>/api/catalogo/producto/\p{Alnum}*/lineaProducto</value>
+    	    </list>
+    	</property>
+	</bean>
+	<aop:config>
+		<aop:aspect ref="LineaProductosPorTallaCacheController">
+		    <aop:pointcut id="createLineaProductosPorTalla" 
+        	    expression="execution(* technology.tikal.ventas.controller.producto.LineaProductoController.crear(..))"/>
+		    <aop:pointcut id="deleteLineaProductosPorTalla" 
+        	    expression="execution(* technology.tikal.ventas.controller.producto.LineaProductoController.borrar(..))"/>
+		    <aop:pointcut id="consultarLineaProductosPorTalla" 
+        	    expression="execution(* technology.tikal.ventas.dao.producto.LineaDeProductoDao.consultar(..))"/>
+		    <aop:pointcut id="guardarLineaProductosPorTalla" 
+        	    expression="execution(* technology.tikal.ventas.dao.producto.LineaDeProductoDao.guardar(..))"/>
+		    <aop:after-returning pointcut-ref="createLineaProductosPorTalla" method="manageCreate"/>
+		    <aop:after-returning pointcut-ref="deleteLineaProductosPorTalla" method="manageDelete"/>
+		    <aop:after-returning pointcut-ref="consultarLineaProductosPorTalla" method="listenToBusqueda" returning="retVal"/>
+		    <aop:after-returning pointcut-ref="guardarLineaProductosPorTalla" method="manageUpdate"/>
+		</aop:aspect>    
+	</aop:config>
+	
+    <!-- productos de linea -->
+    <bean id="ProductoConTallaCacheController" class="technology.tikal.ventas.controller.producto.cache.http.ProductoConTallaCacheController">
+    	<property name="httpCacheQueryService" ref="httpCacheQueryService"/>
+    	<property name="cacheControl" value="private, stale-if-error=259200"/>
+    	<property name="resourceUriPattern" value="/api/catalogo/producto/\p{Alnum}*/lineaProducto/\p{Alnum}*/productos"/>
+    	<property name="updateUriPattern">
+    	    <list>
+    	        <value>/api/catalogo/producto/\p{Alnum}*/lineaProducto/\p{Alnum}*/productos/\p{Alnum}*</value>
+    	    </list>
+    	</property>
+    	<property name="createUriPattern">
+    	    <list>
+    	        <value>/api/catalogo/producto/\p{Alnum}*/lineaProducto/\p{Alnum}*/productos</value>
+    	    </list>
+    	</property>
+	</bean>
+	<aop:config>
+		<aop:aspect ref="ProductoConTallaCacheController">
+		    <aop:pointcut id="createProductoConTalla" 
+        	    expression="execution(* technology.tikal.ventas.controller.producto.ProductoDeLineaController.crear(..))"/>
+		    <aop:pointcut id="deleteProductoConTalla" 
+        	    expression="execution(* technology.tikal.ventas.controller.producto.ProductoDeLineaController.borrar(..))"/>
+		    <aop:pointcut id="consultarProductoConTalla" 
+        	    expression="execution(* technology.tikal.ventas.dao.producto.ProductoDeLineaDao.consultar(..))"/>
+		    <aop:pointcut id="guardarProductoConTalla" 
+        	    expression="execution(* technology.tikal.ventas.dao.producto.ProductoDeLineaDao.guardar(..))"/>
+		    <aop:after-returning pointcut-ref="createProductoConTalla" method="manageCreate"/>
+		    <aop:after-returning pointcut-ref="deleteProductoConTalla" method="manageDelete"/>
+		    <aop:after-returning pointcut-ref="consultarProductoConTalla" method="listenToBusqueda" returning="retVal"/>
+		    <aop:after-returning pointcut-ref="guardarProductoConTalla" method="manageUpdate"/>
+		</aop:aspect>    
+	</aop:config>
+</beans>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd">
+        
+    <bean id = "objectifyInitializer" class="technology.tikal.gae.spring.objectify.ObjectifyFactoryInitializer">
+		<property name="classes">
+    		<list>
+    		    <value>technology.tikal.ventas.model.address.ofy.MexicoAddress</value>
+    		    <value>technology.tikal.ventas.model.address.ofy.PuntoEntregaOfy</value>
+    		    <value>technology.tikal.ventas.model.pedido.ofy.PedidoOfy</value>
+    		    <value>technology.tikal.ventas.model.pedido.ofy.PedidoRaizOfy</value>
+    		    <value>technology.tikal.ventas.model.pedido.ofy.SubPedidoOfy</value>
+    		    <value>technology.tikal.ventas.model.pedido.ofy.PartidaOfy</value>
+				<value>technology.tikal.ventas.model.pedido.ofy.intermediario.PedidoIntermediario</value>
+				<value>technology.tikal.ventas.model.pedido.ofy.intermediario.PedidoCompuestoIntermediario</value>
+				<value>technology.tikal.ventas.model.pedido.ofy.intermediario.SubPedidoIntermediario</value>
+				<value>technology.tikal.ventas.model.pedido.ofy.intermediario.PartidaIntermediario</value>
+				<value>technology.tikal.ventas.model.pedimento.ofy.PedimentoOfy</value>
+				<value>technology.tikal.ventas.model.pedimento.ofy.intermediario.PedimentoIntermediario</value>
+				<value>technology.tikal.ventas.model.producto.ofy.CatalogoOfy</value>
+				<value>technology.tikal.ventas.model.producto.ofy.LineaDeProductosOfy</value>
+				<value>technology.tikal.ventas.model.producto.ofy.intermediario.LineaProductosPorTalla</value>
+				<value>technology.tikal.ventas.model.producto.ofy.AbstractProductoOfy</value>
+				<value>technology.tikal.ventas.model.producto.ofy.ProductoOfy</value>
+				<value>technology.tikal.ventas.model.producto.ofy.ProductoDeLineaOfy</value>
+				<value>technology.tikal.ventas.model.producto.ofy.intermediario.ProductoConTalla</value>
+				<value>technology.tikal.ventas.model.producto.ofy.intermediario.ProductoIntermediario</value>
+			</list>
+		</property>
+	</bean>
+	<bean id="pedidoDao" class="technology.tikal.ventas.dao.pedido.ofy.PedidoDaoOfy"/>
+	<bean id="partidaDao" class="technology.tikal.ventas.dao.pedido.ofy.PartidaDaoOfy"/>
+	<bean id="pedimentoDao" class="technology.tikal.ventas.dao.pedimento.ofy.PedimentoDaoOfy"/>
+	<bean id="catalogoProductoDao" class="technology.tikal.ventas.dao.producto.ofy.CatalogoProductoDaoOfy"/>
+	<bean id="lineaDeProductoDao" class="technology.tikal.ventas.dao.producto.ofy.LineaDeProductoDaoOfy"/>
+	<bean id="productoDao" class="technology.tikal.ventas.dao.producto.ofy.ProductoDaoOfy"/>
+	<bean id="productoDeLineaDao" class="technology.tikal.ventas.dao.producto.ofy.ProductoDeLineaDaoOfy"/>
+</beans>

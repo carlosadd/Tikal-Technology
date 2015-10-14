@@ -1,0 +1,33 @@
+<div ng-controller="tikal.modules.Contacto.detail.EditCtrl">
+	<div class="btn-group" role="group" aria-label="...">
+	  <button type="button" class="btn btn-success" ng-click="nuevoDetalle('Email')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Email</button>
+	  <button type="button" class="btn btn-success" ng-click="nuevoDetalle('SocialNetwork')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Pagina</button>
+	</div>
+	<table class="table table-striped">
+		<thead>
+		  <tr>
+			<th style="min-width: 20px;">&nbsp;</th>
+			<th style="min-width: 80px;">&nbsp;</th>
+			<th style="width:20px;">&nbsp;</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr ng-repeat="(key, mediaContact) in contacto.mediaContact">
+			<td>
+				<a href ng-click="editarDetalle(mediaContact.type, key)" aria-label="Left Align">
+					<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					<span class="espacio-tab" ng-if="mediaContact.type =='Email'">{{mediaContact.etiqueta}}</span>
+					<span class="espacio-tab" ng-if="mediaContact.type =='SocialNetwork'">{{mediaContact.network}}</span>
+				</a>
+			</td>
+			<td ng-if="mediaContact.type =='Email'"><a href="mailto:{{mediaContact.rawEmail}}">{{mediaContact.rawEmail}}</a></td>
+			<td ng-if="mediaContact.type =='SocialNetwork'"><a href="{{mediaContact.networkUrl}}">{{mediaContact.networkUrl}}</a></td>
+			<td>
+				<a href ng-click="borrarDetalle(mediaContact.type, key)" aria-label="Left Align">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+				</a>
+			</td>
+		  </tr>
+		</tbody>
+	</table>
+</div>

@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+     
+    <!-- HTTP cache -->
+    <import resource="classpath:/spring/aop/cache/productos-cache.xml"/>
+    <import resource="classpath:/spring/aop/cache/pedido-cache.xml"/>
+    <import resource="classpath:/spring/aop/cache/fabricacion-cache.xml"/>
+    
+    <!-- Transacciones -->
+	<bean id="aspectTransactionManagerOfy" class="technology.tikal.gae.spring.objectify.AspectTransactionManagerOfy"/>
+	<aop:config>
+    	<aop:aspect ref="aspectTransactionManagerOfy">
+        	<aop:pointcut id="createPartida" 
+        	    expression="execution(* technology.tikal.ventas.controller.pedido.impl.PartidaControllerImp.crear(..))"/>
+        	<aop:around pointcut-ref="createPartida" method="transact"/>
+        	<aop:pointcut id="createPedimento" 
+        	    expression="execution(* technology.tikal.ventas.controller.pedimento.imp.PedimentoControllerImp.crear(..))"/>
+        	<aop:around pointcut-ref="createPedimento" method="transact"/>
+    	</aop:aspect>
+	</aop:config>
+</beans>

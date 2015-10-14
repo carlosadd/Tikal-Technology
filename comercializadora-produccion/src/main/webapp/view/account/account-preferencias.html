@@ -1,0 +1,67 @@
+<div class="container">
+    <form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
+		<div class="form-group">
+            <label class="col-sm-2 control-label" for="name">Nombre:</label>
+            <div class="col-sm-4" ng-class="{'has-error': form.name.$invalid}">
+                <input class="form-control" type="text" name="name" ng-model="model.personalInfo.name" placeholder="El nombre de la cuenta"/>
+            </div>
+			<div style="color:red" ng-show="form.$submitted || form.name.$touched">
+				<!--<div ng-show="form.user.$error.required">Campo Obligatorio</div>-->
+			</div>
+        </div>
+		<div class="form-group">
+            <label class="col-sm-2 control-label" for="email">Correo Electronico:</label>
+            <div class="col-sm-4" ng-class="{'has-error': form.email.$invalid}">
+                <input class="form-control" type="email" name="email" ng-model="model.personalInfo.email" placeholder="Correo Electronico"/>
+            </div>
+			<div style="color:red" ng-show="form.$submitted || form.email.$touched">
+				<div ng-show="form.email.$error.email">No es un correo valido.</div>
+			</div>
+        </div>
+		<div class="form-group">
+            <label class="col-sm-2 control-label" for="password">Contrase&ntilde;a:</label>
+            <div class="col-sm-4" ng-class="{'has-error': form.password.$touched && form.password.$invalid}">
+                <input class="form-control" type="password" name="password" minlength="8" ng-model="model.password.value" placeholder="**********"/>
+            </div>
+			<div style="color:red" ng-show="form.$submitted || form.password.$touched">
+				<!--<div ng-show="form.password.$error.required">Campo Obligatorio</div>-->
+				<div ng-show="form.password.$error.minlength">8 caracteres minimo</div>
+			</div>
+        </div>
+		<div class="form-group">
+            <label class="col-sm-2 control-label" for="confirmPassword">Confirma Contrase&ntilde;a:</label>
+            <div class="col-sm-4" ng-class="{'has-error': form.confirmPassword.$invalid}">
+                <input class="form-control" type="password" name="confirmPassword" iguales="model.password.value" ng-model="validacion.confirmPassword" placeholder="Confirma Contrase&ntilde;a"/>
+            </div>
+			<div style="color:red" ng-show="true">
+				<div ng-show="form.confirmPassword.$error.iguales">La contrase&ntilde;a no coincide</div>
+			</div>
+        </div>
+        <div class="form-group">
+			<div class="col-sm-6 text-right">
+				<!--<button class="btn btn-default" type="button" ng-click="cancel()">Cancelar</button>-->
+				<button type="submit" class="btn btn-primary" type="button" ng-disabled="form.$invalid || form.$pristine || otpLoading" ladda="saveLoading" data-style="expand-left">Guardar</button>
+			</div>
+        </div>
+		<!--<div class="form-group" ng-if="otpSyncInfo">
+            <label class="col-sm-2 control-label" for="name">Sync link:</label>
+            <div class="col-sm-4">
+				<p class="form-control-static"><a href="{{otpSyncInfo.qrUrl}}" target="_blank">Sync via QR</a></p>
+			</div>
+        </div>-->
+		<div class="form-group" ng-if="otpSyncInfo">
+            <label class="col-sm-2 control-label" for="name">Qr Sync:</label>
+            <div class="col-sm-4">
+				<a href target="_blank" class="thumbnail">
+					<img ng-src="{{otpSyncInfo.qrUrl}}" alt="QrSync">
+				</a>
+			</div>
+        </div>
+		<div class="form-group" ng-if="!otp.status.registered">
+			<button class="col-sm-offset-2 col-sm-4 col-xs-12 btn btn-primary" type="button" ng-disabled="saveLoading" ng-click="activarOtp()" ladda="otpLoading" data-style="expand-left">Activar validaci&oacute;n OTP</button>
+		</div>
+		<div class="form-group" ng-if="otp.status.registered">
+			<button class="col-sm-offset-2 col-sm-4 col-xs-12 btn btn-default" type="button" ng-disabled="saveLoading" ng-click="desactivarOtp()" ladda="otpLoading" data-style="expand-left">Desactivar validaci&oacute;n OTP</button>
+		</div>
+    </form>
+</div>

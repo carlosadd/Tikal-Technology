@@ -1,0 +1,30 @@
+<div ng-controller="tikal.modules.Contacto.detail.EditCtrl">
+	<div class="btn-group" role="group" aria-label="...">
+	  <button type="button" class="btn btn-success" ng-click="nuevoDetalle('MexicoPhoneNumber')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Telefono</button>
+	</div>
+	<table class="table table-striped">
+		<thead>
+		  <tr>
+			<th style="min-width: 20px;">&nbsp;</th>
+			<th style="min-width: 20px;">&nbsp;</th>
+			<th style="width:20px;">&nbsp;</th>
+		  </tr>
+		</thead>
+		<tbody>
+		  <tr ng-repeat="(key, telefono) in contacto.phoneNumber">
+			<td>
+				<a href ng-click="editarDetalle('MexicoPhoneNumber', key)" aria-label="Left Align">
+					<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+					<span class="espacio-tab">{{ telefono.etiqueta }}</span>
+				</a>
+			</td>
+			<td><a href="tel:{{telefono.telefono}}">{{telefono.telefono}}</a></td>
+			<td>
+				<a href ng-click="borrarDetalle('MexicoPhoneNumber', key)" aria-label="Left Align">
+					<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+				</a>
+			</td>
+		  </tr>
+		</tbody>
+	</table>
+</div>

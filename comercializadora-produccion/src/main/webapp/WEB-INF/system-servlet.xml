@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:mvc="http://www.springframework.org/schema/mvc" 
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/mvc
+        http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+ 
+    <mvc:annotation-driven>
+		<mvc:message-converters register-defaults="true">
+			<bean class="org.springframework.http.converter.json.MappingJackson2HttpMessageConverter">
+				<property name="objectMapper" ref="jacksonObjectMapper"/>
+			</bean>
+    	</mvc:message-converters>
+	</mvc:annotation-driven>
+	<!-- customizacion de jackson -->
+	<bean id="jacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
+	<bean id="JacksonConfiguration" class="technology.tikal.gae.jackson.JacksonBasicConfiguration" init-method="init">
+		<property name="objectMapper" ref="jacksonObjectMapper"/>
+	</bean>
+	<!-- i18n -->
+	<bean id="messageSource" class="org.springframework.context.support.ReloadableResourceBundleMessageSource">
+    	<property name="basename" value="/WEB-INF/resources/i18n/ValidationMessages" />
+  	</bean>
+	<bean id="systemAccountService" class="technology.tikal.gae.system.service.imp.SystemAccountServiceImp">
+	    <property name="systemUserDao" ref="systemUserDao"/> 
+	    <property name="messageSource" ref="messageSource"/>
+    </bean>
+    <bean id="systemUserSessionService" class="technology.tikal.gae.system.service.imp.SystemSessionServiceImp">
+	    <property name="userSessionDao" ref="userSessionDao"/>
+	    <property name="messageSource" ref="messageSource"/>
+    </bean>
+    <bean id="SystemPedidoDataFix" class="technology.tikal.ventas.service.system.SystemPedidoDataFix">
+	    <property name="pedidoDao" ref="pedidoDao"/>
+	    <property name="partidaDao" ref="partidaDao"/>
+	    <property name="messageSource" ref="messageSource"/>
+    </bean>
+    <bean id="systemHttpCacheService" class="technology.tikal.gae.system.service.imp.SystemHttpCacheServiceImp">
+	    <property name="httpCacheQueryService" ref="httpCacheQueryService"/>
+    </bean>
+    <!-- Este bean solo debe estar cargado cuando se inicia por primera vez la aplicacion -->
+    <!-- Quitar Este bean despues de inicializar la aplicacion -->
+    <bean id="systemInitialization" class="technology.tikal.gae.system.service.imp.BasicSystemInitialization">
+	    <property name="systemUserDao" ref="systemUserDao"/> 
+	    <property name="messageSource" ref="messageSource"/>
+    </bean>
+</beans>

@@ -1,0 +1,35 @@
+<contacto-navegacion></contacto-navegacion>
+<div class="btn-group" role="group" aria-label="..." ng-if="edicion">
+  <button type="button" class="btn btn-success" ng-click="nuevoPedido('PedidoIntermediario')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Pedido</button>
+  <button type="button" class="btn btn-success" ng-click="nuevoPedido('PedidoCompuestoIntermediario')"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> Pedido Compuesto</button>
+</div>
+<table class="table table-striped">
+<thead>
+  <tr>
+	<th style="width:20px;">&nbsp;</th>
+	<th style="min-width: 20px;">&nbsp;</th>
+	<th style="width:20px;">&nbsp;</th>
+  </tr>
+</thead>
+<tbody>
+  <tr ng-repeat="pedido in pedidos.items">
+	<!--<td style="display:none;">{{ pedido.id }}</td>-->
+	<td>
+		<a href ng-click="verPedido(pedido.id)" aria-label="Left Align">
+			<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+		</a>
+	</td>
+	<td>
+		<a href ng-click="verPedido(pedido.id)" aria-label="Left Align">
+			{{pedido.nombre}}
+		</a>
+	</td>
+	<td>
+		<a href ng-click="borrarPedido(pedido.id)" aria-label="Left Align">
+			<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+		</a>
+	</td>
+	<!--<td>{{pedido.fechaDeCreacion | date:'fullDate'}} {{pedido.fechaDeCreacion | date:'mediumTime'}} {{getTime(pedido.fechaDeCreacion)}}</td>-->
+  </tr>
+</tbody>
+</table>

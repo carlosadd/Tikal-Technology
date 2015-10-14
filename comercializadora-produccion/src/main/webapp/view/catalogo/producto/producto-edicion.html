@@ -1,0 +1,42 @@
+<contacto-navegacion></contacto-navegacion>
+<form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
+	<div class="form-group">
+		<label for="nombre" class="col-sm-2 control-label">Nombre o clave:</label>
+		<div class="col-sm-10" ng-class="{'has-error': form.nombre.$invalid}">
+			<input class="form-control" type="text" name="nombre" ng-model="modelo.datosGenerales.nombre" placeholder="El nombre para identificar el producto"
+				required pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="40"
+				popover-placement="top" popover="{{form.nombre.$invalid ? 'Campo obligatorio. Use caracteres, números y signos de puntiación' : ''}}" 
+				popover-toggle="form.nombre.$invalid && focusName" ng-focus="focusName=true" ng-blur="focusName=false"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="descripcion" class="col-sm-2 control-label">Descripci&oacute;n:</label>
+		<div class="col-sm-10" ng-class="{'has-error': form.descripcion.$invalid}">
+			<input class="form-control" type="text" name="descripcion" ng-model="modelo.datosGenerales.descripcion" placeholder="Descripción corta del producto"
+				pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="100"
+				popover-placement="top" popover="{{form.descripcion.$invalid ? 'Use caracteres, números y signos de puntiación' : ''}}" 
+				popover-toggle="form.descripcion.$invalid && focusDescripcion" ng-focus="focusDescripcion=true" ng-blur="focusDescripcion=false"/>
+		</div>
+	</div>
+	<div class="form-group">
+		<label for="unidadMedida" class="col-sm-2 control-label">Unidad de medida:</label>
+		<div class="col-sm-10" ng-class="{'has-error': form.unidadMedida.$invalid}">
+			<input class="form-control" type="text" name="unidadMedida" ng-model="modelo.datosGenerales.unidadMedida" placeholder="Unidad de medida"
+				pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="40"
+				popover-placement="top" popover="{{form.unidadMedida.$invalid ? 'Use caracteres, números y signos de puntiación' : ''}}" 
+				popover-toggle="form.unidadMedida.$invalid && focusUnidadMedida" ng-focus="focusUnidadMedida=true" ng-blur="focusUnidadMedida=false"/>
+		</div>
+	</div>
+	<!--<div class="form-group">
+		<label for="fichaTecnica" class="col-sm-2 control-label">Ficha tecnica:</label>
+		<div class="col-sm-10" ng-class="{'has-error': form.fichaTecnica.$invalid}">
+			<div text-angular name="fichaTecnica" ng-model="modelo.fichaTecnica"></div>
+		</div>
+	</div>-->
+	<div class="form-group">
+		<div class="col-md-12 text-right">
+			<button class="btn btn-default" type="button" ng-click="close()">Cancelar</button>
+			<button type="submit" class="btn btn-primary" type="button" ng-disabled="form.$invalid || form.$pristine" ladda="actionLoading" data-style="expand-left">Guardar</button>
+		</div>
+	</div>
+</form>

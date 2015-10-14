@@ -1,0 +1,48 @@
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+	<div class="navbar-header">
+	  <button type="button" class="navbar-toggle collapsed" ng-click="isCollapsed = !isCollapsed">
+		<span class="sr-only">Toggle navigation</span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+		<span class="icon-bar"></span>
+	  </button>
+	  <a class="navbar-brand" href="#">Tolumex</a>
+	</div>
+	<!-- Collect the nav links, forms, and other content for toggling -->
+	<div id="navbar" class="collapse navbar-collapse" collapse="isCollapsed">
+		<ul class="nav navbar-nav">
+			<li class="{{isActiveOption('/pedido/')}}"><a href="#/pedido" ng-click="isCollapsed = true">Pedidos</a></li>
+			<li class="{{isActiveOption('/fabricacion')}}"><a href="#/fabricacion" ng-click="isCollapsed = true">Fabricaci&oacute;n</a></li>
+			<li class="{{isActiveOption('/envio')}}"><a href="#/envio" ng-click="isCollapsed = true">Entregas</a></li>
+			<li class="{{isActiveOption('/catalogo/')}}"><a href="#/catalogo" ng-click="isCollapsed = true">Catalogos</a></li>
+			<li class="dropdown {{isActiveOption('/contacto')}}" dropdown>
+				<a href id="simple-dropdown" dropdown-toggle>Contactos</a>
+				<ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+					<li class="{{isActiveOption('/contacto/cliente')}}"><a href="#/contacto/cliente" ng-click="isCollapsed = true">Clientes</a></li>
+					<li class="{{isActiveOption('/contacto/proveedor')}}"><a href="#/contacto/proveedor" ng-click="isCollapsed = true">Proveedores</a></li>
+					<li class="{{isActiveOption('/contacto/transportista')}}"><a href="#/contacto/transportista" ng-click="isCollapsed = true">Transportistas</a></li>
+				</ul>
+			</li>
+			
+		</ul>
+		<ul class="nav navbar-nav navbar-right">
+			<li class="dropdown {{isActiveOption('/my/')}}" dropdown>
+				<a href id="simple-dropdown" dropdown-toggle><span class="glyphicon glyphicon-user" aria-hidden="true"></span> {{miSesion.name}}</a>
+				<ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+					<li class="{{isActiveOption('/my/account')}}"><a href="#/my/account" ng-click="isCollapsed = true">Preferencias</a></li>
+					<li><a href ng-click="logout()">Salir</a></li>
+				</ul>
+			</li>
+			<li class="dropdown" dropdown ng-if="miSesion.role == 'administrador'">
+				<a href id="simple-dropdown" dropdown-toggle><span class="glyphicon glyphicon-cog" aria-hidden="true"></span></a>
+				<ul class="dropdown-menu" aria-labelledby="simple-dropdown">
+					<li class="dropdown-header">Administraci&oacute;n</li>
+					<li class="{{isActiveOption('/account')}}"><a href="#/account" ng-click="isCollapsed = true">Usuarios</a></li>
+					<li><a href="#">Bit&aacute;cora</a></li>
+				</ul>
+			</li>
+		</ul>
+	</div><!-- /.navbar-collapse -->
+  </div>
+</nav>

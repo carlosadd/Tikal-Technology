@@ -1,0 +1,43 @@
+/**
+ *   Copyright 2015 Tikal-Technology
+ *
+ *Licensed under the Apache License, Version 2.0 (the "License");
+ *  you may not use this file except in compliance with the License.
+ *  You may obtain a copy of the License at
+ *
+ *      http://www.apache.org/licenses/LICENSE-2.0
+ *
+ *  Unless required by applicable law or agreed to in writing, software
+ *  distributed under the License is distributed on an "AS IS" BASIS,
+ *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ *  See the License for the specific language governing permissions and
+ *  limitations under the License
+ */
+package technology.tikal.ventas.dao.pedido;
+
+import technology.tikal.gae.dao.template.FiltroBusqueda;
+import technology.tikal.ventas.model.pedido.ofy.PedidoOfy;
+import technology.tikal.ventas.model.pedido.ofy.PedidoRaizOfy;
+
+/**
+ * 
+ * @author Nekorp
+ *
+ */
+public class PedidoFilter implements FiltroBusqueda {
+
+    private PedidoRaizOfy pedidoRaiz;
+    private Class<? extends PedidoOfy> type;
+    public PedidoRaizOfy getPedidoRaiz() {
+        return pedidoRaiz;
+    }
+    public void setPedidoRaiz(PedidoRaizOfy pedidoRaiz) {
+        this.pedidoRaiz = pedidoRaiz;
+    }
+    public Class<? extends PedidoOfy> getType() {
+        return type;
+    }
+    public void setType(Class<? extends PedidoOfy> type) {
+        this.type = type;
+    }
+}

@@ -1,0 +1,19 @@
+<table class="table table-striped">
+	<thead>
+	  <tr>
+		<th style="min-width: 20px;">&nbsp;</th>
+		<th style="min-width: 20px;">&nbsp;</th>
+	  </tr>
+	</thead>
+	<tbody>
+	  <tr ng-repeat="subPedido in subPedidos.items">
+		<td>
+			<a href ng-click="verSubPedido(subPedido.id)" aria-label="Left Align">
+				<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+				<span class="espacio-tab">{{subPedido.puntoEntrega.nombreCorto}}</span>
+			</a>
+		</td>
+		<td>{{subPedido.puntoEntrega.nombre}}</td>
+	  </tr>
+	</tbody>
+</table>
