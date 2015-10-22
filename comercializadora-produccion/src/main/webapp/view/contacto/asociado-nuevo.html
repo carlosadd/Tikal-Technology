@@ -2,15 +2,15 @@
 	<h3 class="modal-title">Nuevo Contacto</h3>
 </div>
 <div class="modal-body">
-	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 	<form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
 		<div class="form-group">
 			<label for="name" class="col-sm-3 control-label">Nombre:</label>
 			<div class="col-sm-9" ng-class="{'has-error': form.name.$invalid}">
 				<input class="form-control" type="text" name="name" ng-model="modelo.name.name" placeholder="El nombre del nuevo contacto"
 					pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="83" required
-					popover-placement="top" popover="{{form.name.$invalid ? 'Campo obligatorio. Use solo caracteres, números y signos de puntuación' : ''}}" 
-					popover-toggle="form.name.$invalid && focusName" ng-focus="focusName=true" ng-blur="focusName=false"/>
+					uib-popover="{{form.name.$invalid ? 'Campo obligatorio. Use solo caracteres, números y signos de puntuación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -18,8 +18,8 @@
 			<div class="col-sm-9" ng-class="{'has-error': form.role.$invalid}">
 				<input class="form-control" type="text" name="role" ng-model="modelo.role" placeholder="El rol del nuevo contacto"
 					pattern-xregexp="'^[\\p{N}\\p{L}]+( [\\p{N}\\p{L}]+)*$'" maxlength="40" required
-					popover-placement="top" popover="{{form.role.$invalid ? 'Campo obligatorio. Use solo caracteres y números' : ''}}" 
-					popover-toggle="form.role.$invalid && focusRole" ng-focus="focusRole=true" ng-blur="focusRole=false"/>
+					uib-popover="{{form.role.$invalid ? 'Campo obligatorio. Use solo caracteres y números' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">

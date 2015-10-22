@@ -9,8 +9,8 @@
 			<div class="col-sm-8" ng-class="{'has-error': form.name.$invalid}">
 				<input class="form-control" type="text" name="name" ng-model="modelo.name.name" placeholder="El nombre del contacto"
 					pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="83" required
-					popover-placement="top" popover="{{form.name.$invalid ? 'Campo obligatorio. Use solo caracteres, números y signos de puntuación' : ''}}" 
-					popover-toggle="form.name.$invalid && focusName" ng-focus="focusName=true" ng-blur="focusName=false"/>
+					uib-popover="{{form.name.$invalid ? 'Campo obligatorio. Use solo caracteres, números y signos de puntuación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -18,8 +18,8 @@
 			<div class="col-sm-8" ng-class="{'has-error': form.primaryContact.$invalid}">
 				<input class="form-control" type="text" name="primaryContact" ng-model="modelo.primaryContact.name.name" placeholder="El nombre del contacto principal"
 					pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="83"
-					popover-placement="top" popover="{{form.primaryContact.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
-					popover-toggle="form.primaryContact.$invalid && focusPrimaryContact" ng-focus="focusPrimaryContact=true" ng-blur="focusPrimaryContact=false"/>
+					uib-popover="{{form.primaryContact.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">

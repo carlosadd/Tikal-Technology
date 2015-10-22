@@ -2,15 +2,15 @@
 	<h3 class="modal-title">E-Mail de Contacto</h3>
 </div>
 <div class="modal-body">
-	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 	<form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
 		<div class="form-group">
 			<label for="etiqueta" class="col-sm-3 control-label">Etiqueta:</label>
 			<div class="col-sm-9" ng-class="{'has-error': form.etiqueta.$invalid}">
 				<input class="form-control" type="text" name="etiqueta" ng-model="modelo.etiqueta" placeholder="Etiqueta"
 					required pattern-xregexp="'^[\\p{N}\\p{L}]+( [\\p{N}\\p{L}]+)*$'" maxlength="40"
-					popover-placement="top" popover="{{form.etiqueta.$invalid ? 'Campo obligatorio, Use solo caracteres y números' : ''}}" 
-					popover-toggle="form.etiqueta.$invalid && focusEtiqueta" ng-focus="focus=focusEtiqueta" ng-blur="focusEtiqueta=false"/>
+					uib-popover="{{form.etiqueta.$invalid ? 'Campo obligatorio, Use solo caracteres y números' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -18,8 +18,8 @@
 			<div class="col-sm-9" ng-class="{'has-error': form.rawEmail.$invalid}">
 				<input class="form-control" type="email" name="rawEmail" ng-model="modelo.rawEmail" placeholder="E-Mail"
 					required ng-maxlength="40"
-					popover-placement="top" popover="{{form.rawEmail.$invalid ? 'Debe ser un email valido' : ''}}" 
-					popover-toggle="form.rawEmail.$invalid && focusRawEmail" ng-focus="focusRawEmail=true" ng-blur="focusRawEmail=false"/>
+					uib-popover="{{form.rawEmail.$invalid ? 'Debe ser un email valido' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">

@@ -15,7 +15,7 @@
 	<link rel="stylesheet" href="css/dialog/ngDialog.min.css">
 	<link rel="stylesheet" href="css/dialog/ngDialog-theme-default.min.css">
 	<link rel="stylesheet" href="css/font-awesome.min.css">
-	<link rel='stylesheet' href="lib/textAngular/textAngular.css">
+	<!--<link rel='stylesheet' href="lib/textAngular/textAngular.css">-->
 	<link href="css/basic.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
@@ -30,7 +30,7 @@
 	<div ng-controller="tikal.modules.Account.LoginCtrl">
 		<application-menu ng-controller="MenuCtrl" ng-if="miSesion.logged"></application-menu>
 		<div class="container">
-			<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+			<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 		</div>
 		<account-login ng-if="!miSesion.logged"></account-login>
 		<div class="container" ng-view="" ng-if="miSesion.logged">
@@ -46,25 +46,27 @@
 		<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
 		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.3/angular.js"></script>-->
 		<script src="lib/angular.js"></script>
-		<script src="lib/ui-bootstrap-tpls-0.13.3.min.js"></script>
+		<script src="lib/angular-locale_es-mx.js"></script>
+		<script src="lib/angular-resource.js"></script>
+		<script src="lib/angular-route.js"></script>
+		<script src="lib/angular-animate.js"></script>
+		<script src="lib/ui-bootstrap-tpls-0.14.2.min.js"></script>
 		<script src="lib/ladda/spin.min.js"></script>
 		<script src="lib/ladda/ladda.min.js"></script>
 		<script src="lib/angular-ladda/angular-ladda.min.js"></script>
 		<script src="lib/dialog/ngDialog.min.js"></script>
-		<script src="lib/angular-locale_es-mx.js"></script>
-		<script src="lib/angular-resource.js"></script>
-		<script src="lib/angular-route.js"></script>
 		<script src="lib/xregexp/xregexp-all.js"></script>
-		<script src="lib/popover-toggle.js"></script>
-		<script src="lib/textAngular/textAngular-rangy.min.js"></script>
+		<!--<script src="lib/popover-toggle.js"></script>-->
+		<!--<script src="lib/textAngular/textAngular-rangy.min.js"></script>
 		<script src="lib/textAngular/textAngular-sanitize.min.js"></script>
-		<script src="lib/textAngular/textAngular.min.js"></script>
+		<script src="lib/textAngular/textAngular.min.js"></script>-->
 		<script src="app/message-module.js"></script>
 		<script src="app/navigation-module.js"></script>
 		<script src="app/account-module.js"></script>
 		<script src="app/menu-controller.js"></script>
 		<script src="app/pedido-module.js"></script>
 		<script src="app/fabricacion-module.js"></script>
+		<script src="app/almacen-module.js"></script>
 		<script src="app/contacto-module.js"></script>
 		<script src="app/catalogo-module.js"></script>
 	</div>

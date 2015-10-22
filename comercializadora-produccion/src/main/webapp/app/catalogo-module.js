@@ -1,25 +1,6 @@
-/**
- *   Copyright 2015 Tikal-Technology
- *
- *Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License
- */
 'use strict';
 
-var catalogoProductoModule = angular.module('tikal.modules.Catalogo', ['ngRoute','ngResource','angular-ladda','popoverToggle', 'textAngular']);
-
-/*catalogoProductoModule.constant('CONTACTO_REMOTE_ADDRESS', {
-  address: 'http://192.168.1.103:8181',
-});*/
+var catalogoProductoModule = angular.module('tikal.modules.Catalogo', ['ngRoute','ngResource','angular-ladda']);
 
 catalogoProductoModule.config(function ($routeProvider, $httpProvider) {
 	$routeProvider.when('/catalogo', {templateUrl: 'view/catalogo/catalogo-list.html', controller: 'tikal.modules.Catalogo.ListCtrl'});
@@ -28,8 +9,8 @@ catalogoProductoModule.config(function ($routeProvider, $httpProvider) {
 	$routeProvider.when('/catalogo/:catalogoId/lineaProducto/:lineaProductoId', {templateUrl: 'view/catalogo/producto/linea-producto-edicion.html', controller: 'tikal.modules.Catalogo.linea.EditCtrl'});
 });
 
-catalogoProductoModule.controller('tikal.modules.Catalogo.ListCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, config, $location, $modal, $log) {
+catalogoProductoModule.controller('tikal.modules.Catalogo.ListCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, $location, $uibModal, $log) {
 	$scope.navegacion = {
 		actual:{
 			display:''
@@ -68,7 +49,7 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.ListCtrl', ['$scope', 
 			message: '¿Esta seguro de querer borrar el catalogo?',
 			type:'warning'
 		}
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/contacto/delete-dialog-modal.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -108,7 +89,7 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.ListCtrl', ['$scope', 
 				});	
 			}
 		};
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/catalogo/catalogo-nuevo.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -126,8 +107,8 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.ListCtrl', ['$scope', 
 	};
 }]);
 
-catalogoProductoModule.controller('tikal.modules.Catalogo.CrudCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$log', '$modal', '$window',
-  function ($scope, $resource, $routeParams, config, $log, $modal, $window) {
+catalogoProductoModule.controller('tikal.modules.Catalogo.CrudCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$log', '$uibModal', '$window',
+  function ($scope, $resource, $routeParams, config, $log, $uibModal, $window) {
 	//navegacion
 	$scope.navegacion = {
 		actual:{
@@ -150,7 +131,7 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.CrudCtrl', ['$scope', 
 	
 	});
 	$scope.editar = function(size) {
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/catalogo/catalogo-edicion.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -181,8 +162,8 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.CrudCtrl', ['$scope', 
 	};
 }]);
 
-catalogoProductoModule.controller('tikal.modules.Catalogo.producto.ListCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, config, $location, $modal, $log) {
+catalogoProductoModule.controller('tikal.modules.Catalogo.producto.ListCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, $location, $uibModal, $log) {
 	$scope.productos = [];
 	var productosDao = $resource(config.address + '/api/catalogo/producto/:catalogoId/productos/:idProducto',{catalogoId:$routeParams.catalogoId}, {
 		'query':  {method:'GET', isArray:false}
@@ -226,7 +207,7 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.producto.ListCtrl', ['
 			message: '¿Esta seguro de querer borrar el producto?',
 			type:'warning'
 		}
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/contacto/delete-dialog-modal.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -279,7 +260,7 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.producto.ListCtrl', ['
 				});	
 			}
 		};
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/catalogo/producto/producto-nuevo.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -310,7 +291,7 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.producto.ListCtrl', ['
 				});	
 			}
 		};
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/catalogo/producto/producto-nuevo.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -328,8 +309,8 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.producto.ListCtrl', ['
 	};
 }]);
 
-catalogoProductoModule.controller('tikal.modules.Catalogo.producto.EditCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$log', '$modal', '$window',
-  function ($scope, $resource, $routeParams, config, $location, $log, $modal, $window) {
+catalogoProductoModule.controller('tikal.modules.Catalogo.producto.EditCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$log', '$uibModal', '$window',
+  function ($scope, $resource, $routeParams, config, $location, $log, $uibModal, $window) {
 	//navegacion
 	$scope.navegacion = {
 		actual:{
@@ -373,8 +354,8 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.producto.EditCtrl', ['
 	}
 }]);
 
-catalogoProductoModule.controller('tikal.modules.Catalogo.linea.EditCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$log', '$modal', '$window',
-  function ($scope, $resource, $routeParams, config, $location, $log, $modal, $window) {
+catalogoProductoModule.controller('tikal.modules.Catalogo.linea.EditCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$log', '$uibModal', '$window',
+  function ($scope, $resource, $routeParams, config, $location, $log, $uibModal, $window) {
 	//navegacion
 	$scope.navegacion = {
 		actual:{
@@ -420,8 +401,8 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.linea.EditCtrl', ['$sc
 	}
 }]);
 
-catalogoProductoModule.controller('tikal.modules.Catalogo.linea.producto.ListCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, config, $location, $modal, $log) {
+catalogoProductoModule.controller('tikal.modules.Catalogo.linea.producto.ListCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, $location, $uibModal, $log) {
 	$scope.productosLineaDao = $resource(config.address + '/api/catalogo/producto/:catalogoId/lineaProducto/:lineaProductoId/productos/:productoId',
 		{catalogoId:$routeParams.catalogoId, lineaProductoId:$scope.lineaProductoId, productoId:'@id'}, 
 		{'query':  {method:'GET', isArray:false}
@@ -451,7 +432,7 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.linea.producto.ListCtr
 				});	
 			}
 		};
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/catalogo/producto/linea-producto-talla.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -482,7 +463,7 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.linea.producto.ListCtr
 				$modalScope.actionLoading = false;
 			});
 		}
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/catalogo/producto/linea-producto-talla.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -504,7 +485,7 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.linea.producto.ListCtr
 			message: '¿Esta seguro de querer borrar el producto?',
 			type:'warning'
 		};
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/contacto/delete-dialog-modal.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -529,8 +510,8 @@ catalogoProductoModule.controller('tikal.modules.Catalogo.linea.producto.ListCtr
 	};
 }]);
 
-catalogoProductoModule.controller('tikal.modules.Catalogo.producto.seleccion', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, config, $location, $modal, $log) {
+catalogoProductoModule.controller('tikal.modules.Catalogo.producto.seleccion', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, $location, $uibModal, $log) {
 	$scope.catalogoDao = $resource(config.address + '/api/catalogo/producto/:catalogoId',{}, {
 		'query':  {method:'GET', isArray:false}
 	});

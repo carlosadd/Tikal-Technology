@@ -6,7 +6,7 @@
 
     var module = angular.module('popoverToggle', ['ui.bootstrap']);
 
-    module.config(['$tooltipProvider', function($tooltipProvider) {
+    module.config(['$uibTooltipProvider', function($tooltipProvider) {
         var triggers = {};
         triggers[POPOVER_SHOW] = POPOVER_HIDE;
 

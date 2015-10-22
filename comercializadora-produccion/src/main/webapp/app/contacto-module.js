@@ -1,21 +1,6 @@
-/**
- *   Copyright 2015 Tikal-Technology
- *
- *Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License
- */
 'use strict';
 
-var contactoModule = angular.module('tikal.modules.Contacto', ['ngRoute','ngResource','angular-ladda','popoverToggle']);
+var contactoModule = angular.module('tikal.modules.Contacto', ['ngRoute','ngResource','angular-ladda']);
 
 contactoModule.constant('CONTACTO_REMOTE_ADDRESS', {
 	address: 'https://tolumex-clients.appspot.com',
@@ -29,8 +14,8 @@ contactoModule.config(function ($routeProvider, $httpProvider) {
 	$routeProvider.when('/pedido/:pedidoId/cliente/:contactId/asociado/:asociadoId', {templateUrl: 'view/contacto/asociado-detail.html', controller: 'tikal.modules.Contacto.AsociadoCtrl'});
 });
 
-contactoModule.controller('tikal.modules.Contacto.ContactoListCtrl', ['$scope', '$resource', '$routeParams', 'CONTACTO_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, config, $location, $modal, $log) {
+contactoModule.controller('tikal.modules.Contacto.ContactoListCtrl', ['$scope', '$resource', '$routeParams', 'CONTACTO_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, $location, $uibModal, $log) {
 	$scope.navegacion = {
 		actual:{
 			display:''
@@ -84,7 +69,7 @@ contactoModule.controller('tikal.modules.Contacto.ContactoListCtrl', ['$scope', 
 				});	
 			}
 		};
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/contacto/contacto-nuevo.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -102,8 +87,8 @@ contactoModule.controller('tikal.modules.Contacto.ContactoListCtrl', ['$scope', 
 	};
 }]);
 
-contactoModule.controller('tikal.modules.Contacto.select.proveedor', ['$scope', '$resource', '$routeParams', 'CONTACTO_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, config, $location, $modal, $log) {
+contactoModule.controller('tikal.modules.Contacto.select.proveedor', ['$scope', '$resource', '$routeParams', 'CONTACTO_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, $location, $uibModal, $log) {
 	var contactoDao = $resource(config.address + '/api/customer/:contactId',{}, {
 		'query':  {method:'GET', isArray:false, params:{group:'proveedor'}}
 	});
@@ -115,8 +100,8 @@ contactoModule.controller('tikal.modules.Contacto.select.proveedor', ['$scope', 
 	
 }]);
 
-contactoModule.controller('tikal.modules.Contacto.ContactoCtrl', ['$scope', '$resource', '$routeParams', 'CONTACTO_REMOTE_ADDRESS', '$log', '$modal', '$window',
-  function ($scope, $resource, $routeParams, config, $log, $modal, $window) {
+contactoModule.controller('tikal.modules.Contacto.ContactoCtrl', ['$scope', '$resource', '$routeParams', 'CONTACTO_REMOTE_ADDRESS', '$log', '$uibModal', '$window',
+  function ($scope, $resource, $routeParams, config, $log, $uibModal, $window) {
 	//navegacion
 	$scope.navegacion = {
 		actual:{
@@ -166,7 +151,7 @@ contactoModule.controller('tikal.modules.Contacto.ContactoCtrl', ['$scope', '$re
 		}
 	};
 	$scope.editarHeader = function(size) {
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/contacto/contacto-edicion-header.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -203,8 +188,8 @@ contactoModule.controller('tikal.modules.Contacto.ContactoCtrl', ['$scope', '$re
 }]);
 
 contactoModule.controller('tikal.modules.Contacto.AsociadoListCtrl', ['$scope', '$resource', '$routeParams', 'CONTACTO_REMOTE_ADDRESS', 
-	'$location', '$log', '$modal', 'tikal.modules.Util.Json', 
-  function ($scope, $resource, $routeParams, config, $location, $log, $modal, jsonUtil) {
+	'$location', '$log', '$uibModal', 'tikal.modules.Util.Json', 
+  function ($scope, $resource, $routeParams, config, $location, $log, $uibModal, jsonUtil) {
 	$scope.asociadoDao = $resource(config.address + '/api/customer/:contactId/contact',{contactId:$routeParams.contactId}, {
 		'get':  {method:'GET', isArray:false, params:{}}
 	});
@@ -236,7 +221,7 @@ contactoModule.controller('tikal.modules.Contacto.AsociadoListCtrl', ['$scope', 
 				});	
 			}
 		};
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/contacto/asociado-nuevo.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -255,8 +240,8 @@ contactoModule.controller('tikal.modules.Contacto.AsociadoListCtrl', ['$scope', 
 }]);
 
 contactoModule.controller('tikal.modules.Contacto.AsociadoCtrl', ['$scope', '$resource', '$routeParams', 'CONTACTO_REMOTE_ADDRESS', 
-	'$location', '$log', '$modal', 'tikal.modules.Util.Json', '$window',
-  function ($scope, $resource, $routeParams, config, $location, $log, $modal, jsonUtil, $window) {
+	'$location', '$log', '$uibModal', 'tikal.modules.Util.Json', '$window',
+  function ($scope, $resource, $routeParams, config, $location, $log, $uibModal, jsonUtil, $window) {
 	//navegacion
 	$scope.navegacion = {
 		actual:{
@@ -319,7 +304,7 @@ contactoModule.controller('tikal.modules.Contacto.AsociadoCtrl', ['$scope', '$re
 
 	});
 	$scope.editarHeader = function(size) {
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/contacto/asociado-edicion-header.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -509,11 +494,11 @@ contactoModule.controller('tikal.modules.Contacto.media.EditCtrl', ['$scope',
 	};
 }]);
 
-contactoModule.controller('tikal.modules.Contacto.detail.EditCtrl', ['$scope', '$log', '$modal', 'tikal.modules.Util.Json', 
-  function ($scope, $log, $modal, jsonUtil) {
+contactoModule.controller('tikal.modules.Contacto.detail.EditCtrl', ['$scope', '$log', '$uibModal', 'tikal.modules.Util.Json', 
+  function ($scope, $log, $uibModal, jsonUtil) {
 	$scope.nuevoDetalle = function(type, size) {
 		var nuevo = $scope.configDetalle[type].getNuevo();
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: $scope.configDetalle[type].template,
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -546,7 +531,7 @@ contactoModule.controller('tikal.modules.Contacto.detail.EditCtrl', ['$scope', '
 		};
 	};
 	$scope.editarDetalle = function(type, index, size) {
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: $scope.configDetalle[type].template,
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -581,7 +566,7 @@ contactoModule.controller('tikal.modules.Contacto.detail.EditCtrl', ['$scope', '
 	$scope.borrarDetalle = function(type, index, size) {
 		//$scope.$emit('inicia-submit','borrar');
 		var dialogModel = $scope.configDetalle[type].getDialogModel();
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/contacto/delete-dialog-modal.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -755,6 +740,7 @@ accountModule.directive('googleMapsAddress', function() {
 accountModule.factory('contactoRaizDao', ['$resource', '$routeParams', 'CONTACTO_REMOTE_ADDRESS', 
   function ($resource, $routeParams, config) {
     return $resource(config.address + '/api/customer/:contactId',{}, {
-		'get':  {method:'GET', isArray:false, params:{}}
+		'get': {method:'GET', isArray:false, params:{}},
+		'query': {method:'GET', isArray:false, params:{}}
 	});
 }]);

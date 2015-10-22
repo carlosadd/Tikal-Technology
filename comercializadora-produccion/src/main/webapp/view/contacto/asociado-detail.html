@@ -23,23 +23,23 @@
 	</form>
   </div>
 </div>
-<accordion>
-	<accordion-group is-open="status.direccionOpen">
-		<accordion-heading>
+<uib-accordion>
+	<uib-accordion-group is-open="status.direccionOpen">
+		<uib-accordion-heading>
 			Direcci&oacute;n<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.direccionOpen, 'glyphicon-chevron-right': !status.direccionOpen}"></i>
-		</accordion-heading>
+		</uib-accordion-heading>
 		<contact-address ng-controller="tikal.modules.Contacto.address.EditCtrl"></contact-address>
-	</accordion-group>
-	<accordion-group is-open="status.telefonoOpen">
-		<accordion-heading>
-			Telefono<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': telefonoOpen.open, 'glyphicon-chevron-right': !telefonoOpen.open}"></i>
-		</accordion-heading>
+	</uib-accordion-group>
+	<uib-accordion-group is-open="status.telefonoOpen">
+		<uib-accordion-heading>
+			Telefono<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.telefonoOpen, 'glyphicon-chevron-right': !status.telefonoOpen}"></i>
+		</uib-accordion-heading>
 		<contact-phone-number ng-controller="tikal.modules.Contacto.phone.EditCtrl"></contact-phone-number>
-	</accordion-group>
-	<accordion-group is-open="status.emailOpen">
-		<accordion-heading>
-			Direcci&oacute;n Electronica<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': emailOpen.open, 'glyphicon-chevron-right': !emailOpen.open}"></i>
-		</accordion-heading>
+	</uib-accordion-group>
+	<uib-accordion-group is-open="status.emailOpen">
+		<uib-accordion-heading>
+			Direcci&oacute;n Electronica<i class="pull-right glyphicon" ng-class="{'glyphicon-chevron-down': status.emailOpen, 'glyphicon-chevron-right': !status.emailOpen}"></i>
+		</uib-accordion-heading>
 		<contact-media ng-controller="tikal.modules.Contacto.media.EditCtrl"></contact-media>
-	</accordion-group>
-</accordion>
+	</uib-accordion-group>
+</uib-accordion>

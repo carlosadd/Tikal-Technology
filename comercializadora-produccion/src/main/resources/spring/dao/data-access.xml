@@ -23,6 +23,14 @@
 				<value>technology.tikal.ventas.model.pedido.ofy.intermediario.PartidaIntermediario</value>
 				<value>technology.tikal.ventas.model.pedimento.ofy.PedimentoOfy</value>
 				<value>technology.tikal.ventas.model.pedimento.ofy.intermediario.PedimentoIntermediario</value>
+				<value>technology.tikal.ventas.model.almacen.ofy.EntradaOfy</value>
+				<value>technology.tikal.ventas.model.almacen.ofy.intermediario.EntradaIntermediario</value>
+				<value>technology.tikal.ventas.model.almacen.ofy.EntradaDevolucionOfy</value>
+				<value>technology.tikal.ventas.model.almacen.ofy.intermediario.EntradaDevolucionIntermediario</value>
+				<value>technology.tikal.ventas.model.almacen.ofy.SalidaOfy</value>
+				<value>technology.tikal.ventas.model.almacen.ofy.intermediario.SalidaDevolucionIntermediario</value>
+				<value>technology.tikal.ventas.model.almacen.ofy.SalidaDevolucionOfy</value>
+				<value>technology.tikal.ventas.model.almacen.ofy.intermediario.SalidaDevolucionIntermediario</value>
 				<value>technology.tikal.ventas.model.producto.ofy.CatalogoOfy</value>
 				<value>technology.tikal.ventas.model.producto.ofy.LineaDeProductosOfy</value>
 				<value>technology.tikal.ventas.model.producto.ofy.intermediario.LineaProductosPorTalla</value>
@@ -37,6 +45,10 @@
 	<bean id="pedidoDao" class="technology.tikal.ventas.dao.pedido.ofy.PedidoDaoOfy"/>
 	<bean id="partidaDao" class="technology.tikal.ventas.dao.pedido.ofy.PartidaDaoOfy"/>
 	<bean id="pedimentoDao" class="technology.tikal.ventas.dao.pedimento.ofy.PedimentoDaoOfy"/>
+	<bean id="entradaDao" class="technology.tikal.ventas.dao.almacen.ofy.EntradaDaoOfy"/>
+	<bean id="entradaDevolucionDao" class="technology.tikal.ventas.dao.almacen.ofy.EntradaDevolucionDaoOfy"/>
+	<bean id="salidaDao" class="technology.tikal.ventas.dao.almacen.ofy.SalidaDaoOfy"/>
+	<bean id="salidaDevolucionDao" class="technology.tikal.ventas.dao.almacen.ofy.SalidaDevolucionDaoOfy"/>
 	<bean id="catalogoProductoDao" class="technology.tikal.ventas.dao.producto.ofy.CatalogoProductoDaoOfy"/>
 	<bean id="lineaDeProductoDao" class="technology.tikal.ventas.dao.producto.ofy.LineaDeProductoDaoOfy"/>
 	<bean id="productoDao" class="technology.tikal.ventas.dao.producto.ofy.ProductoDaoOfy"/>

@@ -37,7 +37,7 @@
 					<span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
 				</a>
 				<span ng-switch-when="completa" class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-				<span ng-switch-when="excedente" class="glyphicon glyphicon-alert text-danger" aria-hidden="true" tooltip='Excedente en la Fabricación'></span>
+				<span ng-switch-when="excedente" class="glyphicon glyphicon-alert text-danger" aria-hidden="true" uib-tooltip='Excedente en la Fabricación'></span>
 			</td>
 			<td ng-if="partida.type=='PartidaIntermediario'">{{ partida.producto.datosGenerales.unidadMedida }}</td>
 			<td ng-if="partida.type=='PartidaIntermediario'">
@@ -63,7 +63,7 @@
 					<span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
 				</a>
 				<span ng-switch-when="completa" class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-				<span ng-switch-when="excedente" class="glyphicon glyphicon-alert text-danger" aria-hidden="true" tooltip='Excedente en la Fabricación'></span>
+				<span ng-switch-when="excedente" class="glyphicon glyphicon-alert text-danger" aria-hidden="true" uib-tooltip='Excedente en la Fabricación'></span>
 			</td>
 			<td ng-if="partida.type=='GrupoPartida'">{{ partida.linea.datosGenerales.unidadMedida }}</td>
 			<td ng-if="partida.type=='GrupoPartida'">&nbsp;</td>
@@ -90,7 +90,7 @@
 					<span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
 				</a>
 				<span ng-switch-when="completa" class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-				<span ng-switch-when="excedente" class="glyphicon glyphicon-alert text-danger" aria-hidden="true" tooltip='Excedente en la Fabricación'></span>
+				<span ng-switch-when="excedente" class="glyphicon glyphicon-alert text-danger" aria-hidden="true" uib-tooltip='Excedente en la Fabricación'></span>
 			</td>
 			<td>{{ partida.linea.datosGenerales.unidadMedida }}</td>
 			<td>

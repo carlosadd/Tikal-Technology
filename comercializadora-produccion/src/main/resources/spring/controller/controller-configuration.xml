@@ -32,6 +32,11 @@
         <property name="productoController" ref="productoController"/>
         <property name="pedimentoDao" ref="pedimentoDao"/>
     </bean>
+    <bean id="entradaController" class="technology.tikal.ventas.controller.almacen.imp.EntradaControllerImp">
+        <property name="pedidoController" ref="pedidoController"/>
+        <property name="productoController" ref="productoController"/>
+        <property name="entradaDao" ref="entradaDao"/>
+    </bean>
     <bean id="catalogoController" class="technology.tikal.ventas.controller.producto.imp.CatalogoControllerImp">
         <property name="dao" ref="catalogoProductoDao"/>
         <property name="lineaProductoController" ref="lineaProductoController"/>

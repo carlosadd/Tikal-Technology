@@ -28,7 +28,7 @@
 					<span class="glyphicon glyphicon-tag" aria-hidden="true"></span>
 				</a>
 				<span ng-switch-when="completa" class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-				<span ng-switch-when="excedente" class="glyphicon glyphicon-alert text-danger" aria-hidden="true" tooltip='Excedente en la Fabricación'></span>
+				<span ng-switch-when="excedente" class="glyphicon glyphicon-alert text-danger" aria-hidden="true" uib-tooltip='Excedente en la Fabricación'></span>
 			</td><!--boton asginar-->
 			<td>{{ partida.producto.datosGenerales.unidadMedida }}</td>
 		  </tr>
@@ -51,7 +51,7 @@
 				</a>
 				<span ng-switch-when="completa" class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
 				<a ng-switch-when="excedente" href ng-click="verSubPedido(subPartida.pedido.id)" aria-label="Left Align">
-					<span class="glyphicon glyphicon-alert text-danger" aria-hidden="true" tooltip='Excedente en la Fabricación'></span>
+					<span class="glyphicon glyphicon-alert text-danger" aria-hidden="true" uib-tooltip='Excedente en la Fabricación'></span>
 				</a>
 			</td>
 			<td>{{ partida.producto.datosGenerales.unidadMedida }}</td>

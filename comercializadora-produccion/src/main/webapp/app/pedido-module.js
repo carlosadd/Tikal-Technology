@@ -1,21 +1,6 @@
-/**
- *   Copyright 2015 Tikal-Technology
- *
- *Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License
- */
 'use strict';
 
-var pedidoModule = angular.module('tikal.modules.Pedido', ['ngRoute','ngResource','angular-ladda','popoverToggle']);
+var pedidoModule = angular.module('tikal.modules.Pedido', ['ngRoute','ngResource','angular-ladda']);
 
 pedidoModule.constant('PRODUCCION_REMOTE_ADDRESS', {
 	address: 'https://tolumex-dev.appspot.com',
@@ -35,8 +20,8 @@ pedidoModule.config(function ($routeProvider, $httpProvider) {
 	
 });
 
-pedidoModule.controller('tikal.modules.Pedido.PedidoListCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, config, $location, $modal, $log) {
+pedidoModule.controller('tikal.modules.Pedido.PedidoListCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, $location, $uibModal, $log) {
     $scope.edicion = true;
 	$scope.navegacion = {
 		actual:{
@@ -87,7 +72,7 @@ pedidoModule.controller('tikal.modules.Pedido.PedidoListCtrl', ['$scope', '$reso
 				});
 			}
 		};
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/pedido/pedido-nuevo.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -108,7 +93,7 @@ pedidoModule.controller('tikal.modules.Pedido.PedidoListCtrl', ['$scope', '$reso
 			message: '¿Esta seguro de querer borrar el pedido?',
 			type:'warning'
 		}
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/contacto/delete-dialog-modal.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -139,8 +124,8 @@ pedidoModule.controller('tikal.modules.Pedido.PedidoListCtrl', ['$scope', '$reso
 }]);
   
 pedidoModule.controller('tikal.modules.Pedido.PedidoDetailCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$log', '$location', 
-	'$modal', 'contactoRaizDao','$window', 'tikal.modules.Util.Json',
-  function ($scope, $resource, $routeParams, config, $log, $location, $modal, contactoRaizDao, $window, jsonUtil) {
+	'$uibModal', 'contactoRaizDao','$window', 'tikal.modules.Util.Json',
+  function ($scope, $resource, $routeParams, config, $log, $location, $uibModal, contactoRaizDao, $window, jsonUtil) {
 	//navegacion
 	$scope.navegacion = {
 		actual:{
@@ -178,7 +163,7 @@ pedidoModule.controller('tikal.modules.Pedido.PedidoDetailCtrl', ['$scope', '$re
 		$location.path($location.path() + '/seleccion/cliente/');
 	};
 	$scope.editarHeader = function(size) {
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/pedido/pedido-edicion-header.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -249,7 +234,7 @@ pedidoModule.controller('tikal.modules.Pedido.PedidoDetailCtrl', ['$scope', '$re
 		} else {
 			modeloPuntoEntrega = {};
 		}
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/pedido/punto-entrega-edit.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -301,7 +286,7 @@ pedidoModule.controller('tikal.modules.Pedido.PedidoDetailCtrl', ['$scope', '$re
 			message: '¿Esta seguro de querer borrar los datos del punto de entrega?',
 			type:'warning'
 		}
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/contacto/delete-dialog-modal.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -332,8 +317,8 @@ pedidoModule.controller('tikal.modules.Pedido.PedidoDetailCtrl', ['$scope', '$re
 	};
 }]);
 
-pedidoModule.controller('tikal.modules.Pedido.ProductoDetailCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, config, $location, $modal, $log) {
+pedidoModule.controller('tikal.modules.Pedido.ProductoDetailCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, $location, $uibModal, $log) {
 	$scope.partidas = [];
 	$scope.sumaPartidas = [];
 	var cargaPartidaCount = 0;
@@ -445,8 +430,8 @@ pedidoModule.controller('tikal.modules.Pedido.ProductoDetailCtrl', ['$scope', '$
 	}
 }]);
 
-pedidoModule.controller('tikal.modules.Pedido.subpedido.PedidoListCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$modal', '$log', 'tikal.modules.Util.Json',
-  function ($scope, $resource, $routeParams, config, $location, $modal, $log, jsonUtil) {
+pedidoModule.controller('tikal.modules.Pedido.subpedido.PedidoListCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log', 'tikal.modules.Util.Json',
+  function ($scope, $resource, $routeParams, config, $location, $uibModal, $log, jsonUtil) {
     $scope.subPedidoDao = $resource(config.address + '/api/pedido/raiz/:pedidoId/subPedido/:subPedidoId',{pedidoId:$routeParams.pedidoId}, {
 		'query':  {method:'GET', isArray:false}
 	});
@@ -472,7 +457,7 @@ pedidoModule.controller('tikal.modules.Pedido.subpedido.PedidoListCtrl', ['$scop
 				type:'MexicoAddress'
 			}
 		};
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/pedido/punto-entrega-edit.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -516,7 +501,7 @@ pedidoModule.controller('tikal.modules.Pedido.subpedido.PedidoListCtrl', ['$scop
 			message: '¿Esta seguro de querer borrar el pedido?',
 			type:'warning'
 		}
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/contacto/delete-dialog-modal.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -547,8 +532,8 @@ pedidoModule.controller('tikal.modules.Pedido.subpedido.PedidoListCtrl', ['$scop
 }]);
 
 pedidoModule.controller('tikal.modules.Pedido.subPedido.PedidoDetailCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$log', '$location', 
-	'$modal', 'contactoRaizDao','$window', 'tikal.modules.Util.Json',
-  function ($scope, $resource, $routeParams, config, $log, $location, $modal, contactoRaizDao, $window, jsonUtil) {
+	'$uibModal', 'contactoRaizDao','$window', 'tikal.modules.Util.Json',
+  function ($scope, $resource, $routeParams, config, $log, $location, $uibModal, contactoRaizDao, $window, jsonUtil) {
 	//navegacion
 	$scope.navegacion = {
 		actual:{
@@ -612,7 +597,7 @@ pedidoModule.controller('tikal.modules.Pedido.subPedido.PedidoDetailCtrl', ['$sc
 		return context.response;
 	};
 	$scope.editarPuntoEntrega = function(size) {
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/pedido/punto-entrega-edit.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -662,8 +647,8 @@ pedidoModule.controller('tikal.modules.Pedido.subPedido.PedidoDetailCtrl', ['$sc
 }]);
 
 pedidoModule.controller('tikal.modules.Pedido.PedidoContactoSeleccionCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', 'CONTACTO_REMOTE_ADDRESS', 
-	'$location', '$modal', '$window','$log',
-  function ($scope, $resource, $routeParams, config, configContacto, $location, $modal, $window, $log) {
+	'$location', '$uibModal', '$window','$log',
+  function ($scope, $resource, $routeParams, config, configContacto, $location, $uibModal, $window, $log) {
 	$scope.navegacion = {
 		actual:{
 			display:''
@@ -741,7 +726,7 @@ pedidoModule.controller('tikal.modules.Pedido.PedidoContactoSeleccionCtrl', ['$s
 				});	
 			}
 		};
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/contacto/contacto-nuevo.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -759,8 +744,8 @@ pedidoModule.controller('tikal.modules.Pedido.PedidoContactoSeleccionCtrl', ['$s
 	};
 }]);
 
-pedidoModule.controller('tikal.modules.Pedido.partida.PartidaCrud.query', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, config, $location, $modal, $log) {
+pedidoModule.controller('tikal.modules.Pedido.partida.PartidaCrud.query', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, $location, $uibModal, $log) {
     $scope.loadPartidas = function() {
 		$scope.partidaDao.query().$promise.then(function(data) {
 			$scope.partidas = data.items;
@@ -801,8 +786,8 @@ pedidoModule.controller('tikal.modules.Pedido.partida.PartidaCrud.query', ['$sco
 	});
 }]);
 
-pedidoModule.controller('tikal.modules.Pedido.partida.PartidaCrudCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, config, $location, $modal, $log) {
+pedidoModule.controller('tikal.modules.Pedido.partida.PartidaCrudCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, $location, $uibModal, $log) {
     $scope.partidaDao = $resource(config.address + '/api/pedido/:pedidoId/partida/:partidaId',{pedidoId:$scope.currentPedidoId, partidaId:'@id'}, {
 		'query':  {method:'GET', isArray:false}
 	});
@@ -835,7 +820,7 @@ pedidoModule.controller('tikal.modules.Pedido.partida.PartidaCrudCtrl', ['$scope
 					$modalScope.actionLoading = false;
 			});	
 		};
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/pedido/partida-producto-edicion.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -876,7 +861,7 @@ pedidoModule.controller('tikal.modules.Pedido.partida.PartidaCrudCtrl', ['$scope
 					$modalScope.actionLoading = false;
 			});	
 		};
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/pedido/partida-producto-edicion.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -903,7 +888,7 @@ pedidoModule.controller('tikal.modules.Pedido.partida.PartidaCrudCtrl', ['$scope
 			message: '¿Esta seguro de querer borrar la partida?',
 			type:'warning'
 		}
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/contacto/delete-dialog-modal.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -951,7 +936,7 @@ pedidoModule.controller('tikal.modules.Pedido.partida.PartidaCrudCtrl', ['$scope
 				});	
 			}
 		};
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/pedido/partida-producto-edicion.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -990,7 +975,7 @@ pedidoModule.controller('tikal.modules.Pedido.partida.PartidaCrudCtrl', ['$scope
 				});	
 			}
 		};
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/pedido/partida-producto-edicion.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',

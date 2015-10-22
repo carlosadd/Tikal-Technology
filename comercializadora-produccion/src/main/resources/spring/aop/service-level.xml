@@ -15,6 +15,7 @@
     <import resource="classpath:/spring/aop/cache/productos-cache.xml"/>
     <import resource="classpath:/spring/aop/cache/pedido-cache.xml"/>
     <import resource="classpath:/spring/aop/cache/fabricacion-cache.xml"/>
+    <import resource="classpath:/spring/aop/cache/almacen-cache.xml"/>
     
     <!-- Transacciones -->
 	<bean id="aspectTransactionManagerOfy" class="technology.tikal.gae.spring.objectify.AspectTransactionManagerOfy"/>

@@ -1,6 +1,6 @@
 <div class="modal-body">
-	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
-	<alert type="{{modelo.type}}"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{modelo.message}}</alert>
+	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+	<uib-alert type="{{modelo.type}}"><span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span> {{modelo.message}}</uib-alert>
 	<form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
 		<div class="form-group">
 			<div class="col-md-12 text-right">

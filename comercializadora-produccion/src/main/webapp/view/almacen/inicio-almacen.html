@@ -1,0 +1,157 @@
+<contacto-navegacion></contacto-navegacion>
+<form name="form" class="form-horizontal" ng-submit="seleccionarProducto()" novalidate>
+	<div class="row">
+		<label for="pedido" class="col-sm-2 control-label">Pedido:</label>
+		<div class="col-sm-10">
+			<input class="form-control" type="text" autocomplete="off" ng-model="compartido.pedidoRaiz" placeholder="Pedido"  
+				uib-typeahead="pedido as pedido.nombre for pedido in pedidos | filter:{nombre:$viewValue} | limitTo:10" />
+		</div>
+	</div>
+	<div class="row top-buffer" ng-if="compartido.pedidoRaiz.type == 'PedidoCompuestoIntermediario'">
+		<label for="subPedido" class="col-sm-2 control-label">Punto Entrega:</label>
+		<div class="col-sm-10">
+			<input class="form-control" type="text" autocomplete="off" ng-model="compartido.subPedido" placeholder="Punto Entrega"  
+				uib-typeahead="subPedido as subPedido.display for subPedido in subPedidos | filter:{display:$viewValue} | limitTo:10"/>
+		</div>
+	</div>
+	<div class="row top-buffer">
+		<label for="fabricante" class="col-sm-2 control-label">Proveedor:</label>
+		<div class="col-sm-10">
+			<input class="form-control" type="text" autocomplete="off"  ng-model="compartido.fabricante" placeholder="Fabricante"  
+				uib-typeahead="fabricante as fabricante.name.name for fabricante in compartido.fabricantes | filter:{name:{name:$viewValue}} | limitTo:10"
+				ng-disabled="!compartido.pedido.id"/>
+		</div>
+	</div>
+	<!--<div class="row top-buffer">
+		<label for="pedimento" class="col-sm-2 control-label">Producto:</label>
+		<div class="col-sm-10">
+			<input class="form-control" type="text" autocomplete="off" ng-model="compartido.pedimento" placeholder="Producto"  
+				uib-typeahead="pedimento as pedimento.display for pedimento in compartido.fabricante.pedimentos | filter:{display:$viewValue} | limitTo:10"
+				ng-disabled="!compartido.fabricante.id"/>
+		</div>
+	</div>-->
+</form>
+</br>
+<uib-tabset>
+	<uib-tab heading="Captura">
+		<div class="well" ng-if="!compartido.fabricante.id">No hay Información que mostrar</div>
+		<div ng-if="compartido.fabricante.id">
+			<form name="form" class="form-inline top-buffer tab-" ng-submit="seleccionarProducto()" novalidate>
+				<div class="form-group col-sm-offset-1">
+					<label for="fechaEntrega">Fecha de Entrada:</label>
+					<div class="input-group">
+						<input type="date" class="form-control" uib-datepicker-popup="{{formatDP}}" ng-model="compartido.fechaEntrega" 
+							is-open="statusDP.opened" datepicker-options="dateOptions" ng-required="true" required
+							close-text="Cerrar" current-text="Hoy" clear-text="Limpiar" max-date="maxDate"/>
+						<span class="input-group-btn">
+							<button type="button" class="btn btn-default" ng-click="openDP($event)"><i class="glyphicon glyphicon-calendar"></i></button>
+						</span>
+					</div>
+				</div>
+				<!--<button class="btn btn-default" type="button" ng-click="close()">Limpiar</button>
+				<button type="submit" class="btn btn-primary" type="button" ng-disabled="form.$invalid || form.$pristine" ladda="actionLoading" data-style="expand-left">Guardar</button>-->
+			</form>
+			<table class="table table-striped">
+				<thead>
+				  <tr>
+					<th style="width:20px;">&nbsp;</th>
+					<th style="min-width: 20px;">&nbsp;</th>
+					<th class="text-center" style="min-width: 20px;">Pendiente Entrada</th>
+					<th style="width:20px;">&nbsp;</th>
+					<th class="text-center" style="min-width: 20px;">Total Entrada</th>
+					<th style="min-width: 20px;">&nbsp;</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr ng-repeat-start="pedimento in compartido.fabricante.pedimentos">
+					<!-- PedimentoIntermediario -->
+					<td ng-if="pedimento.type == 'PedimentoIntermediario'">&nbsp;</td>
+					<td ng-if="pedimento.type == 'PedimentoIntermediario'"><!-- nombre-->
+						{{pedimento.producto.datosGenerales.nombre}} - {{pedimento.producto.datosGenerales.descripcion}}
+					</td>
+					<td ng-if="pedimento.type == 'PedimentoIntermediario'" class="celdaNumerica"><!-- cantidad-->
+						{{pedimento.restante | number}}
+					</td>
+					<td ng-if="pedimento.type=='PedimentoIntermediario'" ng-switch="entregaStatus(pedimento)"> <!-- edicion-->
+						<a ng-switch-when="incompleta" href ng-click="capturaEntrada(pedimento)" aria-label="Left Align" uib-tooltip='Registrar Entrada'>
+							<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+						</a>
+						<span ng-switch-when="completa" class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+					</td>
+					<td ng-if="pedimento.type == 'PedimentoIntermediario'" class="celdaNumerica">
+						{{pedimento.totalEntrada | number}}
+					</td>
+					<td ng-if="pedimento.type == 'PedimentoIntermediario'"><!--unidad medida-->
+						{{pedimento.producto.datosGenerales.unidadMedida}}
+					</td>
+					<!-- GrupoPedimento -->
+					<td ng-if="pedimento.type == 'GrupoPedimento'">
+						<a href ng-click="hideShowSub(pedimento)" aria-label="Left Align">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" ng-if="!pedimento.showSub"></span>
+							<span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="pedimento.showSub"></span>
+						</a>
+					</td>
+					<td ng-if="pedimento.type == 'GrupoPedimento'"> <!-- nombre-->
+						{{pedimento.linea.datosGenerales.nombre}} - {{pedimento.linea.datosGenerales.descripcion}}
+					</td>
+					<td ng-if="pedimento.type == 'GrupoPedimento'" class="celdaNumerica">{{pedimento.restante | number}}</td><!-- cantidad-->
+					<td ng-if="pedimento.type == 'GrupoPedimento'">&nbsp;</td><!-- edicion-->
+					<td ng-if="pedimento.type == 'GrupoPedimento'" class="celdaNumerica">{{pedimento.totalEntrada | number}}</td><!-- cantidad-->
+					<td ng-if="pedimento.type == 'GrupoPedimento'"><!--unidad medida-->
+						{{pedimento.linea.datosGenerales.unidadMedida}}
+					</td>
+				  </tr>
+				  <tr ng-if="pedimento.type=='GrupoPedimento' && pedimento.showSub" ng-repeat="subPedimento in pedimento.pedimentos" ng-repeat-end>
+					<td>&nbsp;</td>
+					<td class="sub-renglon">{{subPedimento.producto.talla}}</td>
+					<td class="celdaNumerica">{{subPedimento.restante | number}}</td>
+					<td ng-switch="entregaStatus(subPedimento)">
+						<a ng-switch-when="incompleta" href ng-click="capturaEntrada(pedimento, subPedimento)" aria-label="Left Align" uib-tooltip='Registrar Entrada'>
+							<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
+						</a>
+						<span ng-switch-when="completa" class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+						<span ng-switch-when="excedente" class="glyphicon glyphicon-alert text-danger" aria-hidden="true" uib-tooltip='Existe un excedente en la entrega'></span>
+					</td>
+					<td class="celdaNumerica">{{subPedimento.totalEntrada | number}}</td>
+					<td>{{pedimento.linea.datosGenerales.unidadMedida}}</td>
+				  </tr>
+				</tbody>
+			</table>
+		</div>
+	</uib-tab>
+	<uib-tab heading="Consulta Entradas">
+		<div class="well" ng-if="!compartido.fabricante.id">No hay Información que mostrar</div>
+		<table class="table table-striped" ng-if="compartido.fabricante.id">
+			<thead>
+			  <tr>
+				<th style="width:20px;">&nbsp;</th>
+				<th style="min-width: 20px;">&nbsp;</th>
+				<th style="min-width: 20px;">&nbsp;</th>
+				<th class="text-center" style="min-width: 20px;">Cantidad</th>
+				<th style="width:20px;">&nbsp;</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="entrada in compartido.fabricante.listaEntradas">
+				<td>&nbsp;</td>
+				<td><!-- fecha entrada-->
+					{{entrada.fechaRegistro | date : modelo.formatDP}}
+				</td>
+				<td ng-if="entrada.producto.type == 'ProductoIntermediario'"><!-- nombre-->
+					{{entrada.producto.datosGenerales.nombre}} - {{entrada.producto.datosGenerales.descripcion}}
+				</td>
+				<td ng-if="entrada.producto.type == 'ProductoConTalla'"><!-- nombre-->
+					{{entrada.producto.datosGenerales.nombre}} - {{entrada.producto.datosGenerales.descripcion}} - {{entrada.producto.talla}}
+				</td>
+				<td class="celdaNumerica"><!-- cantidad-->
+					{{entrada.cantidad | number}}
+				</td>
+				<td>
+					<a href ng-click="borrarEntrada(entrada)" aria-label="Left Align">
+						<span class="glyphicon glyphicon-trash" aria-hidden="true"></span>
+					</a>
+				</td>
+			</tbody>
+		</table>
+	</uib-tab>
+</uib-tabset>

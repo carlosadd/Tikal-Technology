@@ -5,7 +5,7 @@
 	<div class="col-sm-10">
 		<p class="form-control-static">
 			<span>{{pedido.puntoEntrega.nombreCorto}} {{pedido.puntoEntrega.nombre}}</span>
-			<a href ng-click="editarPuntoEntrega()" tooltip="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
+			<a href ng-click="editarPuntoEntrega()" uib-tooltip="Editar"><span class="glyphicon glyphicon-pencil" aria-hidden="true"></span></a>
 			</br>
 			<google-maps-address ng-if="pedido.puntoEntrega.direccion" address="pedido.puntoEntrega.direccion"></google-maps-address>
 		</p>

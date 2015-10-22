@@ -86,8 +86,8 @@ public class PedimentoControllerImp implements PedimentoController {
     }
     
     private Pedimento[] sortByGroup(List<PedimentoOfy> source) {
+        List<GrupoPedimento> grupos = new ArrayList<>();
         List<Pedimento> result = new LinkedList<>();
-        List<GrupoPedimento> grupos = new ArrayList<>(); 
         for (PedimentoOfy x: source) {
             if (x.getProducto() instanceof ProductoDeLinea) {
                 ProductoDeLinea p = (ProductoDeLinea) x.getProducto();

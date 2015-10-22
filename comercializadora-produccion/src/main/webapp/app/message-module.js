@@ -1,18 +1,3 @@
-/**
- *   Copyright 2015 Tikal-Technology
- *
- *Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License
- */
 'use strict';
 
 var messageModule = angular.module('tikal.modules.Message', ['ngRoute','ngResource']);
@@ -20,8 +5,8 @@ var messageModule = angular.module('tikal.modules.Message', ['ngRoute','ngResour
 messageModule.factory('tikal.modules.Error.Interceptor', function ($rootScope, $q, $window, $log, AUTH_EVENTS) {
   return {
     responseError: function (response) {
-		//$log.info('gato');
-		if (response.status == 0) {
+		//$log.info(response);
+		if (response.status == -1) {
 			$rootScope.$broadcast('ocurrio-error', 'Error de comunicación con el servidor');
 		} else {
 			angular.forEach(response.data.code, function(value, key) {

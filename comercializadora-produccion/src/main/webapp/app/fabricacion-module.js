@@ -1,21 +1,6 @@
-/**
- *   Copyright 2015 Tikal-Technology
- *
- *Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License
- */
 'use strict';
 
-var fabricacionModule = angular.module('tikal.modules.Fabricacion', ['ngRoute','ngResource','angular-ladda','popoverToggle']);
+var fabricacionModule = angular.module('tikal.modules.Fabricacion', ['ngRoute','ngResource','angular-ladda']);
 
 fabricacionModule.config(function ($routeProvider, $httpProvider) {
 	$routeProvider.when('/fabricacion', {templateUrl: 'view/fabricacion/pedido-list.html', controller: 'tikal.modules.Fabricacion.PedidoListCtrl'});
@@ -23,8 +8,8 @@ fabricacionModule.config(function ($routeProvider, $httpProvider) {
 	$routeProvider.when('/fabricacion/:pedidoId/subPedido/:subPedidoId', {templateUrl: 'view/fabricacion/pedido-detail.html', controller: 'tikal.modules.Fabricacion.subPedido.PedidoDetailCtrl'});
 });
 
-fabricacionModule.controller('tikal.modules.Fabricacion.PedidoListCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, config, $location, $modal, $log) {
+fabricacionModule.controller('tikal.modules.Fabricacion.PedidoListCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, $location, $uibModal, $log) {
     $scope.edicion = true;
 	$scope.navegacion = {
 		actual:{
@@ -61,8 +46,8 @@ fabricacionModule.controller('tikal.modules.Fabricacion.PedidoListCtrl', ['$scop
 }]);
 
 fabricacionModule.controller('tikal.modules.Fabricacion.PedidoDetailCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$log', '$location', 
-	'$modal', 'contactoRaizDao','$window', 'tikal.modules.Util.Json',
-  function ($scope, $resource, $routeParams, config, $log, $location, $modal, contactoRaizDao, $window, jsonUtil) {
+	'$uibModal', 'contactoRaizDao','$window', 'tikal.modules.Util.Json',
+  function ($scope, $resource, $routeParams, config, $log, $location, $uibModal, contactoRaizDao, $window, jsonUtil) {
 	//navegacion
 	$scope.navegacion = {
 		actual:{
@@ -89,8 +74,8 @@ fabricacionModule.controller('tikal.modules.Fabricacion.PedidoDetailCtrl', ['$sc
 }]);
 
 fabricacionModule.controller('tikal.modules.Fabricacion.subPedido.PedidoDetailCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$log', '$location', 
-	'$modal', 'contactoRaizDao','$window', 'tikal.modules.Util.Json',
-  function ($scope, $resource, $routeParams, config, $log, $location, $modal, contactoRaizDao, $window, jsonUtil) {
+	'$uibModal', 'contactoRaizDao','$window', 'tikal.modules.Util.Json',
+  function ($scope, $resource, $routeParams, config, $log, $location, $uibModal, contactoRaizDao, $window, jsonUtil) {
 	//navegacion
 	$scope.navegacion = {
 		actual:{
@@ -120,8 +105,8 @@ fabricacionModule.controller('tikal.modules.Fabricacion.subPedido.PedidoDetailCt
 	});
 }]);
 
-fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.consultaCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, config, $location, $modal, $log) {
+fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.consultaCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, $location, $uibModal, $log) {
 	$scope.pedimentoDao = $resource(config.address + '/api/pedido/:pedidoId/pedimento',{pedidoId:$scope.currentPedidoId}, {
 		'query':  {method:'GET', isArray:false}
 	});
@@ -145,8 +130,8 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.consultaCtrl',
 	});
 }]);
 
-fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.consultaAllCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, config, $location, $modal, $log) {
+fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.consultaAllCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, $location, $uibModal, $log) {
 	$scope.pedimentoDao = $resource(config.address + '/api/pedido/:pedidoId/pedimento',{pedidoId:$scope.currentPedidoId}, {
 		'query':  {method:'GET', isArray:false}
 	});
@@ -222,8 +207,8 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.consultaAllCtr
 	});
 }]);
 
-fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.creacionCtrl', ['$scope', '$resource', '$routeParams', 'PedimentoCalculator', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, PedimentoCalculator, config, $location, $modal, $log) {
+fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.creacionCtrl', ['$scope', '$resource', '$routeParams', 'PedimentoCalculator', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, PedimentoCalculator, config, $location, $uibModal, $log) {
 	$scope.grupoContacto = {
 		display:'Proveedores',
 		id:'proveedor'
@@ -255,7 +240,7 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.creacionCtrl',
 			modeloAsignacion.cantidad = partida.cantidad - PedimentoCalculator.getTotalPedimento(partida, partida.pedido.pedimentos);
 			modeloAsignacion.max = modeloAsignacion.cantidad;
 		}
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/fabricacion/asignacion-rapida.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -353,13 +338,16 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.creacionCtrl',
 	};
 }]);
 
-fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.edicionCtrl', ['$scope', '$resource', '$routeParams', 'PedimentoCalculator', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, PedimentoCalculator, config, $location, $modal, $log) {
+fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.edicionCtrl', ['$scope', '$resource', '$routeParams', 'PedimentoCalculator', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, PedimentoCalculator, config, $location, $uibModal, $log) {
 	$scope.pedimentoDao = $resource(config.address + '/api/pedido/:pedidoId/pedimento/:pedimentoId',{pedimentoId:'@id'}, {
 		'query':  {method:'GET', isArray:false}
 	});
 	$scope.editarPedimento = function (pedimento, parent, size) {
-		var modalInstance = $modal.open({
+		if (parent) {
+			pedimento.producto.datosGenerales = parent.linea.datosGenerales;
+		}
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/fabricacion/pedimento-edicion.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -407,7 +395,7 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.edicionCtrl', 
 			message: '¿Esta seguro de querer borrar la asignación al proveedor?',
 			type:'warning'
 		}
-		var modalInstance = $modal.open({
+		var modalInstance = $uibModal.open({
 			animation: true,
 			templateUrl: 'view/contacto/delete-dialog-modal.html',
 			controller: 'tikal.modules.Contacto.ModalGenericEditCtrl',
@@ -435,8 +423,11 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.edicionCtrl', 
 	};
 }]);
 
-fabricacionModule.controller('tikal.modules.Fabricacion.fabricante.listCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', 'contactoRaizDao', '$location', '$modal', '$log',
-  function ($scope, $resource, $routeParams, config, contactoRaizDao, $location, $modal, $log) {
+fabricacionModule.controller('tikal.modules.Fabricacion.fabricante.listCtrl', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', 'contactoRaizDao', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, contactoRaizDao, $location, $uibModal, $log) {
+	$scope.entradaDao = $resource(config.address + '/api/pedido/:pedidoId/almacen/entrada/:entradaId',{}, {
+		'query':  {method:'GET', isArray:false}
+	});
 	$scope.fabricantes = [];
 	$scope.procesaPedimentos = function() {
 		$scope.fabricantes = [];
@@ -458,17 +449,77 @@ fabricacionModule.controller('tikal.modules.Fabricacion.fabricante.listCtrl', ['
 				};
 				tmpFabricante.pedimentos.push(pedimento);
 				$scope.fabricantes.push(tmpFabricante);
-				contactoRaizDao.get({contactId:tmpFabricante.id}).$promise.then(function(data) {
-					tmpFabricante.name.name = data.name.name;
-				}, function(errResponse) {
-				
-				});
 			}
 		});
+		if ($scope.fabricantes.length > 0) {
+			contactoRaizDao.query({group:'proveedor'}).$promise.then(function(data) {
+				var proveedores = data.items;
+				angular.forEach($scope.fabricantes, function(fabricante, i) {
+					angular.forEach(proveedores, function(proveedor, j) {
+						if (proveedor.id == fabricante.id) {
+							fabricante.name.name = proveedor.name.name;
+						}
+					});
+				});
+			}, function(errResponse) {
+			
+			});
+			$scope.entradaDao.query({pedidoId:$scope.pedido.id}).$promise.then(function(data) {
+				angular.forEach($scope.fabricantes, function(fabricante, key) {
+					fabricante.entradas = [];
+					angular.forEach(data.items, function(entrada, i) {
+						if (entrada.idProveedor == fabricante.id) {
+							fabricante.entradas.push(entrada);
+						}
+					});
+				});
+				//calcula los restantes por pedimento por fabricante
+				angular.forEach($scope.fabricantes, function(fabricante, i) {
+					angular.forEach(fabricante.pedimentos, function(pedimento, j) {
+						$scope.calculaTotalesEntrada(pedimento, fabricante.entradas);
+					});
+				});
+			}, function(errResponse) {
+
+			});
+		}
 	};
 	$scope.$watch('pedido.pedimentos', function(){
-		$scope.procesaPedimentos();
+		if ($scope.pedido && $scope.pedido.pedimentos) {
+			$scope.procesaPedimentos();
+		}
 	});
+	//repetida mover a otro lado
+	$scope.calculaTotalesEntrada = function(pedimento, entradas) {
+		if (pedimento.type == 'GrupoPedimento') {
+			var total = 0;
+			var totalEntrada = 0;
+			angular.forEach(pedimento.pedimentos, function(pedimentoGrupo, key) {
+				$scope.calculaTotalesEntrada(pedimentoGrupo, entradas);
+				total = total + pedimentoGrupo.cantidad;
+				totalEntrada = totalEntrada + pedimentoGrupo.totalEntrada;
+			});
+			pedimento.totalEntrada = totalEntrada;
+			pedimento.restante = total - totalEntrada;
+		} else {
+			//pedimento.restante = pedimento.cantidad;
+			pedimento.totalEntrada = 0;
+			angular.forEach(entradas, function(entrada, i) {
+				if (entrada.type == 'GrupoRegistroAlmacen') {
+					angular.forEach(entrada.registros, function(registro, j) {
+						if (pedimento.producto.id == registro.producto.id && pedimento.producto.catalogoId == registro.producto.catalogoId) {
+							pedimento.totalEntrada = pedimento.totalEntrada + registro.cantidad;
+						}
+					});
+				} else {
+					if (pedimento.producto.id == entrada.producto.id && pedimento.producto.catalogoId == entrada.producto.catalogoId) {
+						pedimento.totalEntrada = pedimento.totalEntrada + entrada.cantidad;
+					}
+				}
+			});
+			pedimento.restante = pedimento.cantidad - pedimento.totalEntrada;
+		}
+	};
 }]);
 
 fabricacionModule.directive('pedimentoTotal', function() {
@@ -515,55 +566,27 @@ fabricacionModule.directive('pedimentoList', function() {
 		$scope.$watch('pedimentos', function(){
 			var datos = [];
 			angular.forEach($scope.pedimentos, function(pedimento, key) {
-				if (pedimento.producto.type == 'ProductoIntermediario') {
-					datos.push(pedimento);
-				}
-				if (pedimento.producto.type == 'ProductoConTalla') {
-					var grupo = null;
-					angular.forEach(datos, function(value, key) {
-						if (value.type == 'GrupoPedimento' && value.producto.lineaDeProductosId == pedimento.producto.lineaDeProductosId) {
-							grupo = value;
-						}
+				if (pedimento.type == 'GrupoPedimento') {
+					pedimento.pedimentos.sort(function(a,b){
+						return a.producto.talla.localeCompare(b.producto.talla);
 					});
-					if (grupo) {
-						grupo.cantidad = grupo.cantidad + pedimento.cantidad;
-						pedimento.producto.datosGenerales = grupo.producto.datosGenerales;
-						grupo.pedimentos.push(pedimento);
-						grupo.pedimentos.sort(function(a,b){
-							return a.producto.talla.localeCompare(b.producto.talla);
-						});
-					} else {
-						grupo = {
-							type:'GrupoPedimento',
-							producto:{
-								catalogoId:pedimento.producto.catalogoId,
-								lineaDeProductosId:pedimento.producto.lineaDeProductosId,
-								datosGenerales:{
-									nombre:'',
-									descripcion:'',
-									unidadMedida:''
-								}
-							},
-							cantidad:0,
-							pedimentos:[]
-						};
-						grupo.pedimentos.push(pedimento);
-						grupo.cantidad = pedimento.cantidad;
-						pedimento.producto.datosGenerales = grupo.producto.datosGenerales;
-						datos.push(grupo);
-						//cargar datos generales de la linea
-						$scope.lineaDao.get({catalogoId:grupo.producto.catalogoId, lineaProductoId:grupo.producto.lineaDeProductosId}).$promise.then(function(data) {
-							grupo.producto.datosGenerales.nombre = data.datosGenerales.nombre;
-							grupo.producto.datosGenerales.descripcion = data.datosGenerales.descripcion;
-							grupo.producto.datosGenerales.unidadMedida = data.datosGenerales.unidadMedida;
-							$scope.pedimentosOrdenados.sort(function(a,b){
-								return a.producto.datosGenerales.nombre.localeCompare(b.producto.datosGenerales.nombre);
-							});
-						}, function(errResponse) {
-
-						});
-					}
 				}
+				datos.push(pedimento);
+			});
+			datos.sort(function(a,b){
+				var objA;
+				var objB;
+				if (a.type == 'PedimentoIntermediario') {
+					objA = a.producto.datosGenerales;
+				} else {
+					objA = a.linea.datosGenerales;
+				}
+				if (b.type == 'PedimentoIntermediario') {
+					objB = b.producto.datosGenerales;
+				} else {
+					objB = b.linea.datosGenerales;
+				}
+				return objA.nombre.localeCompare(objB.nombre);
 			});
 			$scope.pedimentosOrdenados = datos;
 		});
@@ -589,8 +612,12 @@ fabricacionModule.factory('PedimentoCalculator', ['$log', function($log) {
 	var getTotalPorPartida = function(partida, pedimentos) {
 		var total = 0;
 		angular.forEach(pedimentos, function(value, key) {
-			if (value.producto.catalogoId == partida.producto.catalogoId && value.producto.id == partida.producto.id) {
-				total = total + value.cantidad;
+			if (value.type == 'GrupoPedimento') {
+				total = total + getTotalPorPartida(partida, value.pedimentos);
+			} else {
+				if (value.producto.catalogoId == partida.producto.catalogoId && value.producto.id == partida.producto.id) {
+					total = total + value.cantidad;
+				}
 			}
 		});
 		return total;
@@ -598,9 +625,19 @@ fabricacionModule.factory('PedimentoCalculator', ['$log', function($log) {
 	var	getTotalPorLinea = function(partida, pedimentos) {
 		var total = 0;
 		angular.forEach(pedimentos, function(value, key) {
-			if (value.producto.lineaDeProductosId && value.producto.catalogoId == partida.linea.catalogoId && 
-				value.producto.lineaDeProductosId == partida.linea.id) {
-				total = total + value.cantidad;
+			if (value.type == 'GrupoPedimento') {
+				total = total + getTotalPorLinea(partida, value.pedimentos);
+			} else {
+				var productoTmp;
+				if (partida.linea) {
+					productoTmp = partida.linea;
+				} else {
+					productoTmp = partida.producto;
+				}
+				if (value.producto.lineaDeProductosId && value.producto.catalogoId == productoTmp.catalogoId && 
+					value.producto.lineaDeProductosId == productoTmp.id) {
+					total = total + value.cantidad;
+				}
 			}
 		});
 		return total;
@@ -608,19 +645,12 @@ fabricacionModule.factory('PedimentoCalculator', ['$log', function($log) {
 	var	getTotalPorGrupo = function(partida, pedimentos) {
 		var total = 0;
 		angular.forEach(pedimentos, function(subPedimento, key) {
-			angular.forEach(subPedimento, function(value, key) {
-				if (partida.producto.type == 'ProductoIntermediario') {
-					if (value.producto.catalogoId == partida.producto.catalogoId && value.producto.id == partida.producto.id) {
-						total = total + value.cantidad;
-					}
-				}
-				if (partida.producto.type == 'LineaProductosPorTalla') {
-					if (value.producto.lineaDeProductosId && value.producto.catalogoId == partida.producto.catalogoId && 
-						value.producto.lineaDeProductosId == partida.producto.id) {
-						total = total + value.cantidad;
-					}
-				}
-			});
+			if (partida.producto.type == 'ProductoIntermediario') {
+				total = total + getTotalPorPartida(partida, subPedimento);
+			}
+			if (partida.producto.type == 'LineaProductosPorTalla') {
+				total = total + getTotalPorLinea(partida, subPedimento);
+			}
 		});
 		return total;
 	};

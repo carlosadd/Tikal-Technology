@@ -2,15 +2,15 @@
 	<h3 class="modal-title">Pagina de Contacto</h3>
 </div>
 <div class="modal-body">
-	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 	<form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
 		<div class="form-group">
 			<label for="network" class="col-sm-3 control-label">Etiqueta:</label>
 			<div class="col-sm-9" ng-class="{'has-error': form.network.$invalid}">
 				<input class="form-control" type="text" name="network" ng-model="modelo.network" placeholder="Etiqueta"
 					required pattern-xregexp="'^[\\p{N}\\p{L}][\\p{N}\\p{L}\\+]*( [\\p{N}\\p{L}\\+]+)*$'" maxlength="40"
-					popover-placement="top" popover="{{form.network.$invalid ? 'Campo obligatorio, Use solo caracteres y números' : ''}}" 
-					popover-toggle="form.network.$invalid && focusNetwork" ng-focus="focusNetwork=true" ng-blur="focusNetwork=false"/>
+					uib-popover="{{form.network.$invalid ? 'Campo obligatorio, Use solo caracteres y números' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -18,8 +18,8 @@
 			<div class="col-sm-9" ng-class="{'has-error': form.networkUrl.$invalid}">
 				<input class="form-control" type="url" name="networkUrl" ng-model="modelo.networkUrl" placeholder="Dirección Electronica"
 					required ng-maxlength="40"
-					popover-placement="top" popover="{{form.networkUrl.$invalid ? 'Debe ser una Url valida' : ''}}" 
-					popover-toggle="form.networkUrl.$invalid && focusUrl" ng-focus="focusUrl=true" ng-blur="focusUrl=false"/>
+					uib-popover="{{form.networkUrl.$invalid ? 'Debe ser una Url valida' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">

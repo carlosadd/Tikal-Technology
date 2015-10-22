@@ -9,8 +9,8 @@
 			<div class="col-sm-9" ng-class="{'has-error': form.name.$invalid}">
 				<input class="form-control" type="text" name="name" ng-model="modelo.name.name" placeholder="El nombre del nuevo contacto"
 					pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="83" required
-					popover-placement="top" popover="{{form.name.$invalid ? 'Campo obligatorio. Use solo caracteres, números y signos de puntuación' : ''}}" 
-					popover-toggle="form.name.$invalid && focus " ng-focus="focus=true" ng-blur="focus=false"/>
+					uib-popover="{{form.name.$invalid ? 'Campo obligatorio. Use solo caracteres, números y signos de puntuación' : ''}}"
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">

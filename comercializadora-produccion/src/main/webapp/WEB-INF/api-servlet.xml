@@ -27,6 +27,7 @@
 	    <ref bean="SubPedidoCacheController"/>
 	    <ref bean="PartidaCacheController"/>
 	    <ref bean="PedimentoCacheController"/>
+	    <ref bean="RegistroAlmacenCacheController"/>
 	</mvc:interceptors>
 	<!-- customizacion de jackson -->
 	<bean id="jacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
@@ -58,6 +59,11 @@
     <!-- Interfaz Pedimentos -->
     <bean id="PedimentoService" class="technology.tikal.ventas.service.pedimento.PedimentoService">
 	    <property name="pedimentoController" ref="pedimentoController"/>
+	    <property name="messageSource" ref="messageSource"/>
+    </bean>
+    <!-- Interfaz Entradas -->
+    <bean id="EntradaService" class="technology.tikal.ventas.service.almacen.EntradaService">
+	    <property name="entradaController" ref="entradaController"/>
 	    <property name="messageSource" ref="messageSource"/>
     </bean>
     <!-- Interfaz Catalogos -->

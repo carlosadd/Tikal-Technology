@@ -2,15 +2,15 @@
 	<h3 class="modal-title">Nuevo Producto</h3>
 </div>
 <div class="modal-body">
-	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 	<form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
 		<div class="form-group">
 			<label for="nombre" class="col-sm-3 control-label">Nombre o clave:</label>
 			<div class="col-sm-9" ng-class="{'has-error': form.nombre.$invalid}">
 				<input class="form-control" type="text" name="nombre" ng-model="modelo.datosGenerales.nombre" placeholder="El nombre o clave que identifica el producto"
 					required pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="20"
-					popover-placement="top" popover="{{form.nombre.$invalid ? 'Campo obligatorio. Use caracteres, números y signos de puntiación' : ''}}" 
-					popover-toggle="form.nombre.$invalid && focusName" ng-focus="focusName=true" ng-blur="focusName=false"/>
+					uib-popover="{{form.nombre.$invalid ? 'Campo obligatorio. Use caracteres, números y signos de puntiación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">

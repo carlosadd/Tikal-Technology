@@ -2,15 +2,15 @@
 	<h3 class="modal-title">Dirección de Contacto</h3>
 </div>
 <div class="modal-body">
-	<alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</alert>
+	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
 	<form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
 		<div class="form-group">
 			<label for="tag" class="col-sm-3 control-label">Etiqueta:</label>
 			<div class="col-sm-9" ng-class="{'has-error': form.tag.$invalid}">
 				<input class="form-control" type="text" name="tag" ng-model="modelo.tag" placeholder="Etiqueta"
 					required pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="40"
-					popover-placement="top" popover="{{form.tag.$invalid ? 'Campo obligatorio, Use solo caracteres, números y signos de puntuación' : ''}}" 
-					popover-toggle="form.tag.$invalid && focusTag" ng-focus="focusTag=true" ng-blur="focusTag=false"/>
+					uib-popover="{{form.tag.$invalid ? 'Campo obligatorio, Use solo caracteres, números y signos de puntuación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -18,8 +18,8 @@
 			<div class="col-sm-9" ng-class="{'has-error': form.calle.$invalid}">
 				<input class="form-control" type="text" name="calle" ng-model="modelo.calle" placeholder="Calle"
 					pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="40"
-					popover-placement="top" popover="{{form.calle.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
-					popover-toggle="form.calle.$invalid && focusCalle" ng-focus="focusCalle=true" ng-blur="focusCalle=false"/>
+					uib-popover="{{form.calle.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -27,8 +27,8 @@
 			<div class="col-sm-9" ng-class="{'has-error': form.numeroExterior.$invalid}">
 				<input class="form-control" type="text" name="numeroExterior" ng-model="modelo.numeroExterior" placeholder="N&uacute;mero Exterior"
 					pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="40"
-					popover-placement="top" popover="{{form.numeroExterior.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
-					popover-toggle="form.numeroExterior.$invalid && focusNumeroExterior" ng-focus="focusNumeroExterior=true" ng-blur="focusNumeroExterior=false"/>
+					uib-popover="{{form.numeroExterior.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -36,8 +36,8 @@
 			<div class="col-sm-9" ng-class="{'has-error': form.numeroInterior.$invalid}">
 				<input class="form-control" type="text" name="numeroInterior" ng-model="modelo.numeroInterior" placeholder="N&uacute;mero Interior"
 					pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="40"
-					popover-placement="top" popover="{{form.numeroInterior.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
-					popover-toggle="form.numeroInterior.$invalid && focusNumeroInterior" ng-focus="focusNumeroInterior=true" ng-blur="focusNumeroInterior=false"/>
+					uib-popover="{{form.numeroInterior.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -45,8 +45,8 @@
 			<div class="col-sm-9" ng-class="{'has-error': form.colonia.$invalid}">
 				<input class="form-control" type="text" name="colonia" ng-model="modelo.colonia" placeholder="Colonia"
 					pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="40"
-					popover-placement="top" popover="{{form.colonia.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
-					popover-toggle="form.colonia.$invalid && focusColonia" ng-focus="focusColonia=true" ng-blur="focusColonia=false"/>
+					uib-popover="{{form.colonia.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -54,8 +54,8 @@
 			<div class="col-sm-9" ng-class="{'has-error': form.codigoPostal.$invalid}">
 				<input class="form-control" type="text" name="codigoPostal" ng-model="modelo.codigoPostal" placeholder="Codigo Postal"
 					pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="40"
-					popover-placement="top" popover="{{form.codigoPostal.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
-					popover-toggle="form.codigoPostal.$invalid && focusCodigoPostal" ng-focus="focusCodigoPostal=true" ng-blur="focusCodigoPostal=false"/>
+					uib-popover="{{form.codigoPostal.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -63,8 +63,8 @@
 			<div class="col-sm-9" ng-class="{'has-error': form.ciudad.$invalid}">
 				<input class="form-control" type="text" name="ciudad" ng-model="modelo.ciudad" placeholder="Ciudad"
 					pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="40"
-					popover-placement="top" popover="{{form.ciudad.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
-					popover-toggle="form.ciudad.$invalid && focusCiudad" ng-focus="focusCiudad=true" ng-blur="focusCiudad=false"/>
+					uib-popover="{{form.ciudad.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">
@@ -72,8 +72,8 @@
 			<div class="col-sm-9" ng-class="{'has-error': form.estado.$invalid}">
 				<input class="form-control" type="text" name="estado" ng-model="modelo.estado" placeholder="Estado"
 					pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="40"
-					popover-placement="top" popover="{{form.estado.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
-					popover-toggle="form.estado.$invalid && focusEstado" ng-focus="focusEstado=true" ng-blur="focusEstado=false"/>
+					uib-popover="{{form.estado.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
 		<div class="form-group">

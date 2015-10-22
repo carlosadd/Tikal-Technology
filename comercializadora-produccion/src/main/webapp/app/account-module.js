@@ -1,18 +1,3 @@
-/**
- *   Copyright 2015 Tikal-Technology
- *
- *Licensed under the Apache License, Version 2.0 (the "License");
- *  you may not use this file except in compliance with the License.
- *  You may obtain a copy of the License at
- *
- *      http://www.apache.org/licenses/LICENSE-2.0
- *
- *  Unless required by applicable law or agreed to in writing, software
- *  distributed under the License is distributed on an "AS IS" BASIS,
- *  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- *  See the License for the specific language governing permissions and
- *  limitations under the License
- */
 'use strict';
 
 var accountModule = angular.module('tikal.modules.Account', ['ngRoute','ngResource','angular-ladda','ngDialog']);
@@ -72,8 +57,8 @@ accountModule.config(function ($routeProvider, $httpProvider) {
 	$httpProvider.interceptors.push('tikal.modules.Account.authInterceptor');
 });
 
-accountModule.controller('tikal.modules.Account.LoginCtrl', ['$scope', '$location', 'datepickerPopupConfig', 'tikal.service.AuthService', '$log', 'tikal.modules.Account.local.Store', 'AUTH_EVENTS',
-  function ($scope, $location, datepickerPopupConfig, AuthService, $log, sesionStore, AUTH_EVENTS) {
+accountModule.controller('tikal.modules.Account.LoginCtrl', ['$scope', '$location', 'tikal.service.AuthService', '$log', 'tikal.modules.Account.local.Store', 'AUTH_EVENTS',
+  function ($scope, $location, AuthService, $log, sesionStore, AUTH_EVENTS) {
 	$scope.credentials = {
 		user: '',
 		password: '',
@@ -112,9 +97,9 @@ accountModule.controller('tikal.modules.Account.LoginCtrl', ['$scope', '$locatio
 		$scope.logout();
 	});
 	// TRANSLATION
-	datepickerPopupConfig.currentText = 'Hoy';
-	datepickerPopupConfig.clearText = 'Limpiar';
-	datepickerPopupConfig.closeText = 'Cerrar';
+	//datepickerPopupConfig.currentText = 'Hoy';
+	//datepickerPopupConfig.clearText = 'Limpiar';
+	//datepickerPopupConfig.closeText = 'Cerrar';
 }]);
 
 accountModule.controller('tikal.modules.Account.ListAccountCtrl', ['$scope', '$resource', 'ACCOUNTS_REMOTE_ADDRESS', '$location', 'tikal.model.Accounts', 

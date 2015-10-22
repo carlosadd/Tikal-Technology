@@ -83,14 +83,13 @@ public class LineaProductoControllerImp implements LineaProductoController {
     public void borrar(Long idCatalogo, Long lineaProductoId) {
         PaginationDataLong pagination = new PaginationDataLong();
         pagination.setMaxResults(1);
-        do {
-            pagination.setSinceId(pagination.getNextId());
-            pagination.setNextId(null);
-            ProductoDeLinea[] tallas = productoDeLineaController.consultar(idCatalogo, lineaProductoId, pagination);
-            for (ProductoDeLinea x: tallas) {
-                productoDeLineaController.borrar(idCatalogo, lineaProductoId, x.getId());
-            }
-        } while(pagination.hasNextId());
+        ProductoDeLinea[] tallas = productoDeLineaController.consultar(idCatalogo, lineaProductoId, pagination);
+        if (tallas.length > 0) {
+            throw new MessageSourceResolvableException(new DefaultMessageSourceResolvable(
+                    new String[]{"NotEmpty.LineaProductoControllerImp.borrar"}, 
+                    new String[]{idCatalogo + ""}, 
+                    "La linea de productos no esta vacia"));
+        }
         CatalogoOfy catalogo = (CatalogoOfy) catalogoController.cargar(idCatalogo);
         LineaDeProductosOfy lineaDeProductos = dao.consultar(catalogo, lineaProductoId);
         dao.borrar(catalogo, lineaDeProductos);

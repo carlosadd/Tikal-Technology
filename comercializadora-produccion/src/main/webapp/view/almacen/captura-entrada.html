@@ -1,0 +1,72 @@
+<div class="modal-header">
+	<h3 class="modal-title">Entrada Almacén</h3>
+</div>
+<div class="modal-body">
+	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+	<form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
+		<div class="form-group">
+			<label for="pedidoRaiz" class="col-sm-3 control-label">Pedido:</label>
+			<div class="col-sm-9">
+				<p class="form-control-static">{{modelo.pedidoRaiz.nombre}}</p>
+			</div>
+		</div>
+		<div class="form-group" ng-if="modelo.subPedido">
+			<label for="subPedido" class="col-sm-3 control-label">Punto Entrega:</label>
+			<div class="col-sm-9">
+				<p class="form-control-static">{{modelo.subPedido.display}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="proveedor" class="col-sm-3 control-label">Proveedor:</label>
+			<div class="col-sm-9">
+				<p class="form-control-static">{{modelo.fabricante.name.name}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="nombreProducto" class="col-sm-3 control-label">Producto:</label>
+			<div class="col-sm-9">
+				<p class="form-control-static">{{modelo.pedimento.producto.datosGenerales.nombre}} - {{modelo.pedimento.producto.datosGenerales.descripcion}}</p>
+			</div>
+		</div>
+		<div class="form-group" ng-if="modelo.pedimento.producto.talla">
+			<label for="talla" class="col-sm-3 control-label">Talla:</label>
+			<div class="col-sm-9">
+				<p class="form-control-static">{{modelo.pedimento.producto.talla}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="fecha" class="col-sm-3 control-label">Fecha Entrada:</label>
+			<div class="col-sm-9">
+				<p class="form-control-static">{{modelo.fechaEntrega | date : modelo.formatoFecha}}</p>
+			</div>
+		</div>
+		<!--<div class="form-group">
+			<label for="pendiente" class="col-sm-3 control-label">Pendiente Entrar:</label>
+			<div class="col-sm-9">
+				<p class="form-control-static">{{modelo.max | number}}</p>
+			</div>
+		</div>-->
+		<div class="form-group">
+			<label for="cantidad" class="col-sm-3 control-label">Cantidad:</label>
+			<div class="col-sm-9" ng-class="{'has-error': form.cantidad.$invalid}">
+				<input class="form-control" type="number" name="cantidad" ng-model="modelo.cantidad" placeholder="La cantidad de la entrada"
+					required min="0" max="{{modelo.max}}"
+					uib-popover="{{form.cantidad.$invalid ? 'Campo obligatorio. No exceda la cantidad pedida' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
+			</div>
+		</div>
+		<div class="form-group" ng-if="dynamic != null">
+			<label for="contacto" class="col-sm-3 control-label">Asignando:</label>
+			<div class="col-sm-9">
+				<uib-progressbar value="dynamic"><b>{{dynamic}}%</b></uib-progressbar>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12 text-right">
+				<button class="btn btn-default" type="button" ng-click="close()">Cancelar</button>
+				<button type="submit" class="btn btn-primary" type="button" ng-disabled="form.$invalid" 
+					ladda="actionLoading" data-style="expand-left">Guardar</button>
+			</div>
+		</div>
+	</form>
+</div>
