@@ -35,7 +35,10 @@ textarea {
 	padding-left: 15px !important;
 }
 .sub-renglon{
-	padding-left: 30px !important;
+	padding-left: 20px !important;
+}
+.sub-sub-renglon{
+	padding-left: 40px !important;
 }
 .icono-herramienta{
 	text-align:center;

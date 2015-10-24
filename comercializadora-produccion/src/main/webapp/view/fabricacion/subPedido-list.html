@@ -1,19 +1,112 @@
-<table class="table table-striped">
-	<thead>
-	  <tr>
-		<th style="min-width: 20px;">&nbsp;</th>
-		<th style="min-width: 20px;">&nbsp;</th>
-	  </tr>
-	</thead>
-	<tbody>
-	  <tr ng-repeat="subPedido in subPedidos.items">
-		<td>
-			<a href ng-click="verSubPedido(subPedido.id)" aria-label="Left Align">
-				<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
-				<span class="espacio-tab">{{subPedido.puntoEntrega.nombreCorto}}</span>
-			</a>
-		</td>
-		<td>{{subPedido.puntoEntrega.nombre}}</td>
-	  </tr>
-	</tbody>
-</table>
+<div ng-controller="tikal.modules.Fabricacion.Pedimento.resumen">
+	<uib-tabset>
+		<uib-tab heading="Punto Entrega">
+			<table class="table table-striped">
+				<thead>
+				  <tr>
+					<th style="min-width: 20px;">&nbsp;</th>
+					<th style="min-width: 20px;">&nbsp;</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr ng-repeat="subPedido in subPedidos.items">
+					<td>
+						<a href ng-click="verSubPedido(subPedido.id)" aria-label="Left Align">
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+							<span class="espacio-tab">{{subPedido.puntoEntrega.nombreCorto}}</span>
+						</a>
+					</td>
+					<td>{{subPedido.puntoEntrega.nombre}}</td>
+				  </tr>
+				</tbody>
+			</table>
+		</uib-tab>
+		<uib-tab heading="Productos">
+			<div class="row top-buffer" ng-if="workDone < workSize">
+				<div class="col-sm-8 col-sm-offset-2"><uib-progressbar value="dynamic"><b>Cargando Informaci&oacute;n {{dynamic}}%</b></uib-progressbar></div>
+			</div>
+			<table class="table table-striped">
+				<thead>
+				  <tr>
+					<th style="width:20px;">&nbsp;</th><!--signo +/- -->
+					<th style="min-width: 20px;">&nbsp;</th>
+					<th class="text-center" style="min-width: 20px;">Asignado</th>
+					<th class="text-center" style="min-width: 20px;">Entrada Almacén</th>
+					<th class="text-center" style="min-width: 20px;">Pendiente Entrada</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr ng-repeat-start="producto in productos">
+					<td>
+						<a href ng-click="hideShowProductoDetail(producto)" aria-label="Left Align">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" ng-if="!producto.showSub"></span>
+							<span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="producto.showSub"></span>
+						</a>
+					</td>
+					<td>{{producto.datosGenerales.nombre}} - {{producto.datosGenerales.descripcion}}</td>
+					<td class="celdaNumerica">{{producto.cantidad | number}}</td>
+					<td class="celdaNumerica">{{producto.entrada | number}}</td>
+					<td class="celdaNumerica">{{producto.pendiente | number}}</td>
+				  </tr>
+				  <tr ng-if="producto.showSub" ng-repeat="pedimento in producto.pedimentos" ng-repeat-end>
+					<td>&nbsp;</td>
+					<td class="sub-renglon">
+						<a href ng-click="verSubPedido(pedimento.pedido.id)" aria-label="Left Align">
+							{{pedimento.pedido.puntoEntrega.nombreCorto}} - {{pedimento.proveedor.name.name}}
+						</a>
+					</td>
+					<td class="celdaNumerica">{{pedimento.cantidad | number}}</td>
+					<td class="celdaNumerica">{{pedimento.entrada | number}}</td>
+					<td class="celdaNumerica">{{pedimento.pendiente | number}}</td>
+				  </tr>
+				</tbody>
+			</table>
+		</uib-tab>
+		<uib-tab heading="Fabricantes">
+			<div class="row top-buffer" ng-if="workDone < workSize">
+				<div class="col-sm-8 col-sm-offset-2"><uib-progressbar value="dynamic"><b>Cargando Informaci&oacute;n {{dynamic}}%</b></uib-progressbar></div>
+			</div>
+			<table class="table table-striped">
+				<thead>
+				  <tr>
+					<th style="width:20px;">&nbsp;</th><!--signo +/- -->
+					<th style="min-width: 20px;">&nbsp;</th>
+					<th class="text-center" style="min-width: 20px;">Asignado</th>
+					<th class="text-center" style="min-width: 20px;">Entrada Almacén</th>
+					<th class="text-center" style="min-width: 20px;">Pendiente Entrada</th>
+				  </tr>
+				</thead>
+				<tbody>
+				  <tr ng-repeat-start="proveedor in proveedorAsignado">
+					<td>
+						<a href ng-click="hideShowProveedorDetail(proveedor)" aria-label="Left Align">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" ng-if="!proveedor.showSub"></span>
+							<span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="proveedor.showSub"></span>
+						</a>
+					</td>
+					<td>{{proveedor.name.name}}</td>
+					<td class="celdaNumerica">{{proveedor.cantidad | number}}</td>
+					<td class="celdaNumerica">{{proveedor.entrada | number}}</td>
+					<td class="celdaNumerica">{{proveedor.pendiente | number}}</td>
+				  </tr>
+				  <tr ng-if="proveedor.showSub" ng-repeat="pedimento in proveedor.pedimentos" ng-repeat-end>
+					<td>&nbsp;</td>
+					<td class="sub-renglon" ng-if="pedimento.type=='GrupoPedimento'">
+						<a href ng-click="verSubPedido(pedimento.pedido.id)" aria-label="Left Align">
+							{{pedimento.pedido.puntoEntrega.nombreCorto}} - {{pedimento.linea.datosGenerales.nombre}} {{pedimento.linea.datosGenerales.descripcion}}
+						</a>
+					</td>
+					<td class="sub-renglon" ng-if="pedimento.type=='PedimentoIntermediario'">
+						<a href ng-click="verSubPedido(pedimento.pedido.id)" aria-label="Left Align">
+							{{pedimento.pedido.puntoEntrega.nombreCorto}} - {{pedimento.producto.datosGenerales.nombre}} {{pedimento.producto.datosGenerales.descripcion}}
+						</a>
+					</td>
+					<td class="celdaNumerica">{{pedimento.cantidad | number}}</td>
+					<td class="celdaNumerica">{{pedimento.entrada | number}}</td>
+					<td class="celdaNumerica">{{pedimento.pendiente | number}}</td>
+				  </tr>
+				</tbody>
+			</table>
+		</uib-tab>
+	</uib-tabset>
+</div>

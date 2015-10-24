@@ -207,6 +207,223 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.consultaAllCtr
 	});
 }]);
 
+fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.resumen', ['$scope', '$resource', '$routeParams', 'PRODUCCION_REMOTE_ADDRESS', 'contactoRaizDao', '$location', '$uibModal', '$log',
+  function ($scope, $resource, $routeParams, config, contactoRaizDao, $location, $uibModal, $log) {
+	$scope.pedimentoDao = $resource(config.address + '/api/pedido/:pedidoId/pedimento',{pedidoId:$scope.currentPedidoId}, {
+		'query':  {method:'GET', isArray:false}
+	});
+	$scope.entradaDao = $resource(config.address + '/api/pedido/:pedidoId/almacen/entrada/:entradaId',{}, {
+		'query':  {method:'GET', isArray:false}
+	});
+	$scope.workSize = 0;
+	$scope.workDone = 0;
+	$scope.loadPedimentos = function(pedido) {
+		$scope.pedimentoDao.query({pedidoId:pedido.id}).$promise.then(function(data) {
+			angular.forEach(data.items, function(pedimento, key) {
+				pedimento.pedido = pedido;
+			});
+			pedido.pedimentos = data.items;
+			$scope.workDone = $scope.workDone + 1;
+		}, function(errResponse) {
+
+		});
+	};
+	$scope.loadEntradas = function(pedido) {
+		$scope.entradaDao.query({pedidoId:pedido.id}).$promise.then(function(data) {
+			pedido.entradas = data.items;
+			$scope.workDone = $scope.workDone + 1;
+		}, function(errResponse) {
+
+		});
+	}
+	$scope.loadProveedores = function() {
+		contactoRaizDao.query({group:'proveedor'}).$promise.then(function(data) {
+			$scope.proveedores = data.items;
+			$scope.workDone = $scope.workDone + 1;
+		}, function(errResponse) {
+		
+		});
+	}
+	$scope.fillNames = function() {
+		angular.forEach($scope.subPedidos.items, function(pedido, key) {
+			angular.forEach(pedido.pedimentos, function(pedimento, i) {
+				angular.forEach($scope.proveedores, function(proveedor, j) {
+					if (pedimento.idProveedor == proveedor.id) {
+						//pedimento.proveedorName = proveedor.name.name;
+						pedimento.proveedor = proveedor;
+					}
+				});
+			});
+		});
+	}
+	$scope.addEntradas = function() {
+		angular.forEach($scope.subPedidos.items, function(pedido, key) {
+			angular.forEach(pedido.pedimentos, function(pedimento, i) {
+				angular.forEach(pedido.entradas, function(entrada, j) {
+					if (pedimento.type == 'GrupoPedimento' && entrada.type == 'GrupoRegistroAlmacen') {
+						if (pedimento.linea.catalogoId == entrada.linea.catalogoId && pedimento.linea.id == entrada.linea.id && pedimento.idProveedor == entrada.idProveedor) {
+							if (!pedimento.entradas) {
+								pedimento.entradas = [];
+							}
+							pedimento.entradas.push(entrada);
+						}
+					}
+					if (pedimento.type == 'PedimentoIntermediario' && entrada.type == 'EntradaIntermediario') {
+						if (pedimento.producto.catalogoId == entrada.producto.catalogoId && pedimento.producto.id == entrada.producto.id && pedimento.idProveedor == entrada.idProveedor) {
+							if (!pedimento.entradas) {
+								pedimento.entradas = [];
+							}
+							pedimento.entradas.push(entrada);
+						}
+					}
+				});
+				var entradaPedimento = 0;
+				angular.forEach(pedimento.entradas, function(entrada, i) {
+					entradaPedimento = entradaPedimento + entrada.cantidad;
+				});
+				pedimento.entrada = entradaPedimento;
+				pedimento.pendiente = pedimento.cantidad - pedimento.entrada;
+			});
+		});
+	}
+	$scope.sortByProducto = function() {
+		var productos = [];
+		angular.forEach($scope.subPedidos.items, function(pedido, key) {
+			angular.forEach(pedido.pedimentos, function(pedimento, i) {
+				var existente = false;
+				if (pedimento.type == 'GrupoPedimento') {
+					angular.forEach(productos, function(producto, j) {
+						if (producto.type == 'LineaProductosPorTalla' && producto.catalogoId == pedimento.linea.catalogoId && producto.id == pedimento.linea.id) {
+							existente = true;
+							producto.pedimentos.push(pedimento);
+						}
+					});
+					if (!existente) {
+						pedimento.linea.pedimentos = [];
+						pedimento.linea.pedimentos.push(pedimento);
+						productos.push(pedimento.linea);
+					}
+				} else {
+					angular.forEach(productos, function(producto, j) {
+						if (producto.type == 'ProductoIntermediario' && producto.catalogoId == pedimento.producto.catalogoId && producto.id == pedimento.producto.id) {
+							existente = true;
+							producto.pedimentos.push(pedimento);
+						}
+					});
+					if (!existente) {
+						pedimento.producto.pedimentos = [];
+						pedimento.producto.pedimentos.push(pedimento);
+						productos.push(pedimento.producto);
+					}
+				}
+			});
+		});
+		//calcula totales;
+		angular.forEach(productos, function(producto, key) {
+			var total = 0;
+			var entradaTotal = 0;
+			angular.forEach(producto.pedimentos, function(pedimento, i) {
+				total = total + pedimento.cantidad;
+				entradaTotal = entradaTotal + pedimento.entrada;
+			});
+			producto.cantidad = total;
+			producto.entrada = entradaTotal;
+			producto.pendiente = producto.cantidad - producto.entrada;
+		});
+		productos.sort(function(a,b){
+			return a.datosGenerales.nombre.localeCompare(b.datosGenerales.nombre);
+		});
+		angular.forEach(productos, function(producto, key) {
+			producto.pedimentos.sort(function(a,b){
+				return a.pedido.puntoEntrega.nombreCorto.localeCompare(b.pedido.puntoEntrega.nombreCorto);
+			});
+		});
+		$scope.productos = productos;
+	}
+	
+	$scope.sortByProveedor = function() {
+		var proveedorAsignado = [];
+		angular.forEach($scope.subPedidos.items, function(pedido, key) {
+			angular.forEach(pedido.pedimentos, function(pedimento, i) {
+				var existente = false;
+				angular.forEach(proveedorAsignado, function(proveedor, j) {
+					if (proveedor.id == pedimento.idProveedor) {
+						existente = true;
+						proveedor.pedimentos.push(pedimento);
+					}
+				});
+				if (!existente) {
+					pedimento.proveedor.pedimentos = [];
+					pedimento.proveedor.pedimentos.push(pedimento);
+					proveedorAsignado.push(pedimento.proveedor);
+				}
+			});
+		});
+		//calcula totales;
+		angular.forEach(proveedorAsignado, function(proveedor, key) {
+			var total = 0;
+			var entradaTotal = 0;
+			angular.forEach(proveedor.pedimentos, function(pedimento, i) {
+				total = total + pedimento.cantidad;
+				entradaTotal = entradaTotal + pedimento.entrada;
+			});
+			proveedor.cantidad = total;
+			proveedor.entrada = entradaTotal;
+			proveedor.pendiente = proveedor.cantidad - proveedor.entrada;
+		});
+		proveedorAsignado.sort(function(a,b){
+			return a.name.name.localeCompare(b.name.name);
+		});
+		angular.forEach(proveedorAsignado, function(proveedor, key) {
+			proveedor.pedimentos.sort(function(a,b){
+				return a.pedido.puntoEntrega.nombreCorto.localeCompare(b.pedido.puntoEntrega.nombreCorto);
+			});
+		});
+		$scope.proveedorAsignado = proveedorAsignado;
+	}
+	
+	$scope.$watch('subPedidos', function(newValue, oldValue) {
+		if ($scope.subPedidos && $scope.subPedidos.items) {
+			$scope.workSize = ($scope.subPedidos.items.length * 2) + 1;
+			$scope.loadProveedores();
+			angular.forEach($scope.subPedidos.items, function(pedido, key) {
+				$scope.loadPedimentos(pedido);
+				$scope.loadEntradas(pedido);
+			});
+		}
+	});
+	$scope.$watch('workDone', function(newValue, oldValue) {
+		$scope.dynamic=Math.floor($scope.workDone/$scope.workSize*100);
+		if ($scope.workSize > 0 && $scope.workSize == $scope.workDone) {
+			$log.info('phase 2');
+			$scope.fillNames();
+			$scope.addEntradas();
+			$scope.sortByProducto();
+			$scope.sortByProveedor();
+		}
+	});
+	$scope.hideShowProductoDetail = function(producto) {
+		if (producto.showSub) {
+			producto.showSub = false;
+		} else {
+			angular.forEach($scope.productos, function(value, key) {
+				value.showSub = false;
+			});
+			producto.showSub = true;
+		}
+	};
+	$scope.hideShowProveedorDetail = function(proveedor) {
+		if (proveedor.showSub) {
+			proveedor.showSub = false;
+		} else {
+			angular.forEach($scope.proveedorAsignado, function(value, key) {
+				value.showSub = false;
+			});
+			proveedor.showSub = true;
+		}
+	};
+}]);
+
 fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.creacionCtrl', ['$scope', '$resource', '$routeParams', 'PedimentoCalculator', 'PRODUCCION_REMOTE_ADDRESS', '$location', '$uibModal', '$log',
   function ($scope, $resource, $routeParams, PedimentoCalculator, config, $location, $uibModal, $log) {
 	$scope.grupoContacto = {
