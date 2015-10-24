@@ -318,13 +318,47 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.resumen', ['$s
 				}
 			});
 		});
+		//organiza por proveedor
+		angular.forEach(productos, function(producto, key) {
+			var proveedores = [];
+			angular.forEach(producto.pedimentos, function(pedimento, i) {
+				var encontrado = false;
+				angular.forEach(proveedores, function(proveedor, j) {
+					if (proveedor.id == pedimento.idProveedor) {
+						encontrado = true;
+						proveedor.pedimentos.push(pedimento);
+					}
+				});
+				if (!encontrado) {
+					var copiaProveedor = {
+						type: pedimento.proveedor.type,
+						id: pedimento.proveedor.id,
+						name: pedimento.proveedor.name,
+					};
+					copiaProveedor.pedimentos = [];
+					copiaProveedor.pedimentos.push(pedimento);
+					proveedores.push(copiaProveedor);
+				}
+			});
+			producto.pedimentos = null;
+			producto.proveedores = proveedores;
+		});
 		//calcula totales;
 		angular.forEach(productos, function(producto, key) {
 			var total = 0;
 			var entradaTotal = 0;
-			angular.forEach(producto.pedimentos, function(pedimento, i) {
-				total = total + pedimento.cantidad;
-				entradaTotal = entradaTotal + pedimento.entrada;
+			angular.forEach(producto.proveedores, function(proveedor, i) {
+				var totalProveedor = 0;
+				var totalEntradaProveedor = 0;
+				angular.forEach(proveedor.pedimentos, function(pedimento, i) {
+					totalProveedor = totalProveedor + pedimento.cantidad;
+					totalEntradaProveedor = totalEntradaProveedor + pedimento.entrada;
+				});
+				proveedor.cantidad = totalProveedor;
+				proveedor.entrada = totalEntradaProveedor;
+				proveedor.pendiente = proveedor.cantidad - proveedor.entrada;
+				total = total + proveedor.cantidad;
+				entradaTotal = entradaTotal + proveedor.entrada;
 			});
 			producto.cantidad = total;
 			producto.entrada = entradaTotal;
@@ -334,8 +368,13 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.resumen', ['$s
 			return a.datosGenerales.nombre.localeCompare(b.datosGenerales.nombre);
 		});
 		angular.forEach(productos, function(producto, key) {
-			producto.pedimentos.sort(function(a,b){
-				return a.pedido.puntoEntrega.nombreCorto.localeCompare(b.pedido.puntoEntrega.nombreCorto);
+			producto.proveedores.sort(function(a,b){
+				return a.name.name.localeCompare(b.name.name);
+			});
+			angular.forEach(producto.proveedores, function(proveedores, key) {
+				proveedores.pedimentos.sort(function(a,b){
+					return a.pedido.puntoEntrega.nombreCorto.localeCompare(b.pedido.puntoEntrega.nombreCorto);
+				});
 			});
 		});
 		$scope.productos = productos;
@@ -359,13 +398,65 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.resumen', ['$s
 				}
 			});
 		});
+		//organiza por producto
+		angular.forEach(proveedorAsignado, function(proveedor, key) {
+			var productos = [];
+			angular.forEach(proveedor.pedimentos, function(pedimento, i) {
+				var existente = false;
+				angular.forEach(productos, function(producto, j) {
+					if (pedimento.type == 'GrupoPedimento' && producto.type == 'LineaProductosPorTalla' 
+						&& producto.catalogoId == pedimento.linea.catalogoId && producto.id == pedimento.linea.id) {
+							existente = true;
+							producto.pedimentos.push(pedimento);
+					}
+					if (pedimento.type == 'PedimentoIntermediario' && producto.type == 'ProductoIntermediario' 
+						&& producto.catalogoId == pedimento.producto.catalogoId && producto.id == pedimento.producto.id) {
+						existente = true;
+						producto.pedimentos.push(pedimento);
+					}
+				});
+				if (!existente) {
+					var copiaProducto;
+					if (pedimento.type == 'GrupoPedimento') {
+						copiaProducto = {
+							type: pedimento.linea.type,
+							id: pedimento.linea.id,
+							catalogoId: pedimento.linea.catalogoId,
+							datosGenerales: pedimento.linea.datosGenerales
+						};
+					}
+					if (pedimento.type == 'PedimentoIntermediario') {
+						copiaProducto = {
+							type: pedimento.producto.type,
+							id: pedimento.producto.id,
+							catalogoId: pedimento.producto.catalogoId,
+							datosGenerales: pedimento.producto.datosGenerales
+						};
+					}
+					copiaProducto.pedimentos = [];
+					copiaProducto.pedimentos.push(pedimento);
+					productos.push(copiaProducto);
+				}
+			});
+			proveedor.productos = productos;
+			proveedor.pedimentos = [];
+		});
 		//calcula totales;
 		angular.forEach(proveedorAsignado, function(proveedor, key) {
 			var total = 0;
 			var entradaTotal = 0;
-			angular.forEach(proveedor.pedimentos, function(pedimento, i) {
-				total = total + pedimento.cantidad;
-				entradaTotal = entradaTotal + pedimento.entrada;
+			angular.forEach(proveedor.productos, function(producto, i) {
+				var totalProducto = 0;
+				var entradaTotalProducto = 0;
+				angular.forEach(producto.pedimentos, function(pedimento, j) {
+					totalProducto = totalProducto + pedimento.cantidad;
+					entradaTotalProducto = entradaTotalProducto + pedimento.entrada;
+				});
+				producto.cantidad = totalProducto;
+				producto.entrada = entradaTotalProducto;
+				producto.pendiente = producto.cantidad - producto.entrada;
+				total = total + producto.cantidad;
+				entradaTotal = entradaTotal + producto.entrada;
 			});
 			proveedor.cantidad = total;
 			proveedor.entrada = entradaTotal;
@@ -375,8 +466,13 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.resumen', ['$s
 			return a.name.name.localeCompare(b.name.name);
 		});
 		angular.forEach(proveedorAsignado, function(proveedor, key) {
-			proveedor.pedimentos.sort(function(a,b){
-				return a.pedido.puntoEntrega.nombreCorto.localeCompare(b.pedido.puntoEntrega.nombreCorto);
+			proveedor.productos.sort(function(a,b){
+				return a.datosGenerales.nombre.localeCompare(b.datosGenerales.nombre);
+			});
+			angular.forEach(proveedor.productos, function(producto, key) {
+				producto.pedimentos.sort(function(a,b){
+					return a.pedido.puntoEntrega.nombreCorto.localeCompare(b.pedido.puntoEntrega.nombreCorto);
+				});
 			});
 		});
 		$scope.proveedorAsignado = proveedorAsignado;
@@ -402,24 +498,14 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.resumen', ['$s
 			$scope.sortByProveedor();
 		}
 	});
-	$scope.hideShowProductoDetail = function(producto) {
-		if (producto.showSub) {
-			producto.showSub = false;
+	$scope.hideShowDetail = function(item, items) {
+		if (item.showSub) {
+			item.showSub = false;
 		} else {
-			angular.forEach($scope.productos, function(value, key) {
+			angular.forEach(items, function(value, key) {
 				value.showSub = false;
 			});
-			producto.showSub = true;
-		}
-	};
-	$scope.hideShowProveedorDetail = function(proveedor) {
-		if (proveedor.showSub) {
-			proveedor.showSub = false;
-		} else {
-			angular.forEach($scope.proveedorAsignado, function(value, key) {
-				value.showSub = false;
-			});
-			proveedor.showSub = true;
+			item.showSub = true;
 		}
 	};
 }]);

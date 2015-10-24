@@ -1,7 +1,7 @@
 <div ng-controller="tikal.modules.Fabricacion.Pedimento.resumen">
 	<uib-tabset>
 		<uib-tab heading="Punto Entrega">
-			<table class="table table-striped">
+			<table class="table table-hover">
 				<thead>
 				  <tr>
 					<th style="min-width: 20px;">&nbsp;</th>
@@ -25,10 +25,9 @@
 			<div class="row top-buffer" ng-if="workDone < workSize">
 				<div class="col-sm-8 col-sm-offset-2"><uib-progressbar value="dynamic"><b>Cargando Informaci&oacute;n {{dynamic}}%</b></uib-progressbar></div>
 			</div>
-			<table class="table table-striped">
+			<table class="table table-hover">
 				<thead>
 				  <tr>
-					<th style="width:20px;">&nbsp;</th><!--signo +/- -->
 					<th style="min-width: 20px;">&nbsp;</th>
 					<th class="text-center" style="min-width: 20px;">Asignado</th>
 					<th class="text-center" style="min-width: 20px;">Entrada Almacén</th>
@@ -38,27 +37,37 @@
 				<tbody>
 				  <tr ng-repeat-start="producto in productos">
 					<td>
-						<a href ng-click="hideShowProductoDetail(producto)" aria-label="Left Align">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true" ng-if="!producto.showSub"></span>
-							<span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="producto.showSub"></span>
-						</a>
+						<a href ng-click="hideShowDetail(producto, productos)" aria-label="Left Align">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" ng-if="!producto.showSub"></span><!--
+							--><span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="producto.showSub"></span></a>
+						<span class="espacio-tab">{{producto.datosGenerales.nombre}} - {{producto.datosGenerales.descripcion}}</span>
 					</td>
-					<td>{{producto.datosGenerales.nombre}} - {{producto.datosGenerales.descripcion}}</td>
 					<td class="celdaNumerica">{{producto.cantidad | number}}</td>
 					<td class="celdaNumerica">{{producto.entrada | number}}</td>
 					<td class="celdaNumerica">{{producto.pendiente | number}}</td>
 				  </tr>
-				  <tr ng-if="producto.showSub" ng-repeat="pedimento in producto.pedimentos" ng-repeat-end>
-					<td>&nbsp;</td>
+				  <tr ng-if="producto.showSub" ng-repeat-start="proveedor in producto.proveedores">
 					<td class="sub-renglon">
-						<a href ng-click="verSubPedido(pedimento.pedido.id)" aria-label="Left Align">
-							{{pedimento.pedido.puntoEntrega.nombreCorto}} - {{pedimento.proveedor.name.name}}
+						<a href ng-click="hideShowDetail(proveedor, producto.proveedores)" aria-label="Left Align">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" ng-if="!proveedor.showSub"></span><!--
+							--><span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="proveedor.showSub"></span></a>
+						<span class="espacio-tab">{{proveedor.name.name}}</span>
+					</td>
+					<td class="celdaNumerica">{{proveedor.cantidad | number}}</td>
+					<td class="celdaNumerica">{{proveedor.entrada | number}}</td>
+					<td class="celdaNumerica">{{proveedor.pendiente | number}}</td>
+				  </tr>
+				  <tr ng-if="producto.showSub && proveedor.showSub" ng-repeat="pedimento in proveedor.pedimentos" ng-repeat-end>
+					<td class="sub-sub-renglon">
+						<a class="espacio-tab" href ng-click="verSubPedido(pedimento.pedido.id)" aria-label="Left Align">
+							{{pedimento.pedido.puntoEntrega.nombreCorto}} - {{pedimento.pedido.puntoEntrega.nombre}}
 						</a>
 					</td>
 					<td class="celdaNumerica">{{pedimento.cantidad | number}}</td>
 					<td class="celdaNumerica">{{pedimento.entrada | number}}</td>
 					<td class="celdaNumerica">{{pedimento.pendiente | number}}</td>
 				  </tr>
+				  <tr ng-repeat-end ng-hide="true"></tr>
 				</tbody>
 			</table>
 		</uib-tab>
@@ -66,10 +75,9 @@
 			<div class="row top-buffer" ng-if="workDone < workSize">
 				<div class="col-sm-8 col-sm-offset-2"><uib-progressbar value="dynamic"><b>Cargando Informaci&oacute;n {{dynamic}}%</b></uib-progressbar></div>
 			</div>
-			<table class="table table-striped">
+			<table class="table table-hover">
 				<thead>
 				  <tr>
-					<th style="width:20px;">&nbsp;</th><!--signo +/- -->
 					<th style="min-width: 20px;">&nbsp;</th>
 					<th class="text-center" style="min-width: 20px;">Asignado</th>
 					<th class="text-center" style="min-width: 20px;">Entrada Almacén</th>
@@ -79,32 +87,37 @@
 				<tbody>
 				  <tr ng-repeat-start="proveedor in proveedorAsignado">
 					<td>
-						<a href ng-click="hideShowProveedorDetail(proveedor)" aria-label="Left Align">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true" ng-if="!proveedor.showSub"></span>
-							<span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="proveedor.showSub"></span>
-						</a>
+						<a href ng-click="hideShowDetail(proveedor, proveedorAsignado)" aria-label="Left Align">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" ng-if="!proveedor.showSub"></span><!--
+							--><span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="proveedor.showSub"></span></a>
+						<span class="espacio-tab">{{proveedor.name.name}}</span>
 					</td>
-					<td>{{proveedor.name.name}}</td>
 					<td class="celdaNumerica">{{proveedor.cantidad | number}}</td>
 					<td class="celdaNumerica">{{proveedor.entrada | number}}</td>
 					<td class="celdaNumerica">{{proveedor.pendiente | number}}</td>
 				  </tr>
-				  <tr ng-if="proveedor.showSub" ng-repeat="pedimento in proveedor.pedimentos" ng-repeat-end>
-					<td>&nbsp;</td>
-					<td class="sub-renglon" ng-if="pedimento.type=='GrupoPedimento'">
-						<a href ng-click="verSubPedido(pedimento.pedido.id)" aria-label="Left Align">
-							{{pedimento.pedido.puntoEntrega.nombreCorto}} - {{pedimento.linea.datosGenerales.nombre}} {{pedimento.linea.datosGenerales.descripcion}}
-						</a>
+				  <tr ng-if="proveedor.showSub" ng-repeat-start="producto in proveedor.productos">
+					<td class="sub-renglon">
+						<a href ng-click="hideShowDetail(producto, proveedor.productos)" aria-label="Left Align">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" ng-if="!producto.showSub"></span><!--
+							--><span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="producto.showSub"></span></a>
+						<span class="espacio-tab">{{producto.datosGenerales.nombre}} - {{producto.datosGenerales.descripcion}}</span>
 					</td>
-					<td class="sub-renglon" ng-if="pedimento.type=='PedimentoIntermediario'">
-						<a href ng-click="verSubPedido(pedimento.pedido.id)" aria-label="Left Align">
-							{{pedimento.pedido.puntoEntrega.nombreCorto}} - {{pedimento.producto.datosGenerales.nombre}} {{pedimento.producto.datosGenerales.descripcion}}
+					<td class="celdaNumerica">{{producto.cantidad | number}}</td>
+					<td class="celdaNumerica">{{producto.entrada | number}}</td>
+					<td class="celdaNumerica">{{producto.pendiente | number}}</td>
+				  </tr>
+				  <tr ng-if="producto.showSub && proveedor.showSub" ng-repeat="pedimento in producto.pedimentos" ng-repeat-end>
+					<td class="sub-sub-renglon">
+						<a class="espacio-tab" href ng-click="verSubPedido(pedimento.pedido.id)" aria-label="Left Align">
+							{{pedimento.pedido.puntoEntrega.nombreCorto}} - {{pedimento.pedido.puntoEntrega.nombre}}
 						</a>
 					</td>
 					<td class="celdaNumerica">{{pedimento.cantidad | number}}</td>
 					<td class="celdaNumerica">{{pedimento.entrada | number}}</td>
 					<td class="celdaNumerica">{{pedimento.pendiente | number}}</td>
 				  </tr>
+				  <tr ng-repeat-end ng-hide="true"></tr>
 				</tbody>
 			</table>
 		</uib-tab>
