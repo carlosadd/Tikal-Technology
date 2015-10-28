@@ -18,6 +18,7 @@ package technology.tikal.ventas.dao.almacen;
 import java.util.Date;
 
 import technology.tikal.gae.dao.template.FiltroBusqueda;
+import technology.tikal.ventas.model.almacen.RegistroAlmacen;
 import technology.tikal.ventas.model.producto.Producto;
 
 /**
@@ -31,6 +32,7 @@ public class RegistroAlmacenFilter implements FiltroBusqueda {
     private Long idProveedor;
     private Date fechaInicio;
     private Date fechaFinal;
+    private RegistroAlmacen origen;
 
     public Producto getProducto() {
         return producto;
@@ -63,4 +65,12 @@ public class RegistroAlmacenFilter implements FiltroBusqueda {
     public void setFechaFinal(Date fechaFinal) {
         this.fechaFinal = fechaFinal;
     }
+
+    public RegistroAlmacen getOrigen() {
+        return origen;
+    }
+
+    public void setOrigen(RegistroAlmacen origen) {
+        this.origen = origen;
+    }    
 }

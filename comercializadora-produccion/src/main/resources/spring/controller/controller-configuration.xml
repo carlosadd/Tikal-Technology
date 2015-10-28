@@ -32,11 +32,32 @@
         <property name="productoController" ref="productoController"/>
         <property name="pedimentoDao" ref="pedimentoDao"/>
     </bean>
+    <!-- almacen -->
     <bean id="entradaController" class="technology.tikal.ventas.controller.almacen.imp.EntradaControllerImp">
         <property name="pedidoController" ref="pedidoController"/>
         <property name="productoController" ref="productoController"/>
+        <property name="salidaDevolucionController" ref="salidaDevolucionController"/>
         <property name="entradaDao" ref="entradaDao"/>
     </bean>
+    <bean id="salidaController" class="technology.tikal.ventas.controller.almacen.imp.SalidaControllerImp">
+        <property name="pedidoController" ref="pedidoController"/>
+        <property name="productoController" ref="productoController"/>
+        <property name="salidaDao" ref="salidaDao"/>
+    </bean>
+    <bean id="entradaDevolucionController" class="technology.tikal.ventas.controller.almacen.imp.EntradaDevolucionControllerImp">
+        <property name="pedidoController" ref="pedidoController"/>
+        <property name="productoController" ref="productoController"/>
+        <property name="salidaDevolucionController" ref="salidaDevolucionController"/>
+        <property name="entradaDevolucionDao" ref="entradaDevolucionDao"/>
+    </bean>
+    <bean id="salidaDevolucionController" class="technology.tikal.ventas.controller.almacen.imp.SalidaDevolucionControllerImp">
+        <property name="pedidoController" ref="pedidoController"/>
+        <property name="productoController" ref="productoController"/>
+        <property name="entradaController" ref="entradaController"/>
+        <property name="entradaDevolucionController" ref="entradaDevolucionController"/>
+        <property name="salidaDevolucionDao" ref="salidaDevolucionDao"/>
+    </bean>
+    <!-- catalogo -->
     <bean id="catalogoController" class="technology.tikal.ventas.controller.producto.imp.CatalogoControllerImp">
         <property name="dao" ref="catalogoProductoDao"/>
         <property name="lineaProductoController" ref="lineaProductoController"/>

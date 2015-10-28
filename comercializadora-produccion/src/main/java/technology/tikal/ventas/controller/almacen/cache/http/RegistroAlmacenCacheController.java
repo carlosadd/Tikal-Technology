@@ -15,9 +15,13 @@
  */
 package technology.tikal.ventas.controller.almacen.cache.http;
 
+import org.apache.commons.lang.StringUtils;
+
 import technology.tikal.gae.http.cache.AbstractCacheController;
 import technology.tikal.gae.http.cache.UpdatePair;
 import technology.tikal.ventas.controller.almacen.imp.RegistroAlmacenFactory;
+import technology.tikal.ventas.model.almacen.EntradaDevolucion;
+import technology.tikal.ventas.model.almacen.SalidaDevolucion;
 import technology.tikal.ventas.model.almacen.ofy.RegistroAlmacenOfy;
 
 /**
@@ -34,6 +38,35 @@ public class RegistroAlmacenCacheController extends AbstractCacheController<Regi
         }
         if (pair.getOriginal().getFechaRegistro().compareTo(pair.getUpdated().getFechaRegistro()) != 0) {
             return true;
+        }
+        if (!StringUtils.equals(pair.getOriginal().getDescripcion(), pair.getUpdated().getDescripcion())) {
+            return true;
+        }
+        if (pair.getOriginal() instanceof EntradaDevolucion && pair.getUpdated() instanceof EntradaDevolucion) {
+            EntradaDevolucion objOriginal = (EntradaDevolucion) pair.getOriginal();
+            EntradaDevolucion objUpdated = (EntradaDevolucion) pair.getUpdated();
+            if (objOriginal.getOrigen().getPedidoId().compareTo(objUpdated.getPedidoId()) != 0) {
+                return true;
+            }
+            if (objOriginal.getOrigen().getId().compareTo(objUpdated.getId()) != 0) {
+                return true;
+            }
+            if (objOriginal.getOrigen().getIdProveedor().compareTo(objUpdated.getIdProveedor()) != 0) {
+                return true;
+            }
+        }
+        if (pair.getOriginal() instanceof SalidaDevolucion && pair.getUpdated() instanceof SalidaDevolucion) {
+            SalidaDevolucion objOriginal = (SalidaDevolucion) pair.getOriginal();
+            SalidaDevolucion objUpdated = (SalidaDevolucion) pair.getUpdated();
+            if (objOriginal.getOrigen().getPedidoId().compareTo(objUpdated.getPedidoId()) != 0) {
+                return true;
+            }
+            if (objOriginal.getOrigen().getId().compareTo(objUpdated.getId()) != 0) {
+                return true;
+            }
+            if (objOriginal.getOrigen().getIdProveedor().compareTo(objUpdated.getIdProveedor()) != 0) {
+                return true;
+            }
         }
         return false;
     }

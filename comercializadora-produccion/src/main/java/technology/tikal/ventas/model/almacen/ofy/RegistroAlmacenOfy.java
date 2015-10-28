@@ -26,10 +26,12 @@ public class RegistroAlmacenOfy implements RegistroAlmacen {
     private Date fechaDeCreacion;
     @Index
     private Date fechaRegistro;
+    private String descripcion;
     
     protected RegistroAlmacenOfy() {
         this.fechaDeCreacion = new Date();
         this.fechaRegistro = new Date();
+        this.descripcion = "";
     }
     
     public RegistroAlmacenOfy(RegistroAlmacenOfy base) {
@@ -107,5 +109,13 @@ public class RegistroAlmacenOfy implements RegistroAlmacen {
 
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
-    }   
+    }
+
+    public String getDescripcion() {
+        return descripcion;
+    }
+
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }  
 }

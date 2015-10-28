@@ -11,5 +11,5 @@ import technology.tikal.ventas.model.almacen.ofy.intermediario.EntradaDevolucion
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 public interface EntradaDevolucion extends RegistroAlmacen {
 
-    
+    RegistroAlmacen getOrigen();
 }

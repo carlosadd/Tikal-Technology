@@ -11,7 +11,7 @@ import technology.tikal.ventas.model.producto.LineaDeProductos;
 import technology.tikal.ventas.model.producto.Producto;
 
 @JsonTypeName("GrupoRegistroAlmacen")
-public class GrupoRegistroAlmacen implements Entrada, EntradaDevolucion, Salida, SalidaDevolucion {
+public class GrupoRegistroAlmacen implements Entrada, Salida {
 
     private Long pedidoId;
     private Long idProveedor;

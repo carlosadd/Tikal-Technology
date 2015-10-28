@@ -51,6 +51,9 @@ public abstract class RegistroAlmacenDaoOfy<T extends RegistroAlmacenOfy> implem
             query = query.filter("fechaEntrega >=", filtro.getFechaInicio());
             query = query.filter("fechaEntrega <=", filtro.getFechaFinal());
         }
+        if (filtro != null && filtro.getOrigen() != null) {
+            query = query.filter("origen", Ref.create(filtro.getOrigen()));
+        }
 
         if (pagination.hasSinceId()) {
             query = query.filterKey(">=", Key.create(EntradaOfy.class, pagination.getSinceId()));

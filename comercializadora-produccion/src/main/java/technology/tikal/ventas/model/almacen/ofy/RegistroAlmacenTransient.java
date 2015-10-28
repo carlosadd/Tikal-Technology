@@ -36,6 +36,8 @@ public class RegistroAlmacenTransient implements RegistroAlmacen {
     private Producto producto;
     private Long idProveedor;
     private Date fechaRegistro;
+    private Long referenciaRegistro;
+    private String descripcion;
     
     @Override
     public Long getPedidoId() {
@@ -79,5 +81,16 @@ public class RegistroAlmacenTransient implements RegistroAlmacen {
     public void setFechaRegistro(Date fechaRegistro) {
         this.fechaRegistro = fechaRegistro;
     }
-    
+    public Long getReferenciaRegistro() {
+        return referenciaRegistro;
+    }
+    public void setReferenciaRegistro(Long referenciaRegistro) {
+        this.referenciaRegistro = referenciaRegistro;
+    }
+    public String getDescripcion() {
+        return descripcion;
+    }
+    public void setDescripcion(String descripcion) {
+        this.descripcion = descripcion;
+    }
 }

@@ -16,9 +16,16 @@
 package technology.tikal.ventas.controller.almacen.imp;
 
 import technology.tikal.ventas.model.almacen.RegistroAlmacen;
+import technology.tikal.ventas.model.almacen.ofy.EntradaDevolucionOfy;
 import technology.tikal.ventas.model.almacen.ofy.EntradaOfy;
 import technology.tikal.ventas.model.almacen.ofy.RegistroAlmacenOfy;
+import technology.tikal.ventas.model.almacen.ofy.RegistroAlmacenTransient;
+import technology.tikal.ventas.model.almacen.ofy.SalidaDevolucionOfy;
+import technology.tikal.ventas.model.almacen.ofy.SalidaOfy;
+import technology.tikal.ventas.model.almacen.ofy.intermediario.EntradaDevolucionIntermediario;
 import technology.tikal.ventas.model.almacen.ofy.intermediario.EntradaIntermediario;
+import technology.tikal.ventas.model.almacen.ofy.intermediario.SalidaDevolucionIntermediario;
+import technology.tikal.ventas.model.almacen.ofy.intermediario.SalidaIntermediario;
 import technology.tikal.ventas.model.pedido.Pedido;
 import technology.tikal.ventas.model.producto.Producto;
 
@@ -29,11 +36,39 @@ import technology.tikal.ventas.model.producto.Producto;
  */
 public class RegistroAlmacenFactory {
 
-    public static <T extends RegistroAlmacen> T build(Pedido owner, RegistroAlmacen request, Producto producto, Class<T> type) {
+    public static <T extends RegistroAlmacen> T build(Pedido owner, RegistroAlmacenTransient request, Producto producto, Class<T> type) {
         if (type == EntradaOfy.class) {
             EntradaIntermediario entrada = new EntradaIntermediario(owner, producto, request.getIdProveedor());
             entrada.setCantidad(request.getCantidad());
             entrada.setFechaRegistro(request.getFechaRegistro());
+            entrada.setDescripcion(request.getDescripcion());
+            return (T) entrada;
+        }
+        if (type == SalidaOfy.class) {
+            SalidaIntermediario entrada = new SalidaIntermediario(owner, producto, request.getIdProveedor());
+            entrada.setCantidad(request.getCantidad());
+            entrada.setFechaRegistro(request.getFechaRegistro());
+            entrada.setDescripcion(request.getDescripcion());
+            return (T) entrada;
+        }
+        throw new IllegalArgumentException();
+    }
+    
+    public static <T extends RegistroAlmacen> T buildDevolucion(Pedido owner, RegistroAlmacenTransient request, Producto producto, Class<T> type, RegistroAlmacen referencia) {
+        if (type == EntradaDevolucionOfy.class) {
+            EntradaDevolucionIntermediario entrada = new EntradaDevolucionIntermediario(owner, producto, request.getIdProveedor());
+            entrada.setCantidad(request.getCantidad());
+            entrada.setFechaRegistro(request.getFechaRegistro());
+            entrada.setDescripcion(request.getDescripcion());
+            entrada.setOrigen(referencia);
+            return (T) entrada;
+        }
+        if (type == SalidaDevolucionOfy.class) {
+            SalidaDevolucionIntermediario entrada = new SalidaDevolucionIntermediario(owner, producto, request.getIdProveedor());
+            entrada.setCantidad(request.getCantidad());
+            entrada.setFechaRegistro(request.getFechaRegistro());
+            entrada.setDescripcion(request.getDescripcion());
+            entrada.setOrigen(referencia);
             return (T) entrada;
         }
         throw new IllegalArgumentException();
@@ -43,6 +78,24 @@ public class RegistroAlmacenFactory {
         if (source instanceof EntradaIntermediario) {
             EntradaIntermediario castedSource = (EntradaIntermediario) source;
             EntradaIntermediario response = new EntradaIntermediario(castedSource);
+            response.update(castedSource);
+            return response;
+        }
+        if (source instanceof SalidaIntermediario) {
+            SalidaIntermediario castedSource = (SalidaIntermediario) source;
+            SalidaIntermediario response = new SalidaIntermediario(castedSource);
+            response.update(castedSource);
+            return response;
+        }
+        if (source instanceof EntradaDevolucionIntermediario) {
+            EntradaDevolucionIntermediario castedSource = (EntradaDevolucionIntermediario) source;
+            EntradaDevolucionIntermediario response = new EntradaDevolucionIntermediario(castedSource);
+            response.update(castedSource);
+            return response;
+        }
+        if (source instanceof SalidaDevolucionIntermediario) {
+            SalidaDevolucionIntermediario castedSource = (SalidaDevolucionIntermediario) source;
+            SalidaDevolucionIntermediario response = new SalidaDevolucionIntermediario(castedSource);
             response.update(castedSource);
             return response;
         }

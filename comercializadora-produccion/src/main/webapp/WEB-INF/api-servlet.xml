@@ -61,9 +61,21 @@
 	    <property name="pedimentoController" ref="pedimentoController"/>
 	    <property name="messageSource" ref="messageSource"/>
     </bean>
-    <!-- Interfaz Entradas -->
+    <!-- Interfaz Almacen -->
     <bean id="EntradaService" class="technology.tikal.ventas.service.almacen.EntradaService">
 	    <property name="entradaController" ref="entradaController"/>
+	    <property name="messageSource" ref="messageSource"/>
+    </bean>
+    <bean id="SalidaService" class="technology.tikal.ventas.service.almacen.SalidaService">
+	    <property name="salidaController" ref="salidaController"/>
+	    <property name="messageSource" ref="messageSource"/>
+    </bean>
+    <bean id="EntradaDevolucionService" class="technology.tikal.ventas.service.almacen.EntradaDevolucionService">
+	    <property name="entradaDevolucionController" ref="entradaDevolucionController"/>
+	    <property name="messageSource" ref="messageSource"/>
+    </bean>
+    <bean id="SalidaDevolucionService" class="technology.tikal.ventas.service.almacen.SalidaDevolucionService">
+	    <property name="salidaDevolucionController" ref="salidaDevolucionController"/>
 	    <property name="messageSource" ref="messageSource"/>
     </bean>
     <!-- Interfaz Catalogos -->

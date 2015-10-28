@@ -16,15 +16,15 @@
     <bean id="RegistroAlmacenCacheController" class="technology.tikal.ventas.controller.almacen.cache.http.RegistroAlmacenCacheController">
     	<property name="httpCacheQueryService" ref="httpCacheQueryService"/>
     	<property name="cacheControl" value="private, stale-if-error=259200"/>
-    	<property name="resourceUriPattern" value="/api/pedido/\p{Alnum}*/almacen/\p{Alnum}*"/>
+    	<property name="resourceUriPattern" value="/api/pedido/\p{Alnum}*/almacen/(devolucion/|)(entrada|salida)"/>
     	<property name="updateUriPattern">
     	    <list>
-    	        <value>/api/pedido/\p{Alnum}*/almacen/\p{Alnum}*/\p{Alnum}*</value>
+    	        <value>/api/pedido/\p{Alnum}*/almacen/(devolucion/|)(entrada|salida)/\p{Alnum}*</value>
     	    </list>
     	</property>
     	<property name="createUriPattern">
     	    <list>
-    	        <value>/api/pedido/\p{Alnum}*/almacen/\p{Alnum}*</value>
+    	        <value>/api/pedido/\p{Alnum}*/almacen/(devolucion/|)(entrada|salida)/\p{Alnum}*</value>
     	    </list>
     	</property>
 	</bean>
