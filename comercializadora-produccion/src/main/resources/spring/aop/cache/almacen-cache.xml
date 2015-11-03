@@ -24,7 +24,7 @@
     	</property>
     	<property name="createUriPattern">
     	    <list>
-    	        <value>/api/pedido/\p{Alnum}*/almacen/(devolucion/|)(entrada|salida)/\p{Alnum}*</value>
+    	        <value>/api/pedido/\p{Alnum}*/almacen/(devolucion/|)(entrada|salida)</value>
     	    </list>
     	</property>
 	</bean>

@@ -36,7 +36,7 @@
 	<uib-tab heading="Captura">
 		<div class="well" ng-if="!compartido.fabricante.id">No hay Información que mostrar</div>
 		<div ng-if="compartido.fabricante.id">
-			<form name="form" class="form-inline top-buffer tab-" ng-submit="seleccionarProducto()" novalidate>
+			<!--<form name="form" class="form-inline top-buffer tab-" ng-submit="seleccionarProducto()" novalidate>
 				<div class="form-group col-sm-offset-1">
 					<label for="fechaEntrega">Fecha de Entrada:</label>
 					<div class="input-group">
@@ -48,71 +48,84 @@
 						</span>
 					</div>
 				</div>
-				<!--<button class="btn btn-default" type="button" ng-click="close()">Limpiar</button>
-				<button type="submit" class="btn btn-primary" type="button" ng-disabled="form.$invalid || form.$pristine" ladda="actionLoading" data-style="expand-left">Guardar</button>-->
-			</form>
-			<table class="table table-striped">
+			</form>-->
+			<table class="table table-hover">
 				<thead>
 				  <tr>
-					<th style="width:20px;">&nbsp;</th>
-					<th style="min-width: 20px;">&nbsp;</th>
-					<th class="text-center" style="min-width: 20px;">Pendiente Entrada</th>
-					<th style="width:20px;">&nbsp;</th>
-					<th class="text-center" style="min-width: 20px;">Total Entrada</th>
+					<th style="min-width: 20px;">&nbsp;</th><!--nombre-->
+					<th class="celdaNumerica" style="width: 170px;">Entregado / Asignado</th>
+					<th class="celdaNumerica" style="width: 85px;">Pendiente</th>
+					<th style="width: 30px;">&nbsp;</th>
 					<th style="min-width: 20px;">&nbsp;</th>
 				  </tr>
 				</thead>
+				<tfoot>
+					<tr>
+						<td class="celdaNumerica"><strong>Total:</strong></td>
+						<td class="celdaNumerica">
+							<sumatoria-basica items=compartido.fabricante.pedimentos propiedad='totalEntrada'></sumatoria-basica> /
+							<sumatoria-basica items=compartido.fabricante.pedimentos propiedad='cantidad'></sumatoria-basica>
+						</td>
+						<td class="celdaNumerica">
+							<detalle-pendiente items=compartido.fabricante.pedimentos propiedad='restante'></detalle-pendiente>
+						</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+				</tfoot>
 				<tbody>
 				  <tr ng-repeat-start="pedimento in compartido.fabricante.pedimentos">
 					<!-- PedimentoIntermediario -->
-					<td ng-if="pedimento.type == 'PedimentoIntermediario'">&nbsp;</td>
 					<td ng-if="pedimento.type == 'PedimentoIntermediario'"><!-- nombre-->
-						{{pedimento.producto.datosGenerales.nombre}} - {{pedimento.producto.datosGenerales.descripcion}}
+						<span class="espacio-icon">&nbsp;</span>
+						<span class="espacio-tab">{{pedimento.producto.datosGenerales.nombre}} - {{pedimento.producto.datosGenerales.descripcion}}</span>
 					</td>
 					<td ng-if="pedimento.type == 'PedimentoIntermediario'" class="celdaNumerica"><!-- cantidad-->
-						{{pedimento.restante | number}}
+						{{pedimento.totalEntrada | number}} / {{pedimento.cantidad | number}}
+					</td>
+					<td ng-if="pedimento.type == 'PedimentoIntermediario'" class="celdaNumerica">
+						<detalle-pendiente pendiente=pedimento.restante></detalle-pendiente>
 					</td>
 					<td ng-if="pedimento.type=='PedimentoIntermediario'" ng-switch="entregaStatus(pedimento)"> <!-- edicion-->
 						<a ng-switch-when="incompleta" href ng-click="capturaEntrada(pedimento)" aria-label="Left Align" uib-tooltip='Registrar Entrada'>
 							<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
 						</a>
-						<span ng-switch-when="completa" class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-					</td>
-					<td ng-if="pedimento.type == 'PedimentoIntermediario'" class="celdaNumerica">
-						{{pedimento.totalEntrada | number}}
+						<!--<span ng-switch-when="completa" class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>-->
 					</td>
 					<td ng-if="pedimento.type == 'PedimentoIntermediario'"><!--unidad medida-->
 						{{pedimento.producto.datosGenerales.unidadMedida}}
 					</td>
 					<!-- GrupoPedimento -->
-					<td ng-if="pedimento.type == 'GrupoPedimento'">
-						<a href ng-click="hideShowSub(pedimento)" aria-label="Left Align">
-							<span class="glyphicon glyphicon-plus" aria-hidden="true" ng-if="!pedimento.showSub"></span>
-							<span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="pedimento.showSub"></span>
-						</a>
-					</td>
 					<td ng-if="pedimento.type == 'GrupoPedimento'"> <!-- nombre-->
-						{{pedimento.linea.datosGenerales.nombre}} - {{pedimento.linea.datosGenerales.descripcion}}
+						<a href ng-click="hideShowSub(pedimento)" aria-label="Left Align">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" ng-if="!pedimento.showSub"></span><!--
+							--><span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="pedimento.showSub"></span></a>
+						<span class="espacio-tab">{{pedimento.linea.datosGenerales.nombre}} - {{pedimento.linea.datosGenerales.descripcion}}</span>
 					</td>
-					<td ng-if="pedimento.type == 'GrupoPedimento'" class="celdaNumerica">{{pedimento.restante | number}}</td><!-- cantidad-->
+					<td ng-if="pedimento.type == 'GrupoPedimento'" class="celdaNumerica">
+						{{pedimento.totalEntrada | number}} / {{pedimento.cantidad | number}}
+					</td><!-- cantidad-->
+					<td ng-if="pedimento.type == 'GrupoPedimento'" class="celdaNumerica"><!--restante-->
+						<detalle-pendiente pendiente=pedimento.restante></detalle-pendiente>
+					</td>
 					<td ng-if="pedimento.type == 'GrupoPedimento'">&nbsp;</td><!-- edicion-->
-					<td ng-if="pedimento.type == 'GrupoPedimento'" class="celdaNumerica">{{pedimento.totalEntrada | number}}</td><!-- cantidad-->
 					<td ng-if="pedimento.type == 'GrupoPedimento'"><!--unidad medida-->
 						{{pedimento.linea.datosGenerales.unidadMedida}}
 					</td>
 				  </tr>
 				  <tr ng-if="pedimento.type=='GrupoPedimento' && pedimento.showSub" ng-repeat="subPedimento in pedimento.pedimentos" ng-repeat-end>
-					<td>&nbsp;</td>
-					<td class="sub-renglon">{{subPedimento.producto.talla}}</td>
-					<td class="celdaNumerica">{{subPedimento.restante | number}}</td>
+					<td class="sub-renglon"><span class="espacio-tab">{{subPedimento.producto.talla}}</span></td>
+					<td class="celdaNumerica">{{subPedimento.totalEntrada | number}} / {{subPedimento.cantidad | number}}</td>
+					<td class="celdaNumerica">
+						<detalle-pendiente pendiente=subPedimento.restante></detalle-pendiente>
+					</td>
 					<td ng-switch="entregaStatus(subPedimento)">
 						<a ng-switch-when="incompleta" href ng-click="capturaEntrada(pedimento, subPedimento)" aria-label="Left Align" uib-tooltip='Registrar Entrada'>
 							<span class="glyphicon glyphicon-save" aria-hidden="true"></span>
 						</a>
-						<span ng-switch-when="completa" class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
-						<span ng-switch-when="excedente" class="glyphicon glyphicon-alert text-danger" aria-hidden="true" uib-tooltip='Existe un excedente en la entrega'></span>
+						<!--<span ng-switch-when="completa" class="glyphicon glyphicon-ok text-success" aria-hidden="true"></span>
+						<span ng-switch-when="excedente" class="glyphicon glyphicon-alert text-danger" aria-hidden="true" uib-tooltip='Existe un excedente en la entrega'></span>-->
 					</td>
-					<td class="celdaNumerica">{{subPedimento.totalEntrada | number}}</td>
 					<td>{{pedimento.linea.datosGenerales.unidadMedida}}</td>
 				  </tr>
 				</tbody>
@@ -121,7 +134,7 @@
 	</uib-tab>
 	<uib-tab heading="Consulta Entradas">
 		<div class="well" ng-if="!compartido.fabricante.id">No hay Información que mostrar</div>
-		<table class="table table-striped" ng-if="compartido.fabricante.id">
+		<table class="table table-hover" ng-if="compartido.fabricante.id">
 			<thead>
 			  <tr>
 				<th style="width:20px;">&nbsp;</th>

@@ -233,6 +233,7 @@ almacenModule.controller('tikal.modules.Almacen.inicio', ['$scope', '$resource',
 				$scope.calculaTotalesEntrada(pedimento, fabricante.entradas);
 			});
 		});
+		$scope.$broadcast('updateEntradas');
 	};
 	$scope.calculaTotalesEntrada = function(pedimento, entradas) {
 		if (pedimento.type == 'GrupoPedimento') {
@@ -281,36 +282,6 @@ almacenModule.controller('tikal.modules.Almacen.inicio', ['$scope', '$resource',
 			pedimento.showSub = true;
 		}
 	};
-	/*
-	$scope.$watch('compartido.fabricante.pedimentos', function(){
-		if ($scope.compartido && $scope.compartido.fabricante) {
-			var datos = [];
-			angular.forEach($scope.compartido.fabricante.pedimentos, function(pedimento, key) {
-				if (pedimento.type == 'GrupoPedimento') {
-					pedimento.pedimentos.sort(function(a,b){
-						return a.producto.talla.localeCompare(b.producto.talla);
-					});
-				}
-				datos.push(pedimento);
-			});
-			datos.sort(function(a,b){
-				var objA;
-				var objB;
-				if (a.type == 'PedimentoIntermediario') {
-					objA = a.producto.datosGenerales;
-				} else {
-					objA = a.linea.datosGenerales;
-				}
-				if (b.type == 'PedimentoIntermediario') {
-					objB = b.producto.datosGenerales;
-				} else {
-					objB = b.linea.datosGenerales;
-				}
-				return objA.nombre.localeCompare(objB.nombre);
-			});
-			$scope.pedimentosOrdenados = datos;
-		}
-	});*/
 	$scope.compartido = {
 		pedido:{},
 		pedimento:null
@@ -352,6 +323,10 @@ almacenModule.controller('tikal.modules.Almacen.inicio', ['$scope', '$resource',
 			fabricante:$scope.compartido.fabricante,
 			fechaEntrega:$scope.compartido.fechaEntrega,
 			formatoFecha:$scope.formatDP,
+			opened:false,
+			open: function(modelo, event) {
+				modelo.opened = true;
+			},
 			max:elPedimento.restante,
 			cantidad:elPedimento.restante,
 			pedimento:elPedimento
@@ -370,6 +345,8 @@ almacenModule.controller('tikal.modules.Almacen.inicio', ['$scope', '$resource',
 		});
 		modalInstance.result.then(function (modelo) {
 			$scope.loadEntradas($scope.compartido.pedido.id);
+			//ultima fecha capturada
+			$scope.compartido.fechaEntrega = modelo.fechaEntrega;
 		});
 		capturaModel.command = function($modalScope) {
 			$modalScope.actionLoading = true;

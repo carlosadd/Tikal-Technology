@@ -1,6 +1,6 @@
 'use strict';
 
-var accountModule = angular.module('tikal.modules.Account', ['ngRoute','ngResource','angular-ladda','ngDialog']);
+var accountModule = angular.module('tikal.modules.Account', ['ngRoute','ngResource','angular-ladda','ngDialog', 'ngCookies']);
 
 accountModule.constant('ACCOUNTS_REMOTE_ADDRESS', {
 	address: 'https://tolumex-accounts.appspot.com',
@@ -22,13 +22,14 @@ accountModule.constant('AUTH_EVENTS', {
   guest: 'guest'
 })*/
 
-accountModule.factory('tikal.modules.Account.authInterceptor', function ($rootScope, $q, $window, $log, AUTH_EVENTS) {
+accountModule.factory('tikal.modules.Account.authInterceptor', function ($rootScope, $q, $cookies, $log, AUTH_EVENTS) {
   return {
     request: function (config) {
       config.headers = config.headers || {};
-      if ($window.sessionStorage.getItem('token') && $window.sessionStorage.getItem('token') != 'null') {
-		//$log.info('con credenciales!');
-		config.headers.Authorization = 'Basic ' + $window.sessionStorage.getItem('token');
+	  var miSesion = $cookies.getObject('miSesion');
+      if (miSesion) {
+		//$log.info('con credenciales: ' + miSesion.token);
+		config.headers.Authorization = 'Basic ' + miSesion.token;
       } else {
 		//$log.info('sin credenciales!');
 	  }
@@ -65,9 +66,6 @@ accountModule.controller('tikal.modules.Account.LoginCtrl', ['$scope', '$locatio
 		otp: ''
 	};
 	$scope.miSesion = sesionStore.loadSession();
-	//$scope.loadSession();
-	//$scope.userRoles = USER_ROLES;
-	//$scope.isAuthorized = AuthService.isAuthorized;
     $scope.login = function () {
 		$scope.$emit('inicia-submit','login');
 		$scope.loginLoading = true;
@@ -96,10 +94,6 @@ accountModule.controller('tikal.modules.Account.LoginCtrl', ['$scope', '$locatio
 	$scope.$on(AUTH_EVENTS.notAuthorized, function (event, data) {
 		$scope.logout();
 	});
-	// TRANSLATION
-	//datepickerPopupConfig.currentText = 'Hoy';
-	//datepickerPopupConfig.clearText = 'Limpiar';
-	//datepickerPopupConfig.closeText = 'Cerrar';
 }]);
 
 accountModule.controller('tikal.modules.Account.ListAccountCtrl', ['$scope', '$resource', 'ACCOUNTS_REMOTE_ADDRESS', '$location', 'tikal.model.Accounts', 
@@ -449,34 +443,26 @@ accountModule.controller('tikal.modules.Account.PreferenciasCtrl', ['$scope', '$
 	$scope.resetModel();
 }]);
 
-accountModule.service('tikal.modules.Account.local.Store', ['$window', '$log',
-  function ($window, $log) {
+accountModule.service('tikal.modules.Account.local.Store', ['$cookies', '$log', '$window',
+  function ($cookies, $log, $window) {
 	this.loadSession = function() {
-		if ($window.sessionStorage.getItem('token') && $window.sessionStorage.getItem('token') != 'null' ) {
-			//$log.info('restaurando sesion token: ' + $window.sessionStorage.getItem('token'));
-			var miSesion = new Object();
-			miSesion.token = $window.sessionStorage.getItem('token');
-			miSesion.user = $window.sessionStorage.getItem('user');
-			miSesion.name = $window.sessionStorage.getItem('name');
-			miSesion.role = $window.sessionStorage.getItem('role');
-			miSesion.logged = $window.sessionStorage.getItem('logged');
-			return miSesion;
-		}
+		var miSesion = $cookies.getObject('miSesion');
+		return miSesion;
 	};
 	this.saveSession = function(loginData) {
-		var tok = loginData.user + ':' + loginData.token;
-		$window.sessionStorage.setItem('token', $window.btoa(tok));
-		$window.sessionStorage.setItem('user', loginData.user);
-		$window.sessionStorage.setItem('name', loginData.name);
-		$window.sessionStorage.setItem('role', loginData.role);
-		$window.sessionStorage.setItem('logged', true);
+		var token = loginData.user + ':' + loginData.token;
+		token = $window.btoa(token);
+		var miSesion = {
+			token:token,
+			user:loginData.user,
+			name:loginData.name,
+			role:loginData.role,
+			logged:true
+		};
+		$cookies.putObject('miSesion', miSesion);
 	};
 	this.clearSession = function() {
-		$window.sessionStorage.setItem('token', null);
-		$window.sessionStorage.setItem('user', null);
-		$window.sessionStorage.setItem('name', null);
-		$window.sessionStorage.setItem('role', null);
-		$window.sessionStorage.setItem('logged', null);
+		$cookies.remove('miSesion');
 	};
 }]);
 

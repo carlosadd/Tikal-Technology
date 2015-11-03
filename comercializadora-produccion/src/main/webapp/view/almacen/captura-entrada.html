@@ -37,9 +37,22 @@
 		<div class="form-group">
 			<label for="fecha" class="col-sm-3 control-label">Fecha Entrada:</label>
 			<div class="col-sm-9">
-				<p class="form-control-static">{{modelo.fechaEntrega | date : modelo.formatoFecha}}</p>
+				<div class="input-group">
+					<input type="date" class="form-control" uib-datepicker-popup="{{modelo.formatoFecha}}" ng-model="modelo.fechaEntrega" 
+						is-open="modelo.opened" datepicker-options="dateOptions" ng-required="true" required
+						close-text="Cerrar" current-text="Hoy" clear-text="Limpiar" max-date="maxDate"/>
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default" ng-click="modelo.open(modelo, $event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</div>
 			</div>
 		</div>
+		<!--<div class="form-group">
+			<label for="fecha" class="col-sm-3 control-label">Fecha Entrada:</label>
+			<div class="col-sm-9">
+				<p class="form-control-static">{{modelo.fechaEntrega | date : modelo.formatoFecha}}</p>
+			</div>
+		</div>-->
 		<!--<div class="form-group">
 			<label for="pendiente" class="col-sm-3 control-label">Pendiente Entrar:</label>
 			<div class="col-sm-9">

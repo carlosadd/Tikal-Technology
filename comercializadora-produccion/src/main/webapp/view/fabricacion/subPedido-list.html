@@ -11,7 +11,7 @@
 				<tbody>
 				  <tr ng-repeat="subPedido in subPedidos.items">
 					<td>
-						<a href ng-click="verSubPedido(subPedido.id)" aria-label="Left Align">
+						<a href="#{{getCurrentPath()}}/subPedido/{{subPedido.id}}" aria-label="Left Align">
 							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
 							<span class="espacio-tab">{{subPedido.puntoEntrega.nombreCorto}}</span>
 						</a>
@@ -29,11 +29,21 @@
 				<thead>
 				  <tr>
 					<th style="min-width: 20px;">&nbsp;</th>
-					<th class="text-center" style="min-width: 20px;">Asignado</th>
-					<th class="text-center" style="min-width: 20px;">Entrada Almacén</th>
-					<th class="text-center" style="min-width: 20px;">Pendiente Entrada</th>
+					<th class="celdaNumerica" style="width: 170px;">Entregado / Asignado</th>
+					<th class="celdaNumerica" style="width: 85px;">Pendiente</th>
 				  </tr>
 				</thead>
+				<tfoot>
+					<tr>
+						<td class="celdaNumerica"><strong>Total:</strong></td>
+						<td class="celdaNumerica">
+							<sumatoria-basica items=productos propiedad='entrada'></sumatoria-basica> / <sumatoria-basica items=productos propiedad='cantidad'></sumatoria-basica>
+						</td>
+						<td class="celdaNumerica">
+							<detalle-pendiente items=productos propiedad='pendiente'></detalle-pendiente>
+						</td>
+					</tr>
+				</tfoot>
 				<tbody>
 				  <tr ng-repeat-start="producto in productos">
 					<td>
@@ -42,9 +52,10 @@
 							--><span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="producto.showSub"></span></a>
 						<span class="espacio-tab">{{producto.datosGenerales.nombre}} - {{producto.datosGenerales.descripcion}}</span>
 					</td>
-					<td class="celdaNumerica">{{producto.cantidad | number}}</td>
-					<td class="celdaNumerica">{{producto.entrada | number}}</td>
-					<td class="celdaNumerica">{{producto.pendiente | number}}</td>
+					<td class="celdaNumerica">{{producto.entrada | number}} / {{producto.cantidad | number}}</td>
+					<td class="celdaNumerica">
+						<detalle-pendiente pendiente=producto.pendiente></detalle-pendiente>
+					</td>
 				  </tr>
 				  <tr ng-if="producto.showSub" ng-repeat-start="proveedor in producto.proveedores">
 					<td class="sub-renglon">
@@ -53,19 +64,21 @@
 							--><span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="proveedor.showSub"></span></a>
 						<span class="espacio-tab">{{proveedor.name.name}}</span>
 					</td>
-					<td class="celdaNumerica">{{proveedor.cantidad | number}}</td>
-					<td class="celdaNumerica">{{proveedor.entrada | number}}</td>
-					<td class="celdaNumerica">{{proveedor.pendiente | number}}</td>
+					<td class="celdaNumerica">{{proveedor.entrada | number}} / {{proveedor.cantidad | number}}</td>
+					<td class="celdaNumerica">
+						<detalle-pendiente pendiente=proveedor.pendiente></detalle-pendiente>
+					</td>
 				  </tr>
 				  <tr ng-if="producto.showSub && proveedor.showSub" ng-repeat="pedimento in proveedor.pedimentos" ng-repeat-end>
 					<td class="sub-sub-renglon">
-						<a class="espacio-tab" href ng-click="verSubPedido(pedimento.pedido.id)" aria-label="Left Align">
+						<a class="espacio-tab" href="#{{getCurrentPath()}}/subPedido/{{pedimento.pedido.id}}" aria-label="Left Align">
 							{{pedimento.pedido.puntoEntrega.nombreCorto}} - {{pedimento.pedido.puntoEntrega.nombre}}
 						</a>
 					</td>
-					<td class="celdaNumerica">{{pedimento.cantidad | number}}</td>
-					<td class="celdaNumerica">{{pedimento.entrada | number}}</td>
-					<td class="celdaNumerica">{{pedimento.pendiente | number}}</td>
+					<td class="celdaNumerica">{{pedimento.entrada | number}} / {{pedimento.cantidad | number}}</td>
+					<td class="celdaNumerica">
+						<detalle-pendiente pendiente=pedimento.pendiente></detalle-pendiente>
+					</td>
 				  </tr>
 				  <tr ng-repeat-end ng-hide="true"></tr>
 				</tbody>
@@ -78,12 +91,21 @@
 			<table class="table table-hover">
 				<thead>
 				  <tr>
-					<th style="min-width: 20px;">&nbsp;</th>
-					<th class="text-center" style="min-width: 20px;">Asignado</th>
-					<th class="text-center" style="min-width: 20px;">Entrada Almacén</th>
-					<th class="text-center" style="min-width: 20px;">Pendiente Entrada</th>
+					<th style="min-width: 60px;">&nbsp;</th>
+					<th class="celdaNumerica" style="width: 170px;">Entregado / Asignado</th>
+					<th class="celdaNumerica" style="width: 85px;">Pendiente</th>
 				  </tr>
 				</thead>
+				<tfoot>
+					<tr>
+						<td class="celdaNumerica"><strong>Total:</strong></td>
+						<td class="celdaNumerica">
+							<sumatoria-basica items=proveedorAsignado propiedad='entrada'></sumatoria-basica> / <sumatoria-basica items=proveedorAsignado propiedad='cantidad'></sumatoria-basica>
+						<td class="celdaNumerica">
+							<detalle-pendiente items=proveedorAsignado propiedad='pendiente'></detalle-pendiente>
+						</td>
+					</tr>
+				</tfoot>
 				<tbody>
 				  <tr ng-repeat-start="proveedor in proveedorAsignado">
 					<td>
@@ -92,9 +114,10 @@
 							--><span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="proveedor.showSub"></span></a>
 						<span class="espacio-tab">{{proveedor.name.name}}</span>
 					</td>
-					<td class="celdaNumerica">{{proveedor.cantidad | number}}</td>
-					<td class="celdaNumerica">{{proveedor.entrada | number}}</td>
-					<td class="celdaNumerica">{{proveedor.pendiente | number}}</td>
+					<td class="celdaNumerica">{{proveedor.entrada | number}} / {{proveedor.cantidad | number}}</td>
+					<td class="celdaNumerica">
+						<detalle-pendiente pendiente=proveedor.pendiente></detalle-pendiente>
+					</td>
 				  </tr>
 				  <tr ng-if="proveedor.showSub" ng-repeat-start="producto in proveedor.productos">
 					<td class="sub-renglon">
@@ -103,19 +126,21 @@
 							--><span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="producto.showSub"></span></a>
 						<span class="espacio-tab">{{producto.datosGenerales.nombre}} - {{producto.datosGenerales.descripcion}}</span>
 					</td>
-					<td class="celdaNumerica">{{producto.cantidad | number}}</td>
-					<td class="celdaNumerica">{{producto.entrada | number}}</td>
-					<td class="celdaNumerica">{{producto.pendiente | number}}</td>
+					<td class="celdaNumerica">{{producto.entrada | number}} / {{producto.cantidad | number}}</td>
+					<td class="celdaNumerica">
+						<detalle-pendiente pendiente=producto.pendiente></detalle-pendiente>
+					</td>
 				  </tr>
 				  <tr ng-if="producto.showSub && proveedor.showSub" ng-repeat="pedimento in producto.pedimentos" ng-repeat-end>
 					<td class="sub-sub-renglon">
-						<a class="espacio-tab" href ng-click="verSubPedido(pedimento.pedido.id)" aria-label="Left Align">
+						<a class="espacio-tab" href="#{{getCurrentPath()}}/subPedido/{{pedimento.pedido.id}}" aria-label="Left Align">
 							{{pedimento.pedido.puntoEntrega.nombreCorto}} - {{pedimento.pedido.puntoEntrega.nombre}}
 						</a>
 					</td>
-					<td class="celdaNumerica">{{pedimento.cantidad | number}}</td>
-					<td class="celdaNumerica">{{pedimento.entrada | number}}</td>
-					<td class="celdaNumerica">{{pedimento.pendiente | number}}</td>
+					<td class="celdaNumerica">{{pedimento.entrada | number}} / {{pedimento.cantidad | number}}</td>
+					<td class="celdaNumerica">
+						<detalle-pendiente pendiente=pedimento.pendiente></detalle-pendiente>
+					</td>
 				  </tr>
 				  <tr ng-repeat-end ng-hide="true"></tr>
 				</tbody>

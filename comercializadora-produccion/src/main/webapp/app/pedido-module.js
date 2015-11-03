@@ -447,7 +447,10 @@ pedidoModule.controller('tikal.modules.Pedido.subpedido.PedidoListCtrl', ['$scop
 	};
 	$scope.loadSubPedidos();
 	$scope.verSubPedido = function(pedidoId) {
-	  $location.path($location.path() + '/subPedido/' + pedidoId);
+		$location.path($location.path() + '/subPedido/' + pedidoId);
+	};
+	$scope.getCurrentPath = function() {
+		return $location.path();
 	};
 	
 	$scope.nuevoSubPedido = function(tipo, size) {
