@@ -54,7 +54,9 @@ public abstract class RegistroAlmacenDaoOfy<T extends RegistroAlmacenOfy> implem
         if (filtro != null && filtro.getOrigen() != null) {
             query = query.filter("origen", Ref.create(filtro.getOrigen()));
         }
-
+        if (filtro != null && filtro.getReferenciaEnvio() != null) {
+            query = query.filter("referenciaEnvio", filtro.getReferenciaEnvio());
+        }
         if (pagination.hasSinceId()) {
             query = query.filterKey(">=", Key.create(EntradaOfy.class, pagination.getSinceId()));
         }

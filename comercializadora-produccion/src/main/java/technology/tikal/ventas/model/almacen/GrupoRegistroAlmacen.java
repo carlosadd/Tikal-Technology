@@ -17,6 +17,7 @@ public class GrupoRegistroAlmacen implements Entrada, Salida {
     private Long idProveedor;
     private LineaDeProductos linea;
     private List<RegistroAlmacen> registros;
+    private Long referenciaEnvio;
     private Date fechaDeCreacion;
     
     public GrupoRegistroAlmacen(Long pedidoId, Long idProveedor, LineaDeProductos linea) {
@@ -101,5 +102,14 @@ public class GrupoRegistroAlmacen implements Entrada, Salida {
     @Override
     public Date getFechaRegistro() {
         return null;
+    }
+
+    @Override
+    public Long getReferenciaEnvio() {
+        return referenciaEnvio;
+    }
+
+    public void setReferenciaEnvio(Long referenciaEnvio) {
+        this.referenciaEnvio = referenciaEnvio;
     }
 }

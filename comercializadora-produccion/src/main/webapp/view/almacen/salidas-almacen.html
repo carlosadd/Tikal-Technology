@@ -1,0 +1,156 @@
+<contacto-navegacion></contacto-navegacion>
+<form name="form" class="form-horizontal" ng-submit="seleccionarProducto()" novalidate>
+	<div class="row">
+		<label for="pedido" class="col-sm-2 control-label">Pedido:</label>
+		<div class="col-sm-10">
+			<input class="form-control" type="text" autocomplete="off" ng-model="compartido.pedidoRaiz" placeholder="Pedido"  
+				uib-typeahead="pedido as pedido.nombre for pedido in pedidos | filter:{nombre:$viewValue} | limitTo:10" />
+		</div>
+	</div>
+	<div class="row top-buffer" ng-if="compartido.pedidoRaiz.type == 'PedidoCompuestoIntermediario'">
+		<label for="subPedido" class="col-sm-2 control-label">Punto Entrega:</label>
+		<div class="col-sm-10">
+			<input class="form-control" type="text" autocomplete="off" ng-model="compartido.subPedido" placeholder="Punto Entrega"  
+				uib-typeahead="subPedido as subPedido.display for subPedido in subPedidos | filter:{display:$viewValue} | limitTo:10"/>
+		</div>
+	</div>
+</form>
+</br>
+<uib-tabset>
+	<uib-tab heading="Captura">
+		<div class="well" ng-if="!compartido.pedido.id">No hay Información que mostrar</div>
+		<div ng-if="compartido.pedido.id">
+			<table class="table table-hover">
+				<thead>
+				  <tr>
+					<th style="min-width: 20px;">&nbsp;</th><!--nombre-->
+					<th class="celdaNumerica" style="width: 170px;">En Envío / Entradas</th>
+					<th class="celdaNumerica" style="width: 170px;">Pendiente Envío</th>
+					<th style="width: 30px;">&nbsp;</th>
+					<th style="min-width: 20px;">&nbsp;</th>
+				  </tr>
+				</thead>
+				<tfoot>
+					<tr>
+						<td class="celdaNumerica"><strong>Total:</strong></td>
+						<td class="celdaNumerica">
+							<sumatoria-basica items=compartido.pedido.entradas propiedad='enviado'></sumatoria-basica> / 
+							<sumatoria-basica items=compartido.pedido.entradas propiedad='cantidad'></sumatoria-basica> 
+						</td>
+						<td class="celdaNumerica">
+							<detalle-pendiente items=compartido.pedido.entradas propiedad='restante'></detalle-pendiente>
+						</td>
+						<td>&nbsp;</td>
+						<td>&nbsp;</td>
+					</tr>
+				</tfoot>
+				<tbody>
+				  <tr ng-repeat-start="registro in compartido.pedido.entradas">
+					<!-- EntradaIntermediario -->
+					<td ng-if="registro.type == 'EntradaIntermediario'"><!-- nombre-->
+						<span class="espacio-icon">&nbsp;</span>
+						<span class="espacio-tab">{{registro.producto.datosGenerales.nombre}} - {{registro.producto.datosGenerales.descripcion}}</span>
+					</td>
+					<td ng-if="registro.type == 'EntradaIntermediario'" class="celdaNumerica"><!-- cantidad-->
+						{{registro.enviado | number}} / {{registro.cantidad | number}}
+					</td>
+					<td ng-if="registro.type == 'EntradaIntermediario'" class="celdaNumerica">
+						<detalle-pendiente pendiente=registro.restante></detalle-pendiente>
+					</td>
+					<td ng-if="registro.type=='EntradaIntermediario'"> <!-- edicion-->
+						<a href ng-click="captura(registro)" ng-if="registro.restante > 0" aria-label="Left Align" uib-tooltip='Agregar a envío'>
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+						</a>
+					</td>
+					<td ng-if="registro.type == 'EntradaIntermediario'"><!--unidad medida-->
+						{{registro.producto.datosGenerales.unidadMedida}}
+					</td>
+					<!-- GrupoRegistroAlmacen -->
+					<td ng-if="registro.type == 'GrupoRegistroAlmacen'"> <!-- nombre-->
+						<a href ng-click="hideShowSub(registro)" aria-label="Left Align">
+							<span class="glyphicon glyphicon-plus" aria-hidden="true" ng-if="!registro.showSub"></span><!--
+							--><span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="registro.showSub"></span></a>
+						<span class="espacio-tab">{{registro.linea.datosGenerales.nombre}} - {{registro.linea.datosGenerales.descripcion}}</span>
+					</td>
+					<td ng-if="registro.type == 'GrupoRegistroAlmacen'" class="celdaNumerica">
+						{{registro.enviado | number}} / {{registro.cantidad | number}}
+					</td>
+					<td ng-if="registro.type == 'GrupoRegistroAlmacen'" class="celdaNumerica"><!--restante-->
+						<detalle-pendiente pendiente=registro.restante></detalle-pendiente>
+					</td>
+					<td ng-if="registro.type == 'GrupoRegistroAlmacen'">&nbsp;</td><!-- edicion-->
+					<td ng-if="registro.type == 'GrupoRegistroAlmacen'"><!--unidad medida-->
+						{{registro.linea.datosGenerales.unidadMedida}}
+					</td>
+				  </tr>
+				  <tr ng-if="registro.type=='GrupoRegistroAlmacen' && registro.showSub" ng-repeat="subRegistro in registro.registros" ng-repeat-end>
+					<td class="sub-renglon"><span class="espacio-tab">{{subRegistro.producto.talla}}</span></td>
+					<td class="celdaNumerica">{{subRegistro.enviado | number}} / {{subRegistro.cantidad | number}}</td>
+					<td class="celdaNumerica">
+						<detalle-pendiente pendiente=subRegistro.restante></detalle-pendiente>
+					</td>
+					<td>
+						<a href ng-click="captura(registro, subRegistro)" ng-if="subRegistro.restante > 0" aria-label="Left Align" uib-tooltip='Agregar a envío'>
+							<span class="glyphicon glyphicon-edit" aria-hidden="true"></span>
+						</a>
+					</td>
+					<td>{{registro.linea.datosGenerales.unidadMedida}}</td>
+				  </tr>
+				</tbody>
+			</table>
+		</div>
+	</uib-tab>
+	<uib-tab heading="Consulta Movimientos">
+		<div class="well" ng-if="!compartido.pedido.id">No hay Información que mostrar</div>
+		<table class="table table-hover" ng-if="compartido.pedido.id">
+			<thead>
+			  <tr>
+				<th style="width: 100px;">&nbsp;</th>
+				<th style="width: 120px;">&nbsp;</th>
+				<th style="width: 90px;">&nbsp;</th>
+				<th style="min-width: 20px;">&nbsp;</th>
+				<th class="celdaNumerica" style="width: 85px;">Cantidad</th>
+				<th style="width: 30px;">&nbsp;</th>
+				<th style="width: 30px;">&nbsp;</th>
+			  </tr>
+			</thead>
+			<tbody>
+			  <tr ng-repeat="registro in compartido.pedido.listaSalidas">
+				<td><!-- nombre Envio-->
+					{{registro.envioName}}
+				</td>
+				<td>
+					{{registro.envio.status}}
+				</td>
+				<td><!-- fecha entrada-->
+					{{registro.fechaRegistro | date : modelo.formatDP}}
+				</td>
+				<td ng-if="registro.producto.type == 'ProductoIntermediario'"><!-- nombre-->
+					{{registro.producto.datosGenerales.nombre}} - {{registro.producto.datosGenerales.descripcion}}
+					<a href ng-click="verNota(registro)" aria-label="Left Align" ng-if="registro.descripcion">
+						<span class="glyphicon glyphicon-comment" aria-hidden="true" uib-tooltip="Ver nota"></span>
+					</a>
+				</td>
+				<td ng-if="registro.producto.type == 'ProductoConTalla'"><!-- nombre-->
+					{{registro.producto.datosGenerales.nombre}} - {{registro.producto.datosGenerales.descripcion}} - {{registro.producto.talla}}
+					<a href ng-click="verNota(registro)" aria-label="Left Align" ng-if="registro.descripcion">
+						<span class="glyphicon glyphicon-comment" aria-hidden="true" uib-tooltip="Ver nota"></span>
+					</a>
+				</td>
+				<td class="celdaNumerica"><!-- cantidad-->
+					{{registro.cantidad | number}}
+				</td>
+				<td>
+					<a href ng-click="editar(registro)" ng-if="registro.envio.status == 'En preparación'" aria-label="Left Align">
+						<span class="glyphicon glyphicon-pencil" aria-hidden="true" uib-tooltip="Editar Salida"></span>
+					</a>
+				</td>
+				<td>
+					<a href ng-click="borrar(registro)" ng-if="registro.envio.status == 'En preparación'" aria-label="Left Align">
+						<span class="glyphicon glyphicon-trash" aria-hidden="true" uib-tooltip="Borrar Salida"></span>
+					</a>
+				</td>
+			</tbody>
+		</table>
+	</uib-tab>
+</uib-tabset>

@@ -1,5 +1,5 @@
 <div class="modal-header">
-	<h3 class="modal-title">Entrada Almacén</h3>
+	<h3 class="modal-title">Movimiento Almacén</h3>
 </div>
 <div class="modal-body">
 	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
@@ -35,7 +35,17 @@
 			</div>
 		</div>
 		<div class="form-group">
-			<label for="fecha" class="col-sm-3 control-label">Fecha Entrada:</label>
+			<label for="tipo" class="col-sm-3 control-label">Tipo:</label>
+			<div class="col-sm-9">
+				<select class="form-control" ng-model="modelo.tipo">
+					<option value="entrada" ng-if="modelo.entrada.max > 0">Entrada</option>
+					<option value="devolucion" ng-if="modelo.devolucion.max > 0">Devolución</option>
+					<option value="reposicion" ng-if="modelo.reposicion.max > 0">Reposición</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="fecha" class="col-sm-3 control-label">Fecha:</label>
 			<div class="col-sm-9">
 				<div class="input-group">
 					<input type="date" class="form-control" uib-datepicker-popup="{{modelo.formatoFecha}}" ng-model="modelo.fechaEntrega" 
@@ -47,31 +57,22 @@
 				</div>
 			</div>
 		</div>
-		<!--<div class="form-group">
-			<label for="fecha" class="col-sm-3 control-label">Fecha Entrada:</label>
-			<div class="col-sm-9">
-				<p class="form-control-static">{{modelo.fechaEntrega | date : modelo.formatoFecha}}</p>
-			</div>
-		</div>-->
-		<!--<div class="form-group">
-			<label for="pendiente" class="col-sm-3 control-label">Pendiente Entrar:</label>
-			<div class="col-sm-9">
-				<p class="form-control-static">{{modelo.max | number}}</p>
-			</div>
-		</div>-->
 		<div class="form-group">
 			<label for="cantidad" class="col-sm-3 control-label">Cantidad:</label>
 			<div class="col-sm-9" ng-class="{'has-error': form.cantidad.$invalid}">
-				<input class="form-control" type="number" name="cantidad" ng-model="modelo.cantidad" placeholder="La cantidad de la entrada"
-					required min="0" max="{{modelo.max}}"
-					uib-popover="{{form.cantidad.$invalid ? 'Campo obligatorio. No exceda la cantidad pedida' : ''}}" 
+				<input class="form-control" type="number" name="cantidad" ng-model="modelo[modelo.tipo].cantidad" placeholder="La cantidad"
+					required min="0" max="{{modelo[modelo.tipo].max}}"
+					uib-popover="{{form.cantidad.$invalid ? 'Campo obligatorio. No exceda la cantidad maxima permitida' : ''}}" 
 					popover-placement="top" popover-trigger="mouseenter"/>
 			</div>
 		</div>
-		<div class="form-group" ng-if="dynamic != null">
-			<label for="contacto" class="col-sm-3 control-label">Asignando:</label>
-			<div class="col-sm-9">
-				<uib-progressbar value="dynamic"><b>{{dynamic}}%</b></uib-progressbar>
+		<div class="form-group">
+			<label for="descripcion" class="col-sm-3 control-label">Nota:</label>
+			<div class="col-sm-9" ng-class="{'has-error': form.descripcion.$invalid}">
+				<textarea class="form-control" name="descripcion" ng-model="modelo.descripcion" placeholder="Nota"
+					pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="360" rows="3"
+					uib-popover="{{form.descripcion.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"></textarea>
 			</div>
 		</div>
 		<div class="form-group">

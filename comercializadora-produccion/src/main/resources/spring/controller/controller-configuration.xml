@@ -57,6 +57,12 @@
         <property name="entradaDevolucionController" ref="entradaDevolucionController"/>
         <property name="salidaDevolucionDao" ref="salidaDevolucionDao"/>
     </bean>
+    <!-- Envios -->
+    <bean id="envioController" class="technology.tikal.ventas.controller.envio.imp.EnvioControllerImp">
+        <property name="pedidoController" ref="pedidoController"/>
+        <property name="salidaController" ref="salidaController"/>
+        <property name="envioDao" ref="envioDao"/>
+    </bean>
     <!-- catalogo -->
     <bean id="catalogoController" class="technology.tikal.ventas.controller.producto.imp.CatalogoControllerImp">
         <property name="dao" ref="catalogoProductoDao"/>

@@ -33,6 +33,7 @@ public class RegistroAlmacenFilter implements FiltroBusqueda {
     private Date fechaInicio;
     private Date fechaFinal;
     private RegistroAlmacen origen;
+    private Long referenciaEnvio;
 
     public Producto getProducto() {
         return producto;
@@ -72,5 +73,13 @@ public class RegistroAlmacenFilter implements FiltroBusqueda {
 
     public void setOrigen(RegistroAlmacen origen) {
         this.origen = origen;
-    }    
+    }
+
+    public Long getReferenciaEnvio() {
+        return referenciaEnvio;
+    }
+
+    public void setReferenciaEnvio(Long referenciaEnvio) {
+        this.referenciaEnvio = referenciaEnvio;
+    }
 }

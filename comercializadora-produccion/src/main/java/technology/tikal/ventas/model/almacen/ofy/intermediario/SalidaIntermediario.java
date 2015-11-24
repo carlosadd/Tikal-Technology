@@ -38,8 +38,9 @@ public class SalidaIntermediario extends SalidaOfy {
     public SalidaIntermediario(SalidaIntermediario base) {
         super(base);
     }
-    public SalidaIntermediario(Pedido owner, Producto producto, Long idProveedor) {
-        super(owner, producto, idProveedor);
+    public SalidaIntermediario(Pedido owner, Producto producto) {
+        //meh, no deveria ser obligatorio el proveedor para la salida
+        super(owner, producto, 0L);
     }
     
 }

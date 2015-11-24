@@ -66,6 +66,7 @@ public class EntradaControllerImp implements EntradaController {
         original.setCantidad(request.getCantidad());
         original.setFechaRegistro(request.getFechaRegistro());
         original.setDescripcion(request.getDescripcion());
+        original.setTag(request.getTag());
         entradaDao.guardar(pedido, original);
     }
 

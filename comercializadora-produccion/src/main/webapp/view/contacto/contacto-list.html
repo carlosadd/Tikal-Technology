@@ -1,6 +1,6 @@
 <contacto-navegacion></contacto-navegacion>
 <div class="btn-group" role="group" aria-label="...">
-  <button type="button" class="btn btn-success" ng-click="nuevoContacto()"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{nuevoActionName}}</button>
+  <button type="button" class="btn btn-success" ng-click="nuevoContacto()" ng-if="!hiddeNew"><span class="glyphicon glyphicon-plus" aria-hidden="true"></span> {{nuevoActionName}}</button>
 </div>
 <table class="table table-striped">
 <thead>

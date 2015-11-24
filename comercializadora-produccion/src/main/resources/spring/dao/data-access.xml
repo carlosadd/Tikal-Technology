@@ -28,9 +28,10 @@
 				<value>technology.tikal.ventas.model.almacen.ofy.EntradaDevolucionOfy</value>
 				<value>technology.tikal.ventas.model.almacen.ofy.intermediario.EntradaDevolucionIntermediario</value>
 				<value>technology.tikal.ventas.model.almacen.ofy.SalidaOfy</value>
-				<value>technology.tikal.ventas.model.almacen.ofy.intermediario.SalidaDevolucionIntermediario</value>
+				<value>technology.tikal.ventas.model.almacen.ofy.intermediario.SalidaIntermediario</value>
 				<value>technology.tikal.ventas.model.almacen.ofy.SalidaDevolucionOfy</value>
 				<value>technology.tikal.ventas.model.almacen.ofy.intermediario.SalidaDevolucionIntermediario</value>
+				<value>technology.tikal.ventas.model.envio.ofy.EnvioOfy</value>
 				<value>technology.tikal.ventas.model.producto.ofy.CatalogoOfy</value>
 				<value>technology.tikal.ventas.model.producto.ofy.LineaDeProductosOfy</value>
 				<value>technology.tikal.ventas.model.producto.ofy.intermediario.LineaProductosPorTalla</value>
@@ -49,6 +50,7 @@
 	<bean id="entradaDevolucionDao" class="technology.tikal.ventas.dao.almacen.ofy.EntradaDevolucionDaoOfy"/>
 	<bean id="salidaDao" class="technology.tikal.ventas.dao.almacen.ofy.SalidaDaoOfy"/>
 	<bean id="salidaDevolucionDao" class="technology.tikal.ventas.dao.almacen.ofy.SalidaDevolucionDaoOfy"/>
+	<bean id="envioDao" class="technology.tikal.ventas.dao.envio.ofy.EnvioDaoOfy"/>
 	<bean id="catalogoProductoDao" class="technology.tikal.ventas.dao.producto.ofy.CatalogoProductoDaoOfy"/>
 	<bean id="lineaDeProductoDao" class="technology.tikal.ventas.dao.producto.ofy.LineaDeProductoDaoOfy"/>
 	<bean id="productoDao" class="technology.tikal.ventas.dao.producto.ofy.ProductoDaoOfy"/>

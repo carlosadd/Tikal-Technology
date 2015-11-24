@@ -1,0 +1,76 @@
+<div class="modal-header">
+	<h3 class="modal-title">Movimiento Almacén</h3>
+</div>
+<div class="modal-body">
+	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+	<form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
+		<div class="form-group">
+			<label for="pedidoRaiz" class="col-sm-3 control-label">Pedido:</label>
+			<div class="col-sm-9">
+				<p class="form-control-static">{{modelo.pedidoRaiz.nombre}}</p>
+			</div>
+		</div>
+		<div class="form-group" ng-if="modelo.subPedido">
+			<label for="subPedido" class="col-sm-3 control-label">Punto Entrega:</label>
+			<div class="col-sm-9">
+				<p class="form-control-static">{{modelo.subPedido.display}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="nombreProducto" class="col-sm-3 control-label">Producto:</label>
+			<div class="col-sm-9">
+				<p class="form-control-static">{{modelo.registro.producto.datosGenerales.nombre}} - {{modelo.registro.producto.datosGenerales.descripcion}}</p>
+			</div>
+		</div>
+		<div class="form-group" ng-if="modelo.registro.producto.talla">
+			<label for="talla" class="col-sm-3 control-label">Talla:</label>
+			<div class="col-sm-9">
+				<p class="form-control-static">{{modelo.registro.producto.talla}}</p>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="envio" class="col-sm-3 control-label">Envío:</label>
+			<div class="col-sm-9" ng-class="{'has-error': form.envio.$invalid}">
+				<select class="form-control" ng-options="envio as envio.name for envio in modelo.envios track by envio.id" ng-model="modelo.envio" required></select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="fecha" class="col-sm-3 control-label">Fecha:</label>
+			<div class="col-sm-9">
+				<div class="input-group">
+					<input type="date" class="form-control" uib-datepicker-popup="{{modelo.formatoFecha}}" ng-model="modelo.fechaRegistro" 
+						is-open="modelo.opened" datepicker-options="dateOptions" ng-required="true" required
+						close-text="Cerrar" current-text="Hoy" clear-text="Limpiar" max-date="maxDate"/>
+					<span class="input-group-btn">
+						<button type="button" class="btn btn-default" ng-click="modelo.open(modelo, $event)"><i class="glyphicon glyphicon-calendar"></i></button>
+					</span>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="cantidad" class="col-sm-3 control-label">Cantidad:</label>
+			<div class="col-sm-9" ng-class="{'has-error': form.cantidad.$invalid}">
+				<input class="form-control" type="number" name="cantidad" ng-model="modelo.salida.cantidad" placeholder="La cantidad"
+					required min="0" max="{{modelo.salida.max}}"
+					uib-popover="{{form.cantidad.$invalid ? 'Campo obligatorio. No exceda la cantidad maxima permitida' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="descripcion" class="col-sm-3 control-label">Nota:</label>
+			<div class="col-sm-9" ng-class="{'has-error': form.descripcion.$invalid}">
+				<textarea class="form-control" name="descripcion" ng-model="modelo.descripcion" placeholder="Nota"
+					pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="360" rows="3"
+					uib-popover="{{form.descripcion.$invalid ? 'Use solo caracteres, números y signos de puntuación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"></textarea>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12 text-right">
+				<button class="btn btn-default" type="button" ng-click="close()">Cancelar</button>
+				<button type="submit" class="btn btn-primary" type="button" ng-disabled="form.$invalid" 
+					ladda="actionLoading" data-style="expand-left">Guardar</button>
+			</div>
+		</div>
+	</form>
+</div>

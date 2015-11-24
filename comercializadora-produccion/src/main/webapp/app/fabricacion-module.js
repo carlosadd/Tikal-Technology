@@ -250,6 +250,10 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.resumen', ['$s
 	}
 	$scope.addEntradas = function() {
 		angular.forEach($scope.subPedidos.items, function(pedido, key) {
+			var cantidadPedido = 0;
+			var entradaPedido = 0;
+			var devolucionPedido = 0;
+			var reposicionPedido = 0;
 			angular.forEach(pedido.pedimentos, function(pedimento, i) {
 				angular.forEach(pedido.entradas, function(entrada, j) {
 					if (pedimento.type == 'GrupoPedimento' && entrada.type == 'GrupoRegistroAlmacen') {
@@ -270,12 +274,45 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.resumen', ['$s
 					}
 				});
 				var entradaPedimento = 0;
+				var devoluicionPedimento = 0;
+				var reposicionPedimento = 0;
 				angular.forEach(pedimento.entradas, function(entrada, i) {
 					entradaPedimento = entradaPedimento + entrada.cantidad;
+					if (entrada.type == 'GrupoRegistroAlmacen') {
+						angular.forEach(entrada.registros, function(registro, j) {
+							if (registro.tag == 'devolucion') {
+								devoluicionPedimento = devoluicionPedimento + registro.cantidad;
+							}
+							if (registro.tag == 'reposicion') {
+								reposicionPedimento = reposicionPedimento + registro.cantidad;
+							}
+						});
+					} else {
+						if (entrada.tag == 'devolucion') {
+							devoluicionPedimento = devoluicionPedimento + entrada.cantidad;
+						}
+						if (entrada.tag == 'reposicion') {
+							reposicionPedimento = reposicionPedimento + entrada.cantidad;
+						}
+					}
 				});
 				pedimento.entrada = entradaPedimento;
 				pedimento.pendiente = pedimento.cantidad - pedimento.entrada;
+				pedimento.devolucion = devoluicionPedimento;
+				pedimento.reposicion = reposicionPedimento;
+				//totales pedido
+				cantidadPedido = cantidadPedido + pedimento.cantidad;
+				entradaPedido = entradaPedido + pedimento.entrada;
+				devolucionPedido = devolucionPedido + pedimento.devolucion;
+				reposicionPedido = reposicionPedido + pedimento.reposicion;
 			});
+			pedido.cantidad = cantidadPedido;
+			pedido.entrada = entradaPedido;
+			pedido.pendiente = pedido.cantidad - pedido.entrada;
+			pedido.devolucion = devolucionPedido;
+			pedido.reposicion = reposicionPedido;
+			$scope.$broadcast('updateEntradas');
+			//$scope.entradasLoaded = true;
 		});
 	}
 	$scope.sortByProducto = function() {
@@ -339,22 +376,34 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.resumen', ['$s
 		angular.forEach(productos, function(producto, key) {
 			var total = 0;
 			var entradaTotal = 0;
+			var devolucionTotal = 0;
+			var reposicionTotal = 0;
 			angular.forEach(producto.proveedores, function(proveedor, i) {
 				var totalProveedor = 0;
 				var totalEntradaProveedor = 0;
+				var totalDevolucionProveedor = 0;
+				var totalReposicionProveedor = 0;
 				angular.forEach(proveedor.pedimentos, function(pedimento, i) {
 					totalProveedor = totalProveedor + pedimento.cantidad;
 					totalEntradaProveedor = totalEntradaProveedor + pedimento.entrada;
+					totalDevolucionProveedor = totalDevolucionProveedor + pedimento.devolucion;
+					totalReposicionProveedor = totalReposicionProveedor + pedimento.reposicion;
 				});
 				proveedor.cantidad = totalProveedor;
 				proveedor.entrada = totalEntradaProveedor;
 				proveedor.pendiente = proveedor.cantidad - proveedor.entrada;
+				proveedor.devolucion = totalDevolucionProveedor;
+				proveedor.reposicion = totalReposicionProveedor;
 				total = total + proveedor.cantidad;
 				entradaTotal = entradaTotal + proveedor.entrada;
+				devolucionTotal = devolucionTotal + proveedor.devolucion;
+				reposicionTotal = reposicionTotal + proveedor.reposicion;
 			});
 			producto.cantidad = total;
 			producto.entrada = entradaTotal;
 			producto.pendiente = producto.cantidad - producto.entrada;
+			producto.devolucion = devolucionTotal;
+			producto.reposicion = reposicionTotal;
 		});
 		productos.sort(function(a,b){
 			return a.datosGenerales.nombre.localeCompare(b.datosGenerales.nombre);
@@ -437,22 +486,34 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.resumen', ['$s
 		angular.forEach(proveedorAsignado, function(proveedor, key) {
 			var total = 0;
 			var entradaTotal = 0;
+			var devolucionTotal = 0;
+			var reposicionTotal = 0;
 			angular.forEach(proveedor.productos, function(producto, i) {
 				var totalProducto = 0;
 				var entradaTotalProducto = 0;
+				var devolucionTotalProducto = 0;
+				var reposicionTotalProducto = 0;
 				angular.forEach(producto.pedimentos, function(pedimento, j) {
 					totalProducto = totalProducto + pedimento.cantidad;
 					entradaTotalProducto = entradaTotalProducto + pedimento.entrada;
+					devolucionTotalProducto = devolucionTotalProducto + pedimento.devolucion;
+					reposicionTotalProducto = reposicionTotalProducto + pedimento.reposicion;
 				});
 				producto.cantidad = totalProducto;
 				producto.entrada = entradaTotalProducto;
 				producto.pendiente = producto.cantidad - producto.entrada;
+				producto.devolucion = devolucionTotalProducto;
+				producto.reposicion = reposicionTotalProducto;
 				total = total + producto.cantidad;
 				entradaTotal = entradaTotal + producto.entrada;
+				devolucionTotal = devolucionTotal + producto.devolucion;
+				reposicionTotal = reposicionTotal + producto.reposicion;
 			});
 			proveedor.cantidad = total;
 			proveedor.entrada = entradaTotal;
 			proveedor.pendiente = proveedor.cantidad - proveedor.entrada;
+			proveedor.devolucion = devolucionTotal;
+			proveedor.reposicion = reposicionTotal;
 		});
 		proveedorAsignado.sort(function(a,b){
 			return a.name.name.localeCompare(b.name.name);
@@ -481,9 +542,13 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.resumen', ['$s
 		}
 	});
 	$scope.$watch('workDone', function(newValue, oldValue) {
-		$scope.dynamic=Math.floor($scope.workDone/$scope.workSize*100);
+		if ($scope.workSize != 0) {
+			$scope.dynamic=Math.floor($scope.workDone/$scope.workSize*100);
+		} else {
+			$scope.dynamic = 0;
+		}
 		if ($scope.workSize > 0 && $scope.workSize == $scope.workDone) {
-			$log.info('phase 2');
+			//$log.info('phase 2');
 			$scope.fillNames();
 			$scope.addEntradas();
 			$scope.sortByProducto();
@@ -657,12 +722,14 @@ fabricacionModule.controller('tikal.modules.Fabricacion.Pedimento.edicionCtrl', 
 		});
 		modalInstance.result.then(function (modelo) {
 			pedimento.cantidad = modelo.cantidad;
+			pedimento.restante = pedimento.cantidad - pedimento.totalEntrada;
 			if (parent) {
 				var total = 0;
 				angular.forEach(parent.pedimentos, function(elemento, key) {
 					total = total + elemento.cantidad;
 				});
 				parent.cantidad = total;
+				parent.restante = parent.cantidad - parent.totalEntrada;
 			}
 		});
 		pedimento.command = function($modalScope) {
@@ -795,26 +862,46 @@ fabricacionModule.controller('tikal.modules.Fabricacion.fabricante.listCtrl', ['
 		if (pedimento.type == 'GrupoPedimento') {
 			var total = 0;
 			var totalEntrada = 0;
+			var totalDevolucion = 0;
+			var totalReposicion = 0;
 			angular.forEach(pedimento.pedimentos, function(pedimentoGrupo, key) {
 				$scope.calculaTotalesEntrada(pedimentoGrupo, entradas);
 				total = total + pedimentoGrupo.cantidad;
 				totalEntrada = totalEntrada + pedimentoGrupo.totalEntrada;
+				totalDevolucion = totalDevolucion + pedimentoGrupo.totalDevolucion;
+				totalReposicion = totalReposicion + pedimentoGrupo.totalReposicion;
 			});
 			pedimento.totalEntrada = totalEntrada;
 			pedimento.restante = total - totalEntrada;
+			pedimento.totalDevolucion = totalDevolucion;
+			pedimento.totalReposicion = totalReposicion;
 		} else {
 			//pedimento.restante = pedimento.cantidad;
 			pedimento.totalEntrada = 0;
+			pedimento.totalDevolucion = 0;
+			pedimento.totalReposicion = 0;
 			angular.forEach(entradas, function(entrada, i) {
 				if (entrada.type == 'GrupoRegistroAlmacen') {
 					angular.forEach(entrada.registros, function(registro, j) {
 						if (pedimento.producto.id == registro.producto.id && pedimento.producto.catalogoId == registro.producto.catalogoId) {
 							pedimento.totalEntrada = pedimento.totalEntrada + registro.cantidad;
+							if (registro.tag == 'devolucion') {
+								pedimento.totalDevolucion = pedimento.totalDevolucion + registro.cantidad;
+							}
+							if (registro.tag == 'reposicion') {
+								pedimento.totalReposicion = pedimento.totalReposicion + registro.cantidad;
+							}
 						}
 					});
 				} else {
 					if (pedimento.producto.id == entrada.producto.id && pedimento.producto.catalogoId == entrada.producto.catalogoId) {
 						pedimento.totalEntrada = pedimento.totalEntrada + entrada.cantidad;
+						if (entrada.tag == 'devolucion') {
+							pedimento.totalDevolucion = pedimento.totalDevolucion + entrada.cantidad;
+						}
+						if (entrada.tag == 'reposicion') {
+							pedimento.totalReposicion = pedimento.totalReposicion + entrada.cantidad;
+						}
 					}
 				}
 			});

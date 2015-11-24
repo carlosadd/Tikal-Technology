@@ -1,0 +1,11 @@
+<div class="modal-body">
+	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+	<uib-alert type="{{modelo.type}}">{{modelo.message}}</uib-alert>
+	<form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
+		<div class="form-group">
+			<div class="col-md-12 text-right">
+				<button type="submit" class="btn btn-primary" type="button" ladda="actionLoading" data-style="expand-left">Aceptar</button>
+			</div>
+		</div>
+	</form>
+</div>

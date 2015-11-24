@@ -1,0 +1,17 @@
+<contacto-navegacion></contacto-navegacion>
+<ul class="nav nav-pills">
+	<li ng-if="pedido.type=='PedidoIntermediario' || pedido.type=='PedidoCompuestoIntermediario'" role="navigation">
+		<a href="#/pedido/{{currentPedidoId}}">
+			<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+			<span class="espacio-tab">Ver Pedido</span>
+		</a>
+	</li>
+	<li ng-if="pedido.type=='SubPedidoIntermediario'" role="navigation">
+		<a href="#/pedido/{{pedidoRaizId}}/subPedido/{{currentPedidoId}}">
+			<span class="glyphicon glyphicon-list-alt" aria-hidden="true"></span>
+			<span class="espacio-tab">Ver Pedido</span>
+		</a>
+	</li>
+</ul>
+<envio-list ng-if="pedido.type=='PedidoIntermediario' || pedido.type=='SubPedidoIntermediario'" pedido=pedido></envio-list>
+<envio-sub-pedido-list ng-if="pedido.type=='PedidoCompuestoIntermediario'" pedido=pedido></envio-sub-pedido-list>
