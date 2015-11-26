@@ -17,6 +17,12 @@ package technology.tikal.ventas.model.almacen.ofy;
 
 import java.util.Date;
 
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+
 import technology.tikal.ventas.model.almacen.RegistroAlmacen;
 import technology.tikal.ventas.model.producto.Producto;
 
@@ -25,19 +31,32 @@ import com.fasterxml.jackson.annotation.JsonTypeName;
 /**
  * 
  * @author Nekorp
- *
+ * Al parecer se necesitan dos objetos diferentes, uno para las entradas y otro para las salidas
+ * por que las validaciones no son iguales.
  */
 @JsonTypeName("RegistroAlmacenTransient")
 public class RegistroAlmacenTransient implements RegistroAlmacen {
 
+    @NotNull
     private Long pedidoId;
     private Long id;
+    @NotNull
     private Long cantidad;
+    @NotNull
+    @Valid
     private Producto producto;
+    @NotNull
     private Long idProveedor;
+    @NotNull
     private Date fechaRegistro;
     private Long referenciaRegistro;
+    private Long referenciaEnvio;
+    @Length(max=360)
+    @Pattern(regexp="^[\\w\\p{IsLatin}\\p{Punct}]+( [\\w\\p{IsLatin}\\p{Punct}]+)*")
     private String descripcion;
+    @Length(max=40)
+    @Pattern(regexp="^[\\w\\p{IsLatin}\\p{Punct}]+( [\\w\\p{IsLatin}\\p{Punct}]+)*")
+    private String tag;
     
     @Override
     public Long getPedidoId() {
@@ -93,4 +112,16 @@ public class RegistroAlmacenTransient implements RegistroAlmacen {
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
     }
+    public String getTag() {
+        return tag;
+    }
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
+    public Long getReferenciaEnvio() {
+        return referenciaEnvio;
+    }
+    public void setReferenciaEnvio(Long referenciaEnvio) {
+        this.referenciaEnvio = referenciaEnvio;
+    }    
 }

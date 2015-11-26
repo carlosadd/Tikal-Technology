@@ -9,9 +9,10 @@ contactoModule.constant('CONTACTO_REMOTE_ADDRESS', {
 contactoModule.config(function ($routeProvider, $httpProvider) {
 	$routeProvider.when('/contacto/:grupoId', {templateUrl: 'view/contacto/contacto-list.html', controller: 'tikal.modules.Contacto.ContactoListCtrl'});
 	$routeProvider.when('/contacto/:grupoId/:contactId', {templateUrl: 'view/contacto/contacto-detail.html', controller: 'tikal.modules.Contacto.ContactoCtrl'});
-	$routeProvider.when('/pedido/:pedidoId/cliente/:contactId', {templateUrl: 'view/contacto/contacto-detail.html', controller: 'tikal.modules.Contacto.ContactoCtrl'});
 	$routeProvider.when('/contacto/:grupoId/:contactId/asociado/:asociadoId', {templateUrl: 'view/contacto/asociado-detail.html', controller: 'tikal.modules.Contacto.AsociadoCtrl'});
+	$routeProvider.when('/pedido/:pedidoId/cliente/:contactId', {templateUrl: 'view/contacto/contacto-detail.html', controller: 'tikal.modules.Contacto.ContactoCtrl'});
 	$routeProvider.when('/pedido/:pedidoId/cliente/:contactId/asociado/:asociadoId', {templateUrl: 'view/contacto/asociado-detail.html', controller: 'tikal.modules.Contacto.AsociadoCtrl'});
+	//$routeProvider.when('/envio/:pedidoId/subPedido/:subPedidoId/envio/:envioId/transportista/:contactId', {templateUrl: 'view/contacto/contacto-detail.html', controller: 'tikal.modules.Contacto.ContactoCtrl'});
 });
 
 contactoModule.controller('tikal.modules.Contacto.ContactoListCtrl', ['$scope', '$resource', '$routeParams', 'CONTACTO_REMOTE_ADDRESS', '$location', '$uibModal', '$log',

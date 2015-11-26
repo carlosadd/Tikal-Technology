@@ -28,6 +28,7 @@
 	    <ref bean="PartidaCacheController"/>
 	    <ref bean="PedimentoCacheController"/>
 	    <ref bean="RegistroAlmacenCacheController"/>
+	    <ref bean="EnvioCacheController"/>
 	</mvc:interceptors>
 	<!-- customizacion de jackson -->
 	<bean id="jacksonObjectMapper" class="com.fasterxml.jackson.databind.ObjectMapper" />
@@ -76,6 +77,11 @@
     </bean>
     <bean id="SalidaDevolucionService" class="technology.tikal.ventas.service.almacen.SalidaDevolucionService">
 	    <property name="salidaDevolucionController" ref="salidaDevolucionController"/>
+	    <property name="messageSource" ref="messageSource"/>
+    </bean>
+    <!-- Interfaz Envios -->
+    <bean id="EnvioService" class="technology.tikal.ventas.service.envio.EnvioService">
+	    <property name="envioController" ref="envioController"/>
 	    <property name="messageSource" ref="messageSource"/>
     </bean>
     <!-- Interfaz Catalogos -->

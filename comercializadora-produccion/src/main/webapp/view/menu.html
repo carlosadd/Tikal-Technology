@@ -14,14 +14,15 @@
 		<ul class="nav navbar-nav">
 			<li class="{{isActiveOption('/pedido/')}}"><a href="#/pedido" ng-click="isCollapsed = true">Pedidos</a></li>
 			<li class="{{isActiveOption('/fabricacion')}}"><a href="#/fabricacion" ng-click="isCollapsed = true">Fabricaci&oacute;n</a></li>
-			<li class="{{isActiveOption('/almacen')}}"><a href="#/almacen" ng-click="isCollapsed = true">Almac&eacute;n</a></li>
-			<!--<li class="dropdown {{isActiveOption('/almacen')}}" uib-dropdown>
+			<!--<li class="{{isActiveOption('/almacen')}}"><a href="#/almacen" ng-click="isCollapsed = true">Almac&eacute;n</a></li>-->
+			<li class="dropdown {{isActiveOption('/almacen')}}" uib-dropdown>
 				<a href id="simple-dropdown" uib-dropdown-toggle>Almac&eacute;n</a>
 				<ul class="dropdown-menu" aria-labelledby="simple-dropdown">
 					<li class="{{isActiveOption('/almacen/entrada')}}"><a href="#/almacen/entrada" ng-click="isCollapsed = true">Entradas</a></li>
+					<li class="{{isActiveOption('/almacen/salida')}}"><a href="#/almacen/salida" ng-click="isCollapsed = true">Salidas</a></li>
 				</ul>
-			</li>-->
-			<li class="{{isActiveOption('/envio')}}"><a href="#/envio" ng-click="isCollapsed = true">Entregas</a></li>
+			</li>
+			<li class="{{isActiveOption('/envio')}}"><a href="#/envio" ng-click="isCollapsed = true">Env&iacute;os</a></li>
 			<li class="{{isActiveOption('/catalogo/')}}"><a href="#/catalogo" ng-click="isCollapsed = true">Catalogos</a></li>
 			<li class="dropdown {{isActiveOption('/contacto')}}" uib-dropdown>
 				<a href id="simple-dropdown" uib-dropdown-toggle>Contactos</a>
@@ -45,7 +46,7 @@
 				<ul class="dropdown-menu" aria-labelledby="simple-dropdown">
 					<li class="dropdown-header">Administraci&oacute;n</li>
 					<li class="{{isActiveOption('/account')}}"><a href="#/account" ng-click="isCollapsed = true">Usuarios</a></li>
-					<li><a href="#">Bit&aacute;cora</a></li>
+					<!--<li><a href="#">Bit&aacute;cora</a></li>-->
 				</ul>
 			</li>
 		</ul>

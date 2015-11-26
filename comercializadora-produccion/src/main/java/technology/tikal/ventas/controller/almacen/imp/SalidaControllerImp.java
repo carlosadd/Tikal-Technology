@@ -60,6 +60,8 @@ public class SalidaControllerImp implements SalidaController {
         original.setCantidad(request.getCantidad());
         original.setFechaRegistro(request.getFechaRegistro());
         original.setDescripcion(request.getDescripcion());
+        original.setTag(request.getTag());
+        original.setReferenciaEnvio(request.getReferenciaEnvio());
         salidaDao.guardar(pedido, original);
     }
 

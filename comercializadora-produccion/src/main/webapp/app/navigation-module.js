@@ -6,6 +6,7 @@ var navigationModule = angular.module('tikal.modules.tolumex.Navigation', [
   'tikal.modules.Pedido',
   'tikal.modules.Fabricacion',
   'tikal.modules.Almacen',
+  'tikal.modules.Envio',
   'tikal.modules.Contacto',
   'tikal.modules.Catalogo',
   'menu.controllers',

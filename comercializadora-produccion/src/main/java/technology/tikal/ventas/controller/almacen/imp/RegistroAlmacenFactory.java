@@ -42,13 +42,16 @@ public class RegistroAlmacenFactory {
             entrada.setCantidad(request.getCantidad());
             entrada.setFechaRegistro(request.getFechaRegistro());
             entrada.setDescripcion(request.getDescripcion());
+            entrada.setTag(request.getTag());
             return (T) entrada;
         }
         if (type == SalidaOfy.class) {
-            SalidaIntermediario entrada = new SalidaIntermediario(owner, producto, request.getIdProveedor());
+            SalidaIntermediario entrada = new SalidaIntermediario(owner, producto);
             entrada.setCantidad(request.getCantidad());
             entrada.setFechaRegistro(request.getFechaRegistro());
             entrada.setDescripcion(request.getDescripcion());
+            entrada.setTag(request.getTag());
+            entrada.setReferenciaEnvio(request.getReferenciaEnvio());
             return (T) entrada;
         }
         throw new IllegalArgumentException();
@@ -60,6 +63,7 @@ public class RegistroAlmacenFactory {
             entrada.setCantidad(request.getCantidad());
             entrada.setFechaRegistro(request.getFechaRegistro());
             entrada.setDescripcion(request.getDescripcion());
+            entrada.setTag(request.getTag());
             entrada.setOrigen(referencia);
             return (T) entrada;
         }
@@ -68,6 +72,7 @@ public class RegistroAlmacenFactory {
             entrada.setCantidad(request.getCantidad());
             entrada.setFechaRegistro(request.getFechaRegistro());
             entrada.setDescripcion(request.getDescripcion());
+            entrada.setTag(request.getTag());
             entrada.setOrigen(referencia);
             return (T) entrada;
         }

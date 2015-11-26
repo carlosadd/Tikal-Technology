@@ -1,0 +1,23 @@
+<div class="modal-header">
+	<h3 class="modal-title">Nuevo Envío</h3>
+</div>
+<div class="modal-body">
+	<uib-alert ng-repeat="alert in alerts" type="{{alert.type}}" close="closeAlert($index)">{{alert.msg}}</uib-alert>
+	<form name="form" class="form-horizontal" ng-submit="ok(form)" novalidate>
+		<div class="form-group">
+			<label for="name" class="col-sm-3 control-label">Nombre Env&iacute;o:</label>
+			<div class="col-sm-9" ng-class="{'has-error': form.name.$invalid}">
+				<input class="form-control" type="text" name="name" ng-model="modelo.name" placeholder="El nombre para identificar el envío"
+					required pattern-xregexp="'^[\\p{N}\\p{L}\\p{P}]+( [\\p{N}\\p{L}\\p{P}]+)*$'" maxlength="80"
+					uib-popover="{{form.name.$invalid ? 'Campo obligatorio. Use caracteres, números y signos de puntiación' : ''}}" 
+					popover-placement="top" popover-trigger="mouseenter"/>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-md-12 text-right">
+				<button class="btn btn-default" type="button" ng-click="close()">Cancelar</button>
+				<button type="submit" class="btn btn-primary" type="button" ng-disabled="form.$invalid || form.$pristine" ladda="actionLoading" data-style="expand-left">Guardar</button>
+			</div>
+		</div>
+	</form>
+</div>

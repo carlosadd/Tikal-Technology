@@ -11,5 +11,5 @@ import technology.tikal.ventas.model.almacen.ofy.intermediario.SalidaIntermediar
 @JsonTypeInfo(use = JsonTypeInfo.Id.NAME, include = JsonTypeInfo.As.PROPERTY, property = "type")
 public interface Salida extends RegistroAlmacen {
 
-    
+    Long getReferenciaEnvio();
 }

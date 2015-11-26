@@ -6,8 +6,28 @@
 				  <tr>
 					<th style="min-width: 20px;">&nbsp;</th>
 					<th style="min-width: 20px;">&nbsp;</th>
+					<th class="celdaNumerica" style="width: 170px;">Entregado / Asignado</th>
+					<th class="celdaNumerica" style="width: 170px;">Repuesto / Devuelto</th>
+					<th class="celdaNumerica" style="width: 85px;">Pendiente</th>
 				  </tr>
 				</thead>
+				<tfoot>
+					<tr>
+						<td>&nbsp;</td>
+						<td class="celdaNumerica"><strong>Total:</strong></td>
+						<td class="celdaNumerica">
+							<sumatoria-basica items=subPedidos.items propiedad='entrada'></sumatoria-basica> /
+							<sumatoria-basica items=subPedidos.items propiedad='cantidad'></sumatoria-basica>
+						</td>
+						<td class="celdaNumerica">
+							<sumatoria-basica items=subPedidos.items propiedad='reposicion'></sumatoria-basica> /
+							<sumatoria-basica items=subPedidos.items propiedad='devolucion'></sumatoria-basica>
+						</td>
+						<td class="celdaNumerica">
+							<detalle-pendiente items=subPedidos.items propiedad='pendiente'></detalle-pendiente>
+						</td>
+					</tr>
+				</tfoot>
 				<tbody>
 				  <tr ng-repeat="subPedido in subPedidos.items">
 					<td>
@@ -17,6 +37,9 @@
 						</a>
 					</td>
 					<td>{{subPedido.puntoEntrega.nombre}}</td>
+					<td class="celdaNumerica">{{subPedido.entrada}} / {{subPedido.cantidad}}</td>
+					<td class="celdaNumerica">{{subPedido.reposicion}} / {{subPedido.devolucion}}</td>
+					<td class="celdaNumerica"><detalle-pendiente pendiente=subPedido.pendiente></detalle-pendiente></td>
 				  </tr>
 				</tbody>
 			</table>
@@ -30,6 +53,7 @@
 				  <tr>
 					<th style="min-width: 20px;">&nbsp;</th>
 					<th class="celdaNumerica" style="width: 170px;">Entregado / Asignado</th>
+					<th class="celdaNumerica" style="width: 170px;">Repuesto / Devuelto</th>
 					<th class="celdaNumerica" style="width: 85px;">Pendiente</th>
 				  </tr>
 				</thead>
@@ -38,6 +62,9 @@
 						<td class="celdaNumerica"><strong>Total:</strong></td>
 						<td class="celdaNumerica">
 							<sumatoria-basica items=productos propiedad='entrada'></sumatoria-basica> / <sumatoria-basica items=productos propiedad='cantidad'></sumatoria-basica>
+						</td>
+						<td class="celdaNumerica">
+							<sumatoria-basica items=productos propiedad='reposicion'></sumatoria-basica> / <sumatoria-basica items=productos propiedad='devolucion'></sumatoria-basica>
 						</td>
 						<td class="celdaNumerica">
 							<detalle-pendiente items=productos propiedad='pendiente'></detalle-pendiente>
@@ -53,6 +80,7 @@
 						<span class="espacio-tab">{{producto.datosGenerales.nombre}} - {{producto.datosGenerales.descripcion}}</span>
 					</td>
 					<td class="celdaNumerica">{{producto.entrada | number}} / {{producto.cantidad | number}}</td>
+					<td class="celdaNumerica">{{producto.reposicion | number}} / {{producto.devolucion | number}}</td>
 					<td class="celdaNumerica">
 						<detalle-pendiente pendiente=producto.pendiente></detalle-pendiente>
 					</td>
@@ -65,6 +93,7 @@
 						<span class="espacio-tab">{{proveedor.name.name}}</span>
 					</td>
 					<td class="celdaNumerica">{{proveedor.entrada | number}} / {{proveedor.cantidad | number}}</td>
+					<td class="celdaNumerica">{{proveedor.reposicion | number}} / {{proveedor.devolucion | number}}</td>
 					<td class="celdaNumerica">
 						<detalle-pendiente pendiente=proveedor.pendiente></detalle-pendiente>
 					</td>
@@ -76,6 +105,7 @@
 						</a>
 					</td>
 					<td class="celdaNumerica">{{pedimento.entrada | number}} / {{pedimento.cantidad | number}}</td>
+					<td class="celdaNumerica">{{pedimento.reposicion | number}} / {{pedimento.devolucion | number}}</td>
 					<td class="celdaNumerica">
 						<detalle-pendiente pendiente=pedimento.pendiente></detalle-pendiente>
 					</td>
@@ -93,6 +123,7 @@
 				  <tr>
 					<th style="min-width: 60px;">&nbsp;</th>
 					<th class="celdaNumerica" style="width: 170px;">Entregado / Asignado</th>
+					<th class="celdaNumerica" style="width: 170px;">Repuesto / Devuelto</th>
 					<th class="celdaNumerica" style="width: 85px;">Pendiente</th>
 				  </tr>
 				</thead>
@@ -101,6 +132,10 @@
 						<td class="celdaNumerica"><strong>Total:</strong></td>
 						<td class="celdaNumerica">
 							<sumatoria-basica items=proveedorAsignado propiedad='entrada'></sumatoria-basica> / <sumatoria-basica items=proveedorAsignado propiedad='cantidad'></sumatoria-basica>
+						</td>
+						<td class="celdaNumerica">
+							<sumatoria-basica items=proveedorAsignado propiedad='reposicion'></sumatoria-basica> / <sumatoria-basica items=proveedorAsignado propiedad='devolucion'></sumatoria-basica>
+						</td>
 						<td class="celdaNumerica">
 							<detalle-pendiente items=proveedorAsignado propiedad='pendiente'></detalle-pendiente>
 						</td>
@@ -115,6 +150,7 @@
 						<span class="espacio-tab">{{proveedor.name.name}}</span>
 					</td>
 					<td class="celdaNumerica">{{proveedor.entrada | number}} / {{proveedor.cantidad | number}}</td>
+					<td class="celdaNumerica">{{proveedor.reposicion | number}} / {{proveedor.devolucion | number}}</td>
 					<td class="celdaNumerica">
 						<detalle-pendiente pendiente=proveedor.pendiente></detalle-pendiente>
 					</td>
@@ -127,6 +163,7 @@
 						<span class="espacio-tab">{{producto.datosGenerales.nombre}} - {{producto.datosGenerales.descripcion}}</span>
 					</td>
 					<td class="celdaNumerica">{{producto.entrada | number}} / {{producto.cantidad | number}}</td>
+					<td class="celdaNumerica">{{producto.reposicion | number}} / {{producto.devolucion | number}}</td>
 					<td class="celdaNumerica">
 						<detalle-pendiente pendiente=producto.pendiente></detalle-pendiente>
 					</td>
@@ -138,6 +175,7 @@
 						</a>
 					</td>
 					<td class="celdaNumerica">{{pedimento.entrada | number}} / {{pedimento.cantidad | number}}</td>
+					<td class="celdaNumerica">{{pedimento.reposicion | number}} / {{pedimento.devolucion | number}}</td>
 					<td class="celdaNumerica">
 						<detalle-pendiente pendiente=pedimento.pendiente></detalle-pendiente>
 					</td>

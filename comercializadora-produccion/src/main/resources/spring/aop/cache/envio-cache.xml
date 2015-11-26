@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="
+        http://www.springframework.org/schema/beans     
+        http://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context 
+        http://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop
+        http://www.springframework.org/schema/aop/spring-aop.xsd">
+     
+    <!-- HTTP cache -->
+    <!-- envio -->
+    <bean id="EnvioCacheController" class="technology.tikal.ventas.controller.envio.cache.http.EnvioCacheController">
+    	<property name="httpCacheQueryService" ref="httpCacheQueryService"/>
+    	<property name="cacheControl" value="private, stale-if-error=259200"/>
+    	<property name="resourceUriPattern" value="/api/pedido/\p{Alnum}*/envio"/>
+    	<property name="updateUriPattern">
+    	    <list>
+    	        <value>/api/pedido/\p{Alnum}*/envio/\p{Alnum}*</value>
+    	    </list>
+    	</property>
+    	<property name="createUriPattern">
+    	    <list>
+    	        <value>/api/pedido/\p{Alnum}*/envio</value>
+    	    </list>
+    	</property>
+	</bean>
+	<aop:config>
+		<aop:aspect ref="EnvioCacheController">
+		    <aop:pointcut id="createEnvio" 
+        	    expression="execution(* technology.tikal.ventas.controller.envio.EnvioController.crear(..))"/>
+		    <aop:pointcut id="deleteEnvio" 
+        	    expression="execution(* technology.tikal.ventas.controller.envio.EnvioController.borrar(..))"/>
+		    <aop:pointcut id="consultarEnvio" 
+        	    expression="execution(* technology.tikal.ventas.dao.envio.EnvioDao.consultar(..))"/>
+		    <aop:pointcut id="guardarEnvio" 
+        	    expression="execution(* technology.tikal.ventas.dao.envio.EnvioDao.guardar(..))"/>
+		    <aop:after-returning pointcut-ref="createEnvio" method="manageCreate"/>
+		    <aop:after-returning pointcut-ref="deleteEnvio" method="manageDelete"/>
+		    <aop:after-returning pointcut-ref="consultarEnvio" method="listenToBusqueda" returning="retVal"/>
+		    <aop:after-returning pointcut-ref="guardarEnvio" method="manageUpdate"/>
+		</aop:aspect>    
+	</aop:config>
+</beans>

@@ -5,6 +5,7 @@
 			<th style="min-width: 20px;">&nbsp;</th>
 			<th class="celdaNumerica" style="width: 170px;">Entregado / Asignado</th>
 			<th style="width: 30px;">&nbsp;</th><!--edicion-->
+			<th class="celdaNumerica" style="width: 170px;">Repuesto / Devuelto</th>
 			<th class="celdaNumerica" style="width: 85px;">Pendiente</th>
 			<th style="min-width: 20px;">&nbsp;</th>
 			<th style="width: 30px;">&nbsp;</th><!--borrar-->
@@ -15,7 +16,11 @@
 				<td class="celdaNumerica"><strong>Total:</strong></td>
 				<td class="celdaNumerica">
 					<sumatoria-basica items=pedimentosOrdenados propiedad='totalEntrada'></sumatoria-basica> / <sumatoria-basica items=pedimentosOrdenados propiedad='cantidad'></sumatoria-basica>
+				</td>
 				<td>&nbsp;</td>
+				<td class="celdaNumerica">
+					<sumatoria-basica items=pedimentosOrdenados propiedad='totalReposicion'></sumatoria-basica> / <sumatoria-basica items=pedimentosOrdenados propiedad='totalDevolucion'></sumatoria-basica>
+				</td>
 				<td class="celdaNumerica">
 					<detalle-pendiente items=pedimentosOrdenados propiedad='restante'></detalle-pendiente>
 				</td>
@@ -37,6 +42,9 @@
 				<a href ng-click="editarPedimento(pedimento)" aria-label="Left Align">
 					<span class="glyphicon glyphicon-pencil" aria-hidden="true" uib-tooltip="Editar Asignaci&oacute;n"></span>
 				</a>
+			</td>
+			<td ng-if="pedimento.type == 'PedimentoIntermediario'" class="celdaNumerica"><!-- Repuesto / Devuelto-->
+				{{pedimento.totalReposicion | number}} / {{pedimento.totalDevolucion | number}}
 			</td>
 			<td ng-if="pedimento.type == 'PedimentoIntermediario'" class="celdaNumerica"><!-- pendiente entrada-->
 				<detalle-pendiente pendiente=pedimento.restante></detalle-pendiente>
@@ -60,6 +68,9 @@
 				{{pedimento.totalEntrada | number}} / {{pedimento.cantidad | number}}
 			</td>
 			<td ng-if="pedimento.type=='GrupoPedimento'">&nbsp;</td><!-- edicion-->
+			<td ng-if="pedimento.type == 'GrupoPedimento'" class="celdaNumerica"> <!-- Repuesto / Devuelto-->
+				{{pedimento.totalReposicion | number}} / {{pedimento.totalDevolucion | number}}
+			</td>
 			<td ng-if="pedimento.type == 'GrupoPedimento'" class="celdaNumerica"><!-- pendiente entrada-->
 				<detalle-pendiente pendiente=pedimento.restante></detalle-pendiente>
 			</td>
@@ -77,6 +88,9 @@
 				<a href ng-click="editarPedimento(subPedimento, pedimento)" aria-label="Left Align">
 					<span class="glyphicon glyphicon-pencil" aria-hidden="true" uib-tooltip="Editar Asignaci&oacute;n"></span>
 				</a>
+			</td>
+			<td class="celdaNumerica">
+				{{subPedimento.totalReposicion | number}} / {{subPedimento.totalDevolucion | number}}
 			</td>
 			<td class="celdaNumerica"><!-- pendiente entrada-->
 				<detalle-pendiente pendiente=subPedimento.restante></detalle-pendiente>

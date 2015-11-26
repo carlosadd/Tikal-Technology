@@ -2,6 +2,10 @@ package technology.tikal.ventas.model.almacen.ofy;
 
 import java.util.Date;
 
+import javax.validation.constraints.Pattern;
+
+import org.hibernate.validator.constraints.Length;
+
 import technology.tikal.ventas.model.almacen.RegistroAlmacen;
 import technology.tikal.ventas.model.pedido.Pedido;
 import technology.tikal.ventas.model.producto.Producto;
@@ -26,12 +30,18 @@ public class RegistroAlmacenOfy implements RegistroAlmacen {
     private Date fechaDeCreacion;
     @Index
     private Date fechaRegistro;
+    @Length(max=360)
+    @Pattern(regexp="^[\\w\\p{IsLatin}\\p{Punct}]+( [\\w\\p{IsLatin}\\p{Punct}]+)*")
     private String descripcion;
+    @Length(max=40)
+    @Pattern(regexp="^[\\w\\p{IsLatin}\\p{Punct}]+( [\\w\\p{IsLatin}\\p{Punct}]+)*")
+    private String tag;
     
     protected RegistroAlmacenOfy() {
         this.fechaDeCreacion = new Date();
         this.fechaRegistro = new Date();
         this.descripcion = "";
+        this.tag = "entrada";
     }
     
     public RegistroAlmacenOfy(RegistroAlmacenOfy base) {
@@ -117,5 +127,13 @@ public class RegistroAlmacenOfy implements RegistroAlmacen {
 
     public void setDescripcion(String descripcion) {
         this.descripcion = descripcion;
-    }  
+    }
+
+    public String getTag() {
+        return tag;
+    }
+
+    public void setTag(String tag) {
+        this.tag = tag;
+    }
 }

@@ -1,0 +1,51 @@
+<table class="table table-hover">
+	<thead>
+	  <tr>
+		<th style="min-width: 20px;">&nbsp;</th><!--nombre-->
+		<th class="celdaNumerica" style="width: 170px;">Cantidad</th>
+		<th style="min-width: 20px;">&nbsp;</th>
+	  </tr>
+	</thead>
+	<tfoot>
+		<tr>
+			<td class="celdaNumerica"><strong>Total:</strong></td>
+			<td class="celdaNumerica">
+				<sumatoria-basica items=envio.salidas propiedad='cantidad'></sumatoria-basica> 
+			</td>
+			<td>&nbsp;</td>
+		</tr>
+	</tfoot>
+	<tbody>
+	  <tr ng-repeat-start="registro in envio.salidas">
+		<!-- SalidaIntermediario -->
+		<td ng-if="registro.type == 'SalidaIntermediario'"><!-- nombre-->
+			<span class="espacio-icon">&nbsp;</span>
+			<span class="espacio-tab">{{registro.producto.datosGenerales.nombre}} - {{registro.producto.datosGenerales.descripcion}}</span>
+		</td>
+		<td ng-if="registro.type == 'SalidaIntermediario'" class="celdaNumerica"><!-- cantidad-->
+			{{registro.cantidad | number}}
+		</td>
+		<td ng-if="registro.type == 'SalidaIntermediario'"><!--unidad medida-->
+			{{registro.producto.datosGenerales.unidadMedida}}
+		</td>
+		<!-- GrupoRegistroAlmacen -->
+		<td ng-if="registro.type == 'GrupoRegistroAlmacen'"> <!-- nombre-->
+			<a href ng-click="hideShowSub(registro)" aria-label="Left Align">
+				<span class="glyphicon glyphicon-plus" aria-hidden="true" ng-if="!registro.showSub"></span><!--
+				--><span class="glyphicon glyphicon-minus" aria-hidden="true" ng-if="registro.showSub"></span></a>
+			<span class="espacio-tab">{{registro.linea.datosGenerales.nombre}} - {{registro.linea.datosGenerales.descripcion}}</span>
+		</td>
+		<td ng-if="registro.type == 'GrupoRegistroAlmacen'" class="celdaNumerica">
+			{{registro.cantidad | number}}
+		</td>
+		<td ng-if="registro.type == 'GrupoRegistroAlmacen'"><!--unidad medida-->
+			{{registro.linea.datosGenerales.unidadMedida}}
+		</td>
+	  </tr>
+	  <tr ng-if="registro.type=='GrupoRegistroAlmacen' && registro.showSub" ng-repeat="subRegistro in registro.registros" ng-repeat-end>
+		<td class="sub-renglon"><span class="espacio-tab">{{subRegistro.producto.talla}}</span></td>
+		<td class="celdaNumerica">{{subRegistro.cantidad | number}}</td>
+		<td>{{registro.linea.datosGenerales.unidadMedida}}</td>
+	  </tr>
+	</tbody>
+</table>

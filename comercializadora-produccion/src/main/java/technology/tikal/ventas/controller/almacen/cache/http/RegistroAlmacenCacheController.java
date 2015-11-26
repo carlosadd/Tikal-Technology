@@ -21,6 +21,7 @@ import technology.tikal.gae.http.cache.AbstractCacheController;
 import technology.tikal.gae.http.cache.UpdatePair;
 import technology.tikal.ventas.controller.almacen.imp.RegistroAlmacenFactory;
 import technology.tikal.ventas.model.almacen.EntradaDevolucion;
+import technology.tikal.ventas.model.almacen.Salida;
 import technology.tikal.ventas.model.almacen.SalidaDevolucion;
 import technology.tikal.ventas.model.almacen.ofy.RegistroAlmacenOfy;
 
@@ -41,6 +42,16 @@ public class RegistroAlmacenCacheController extends AbstractCacheController<Regi
         }
         if (!StringUtils.equals(pair.getOriginal().getDescripcion(), pair.getUpdated().getDescripcion())) {
             return true;
+        }
+        if (!StringUtils.equals(pair.getOriginal().getTag(), pair.getUpdated().getTag())) {
+            return true;
+        }
+        if (pair.getOriginal() instanceof Salida && pair.getUpdated() instanceof Salida) {
+            Salida objOriginal = (Salida) pair.getOriginal();
+            Salida objUpdated = (Salida) pair.getUpdated();
+            if (objOriginal.getReferenciaEnvio().compareTo(objUpdated.getReferenciaEnvio()) != 0) {
+                return true;
+            }
         }
         if (pair.getOriginal() instanceof EntradaDevolucion && pair.getUpdated() instanceof EntradaDevolucion) {
             EntradaDevolucion objOriginal = (EntradaDevolucion) pair.getOriginal();
